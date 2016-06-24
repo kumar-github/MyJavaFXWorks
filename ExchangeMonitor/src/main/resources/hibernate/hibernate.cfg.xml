@@ -3,11 +3,21 @@
 
 <hibernate-configuration>
    <session-factory>
-   <property name="connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
+   <!-- SQL Server Driver class -->
+   <!-- <property name="connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>-->
+   
+   <!-- jtds Driver class -->
+   <property name="connection.driver_class">net.sourceforge.jtds.jdbc.Driver</property>
+   
    <!--jdbc:sqlserver://[serverName[\instanceName][:portNumber]][;property=value[;property=value]]-->
    <!--<property name="connection.url">jdbc:sqlserver://HYDDB05:1460;databaseName=DEV_CS25_trade</property>-->
    <!--<property name="connection.url">jdbc:sqlserver://HYDDB05:1460;databaseName=DEV_CS25_trade</property>-->
-   <property name="connection.url">jdbc:sqlserver://HYDDB06:1460;databaseName=QA_30_trade</property>
+   <!--<property name="connection.url">jdbc:sqlserver://HYDDB06:1460;databaseName=QA_30_trade</property>-->
+   
+   <!-- jtds connection string -->
+   <!-- jdbc:jtds:<server_type>://<server>[:<port>][/<database>][;<property>=<value>[;...]]-->
+   <property name="connection.url">jdbc:jtds:sqlserver://HYDDB06:1460;databaseName=QA_30_trade</property>
+   
    <property name="connection.username">ictspass</property>
    <property name="connection.password">ictspass</property>
    <property name="dialect">org.hibernate.dialect.SQLServerDialect</property>
