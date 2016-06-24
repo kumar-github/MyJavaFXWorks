@@ -10,3 +10,9 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+#ignore Maven's target folder and anything under that
+**/target/*
+
+#ignore .settings folder created by eclipse
+**/.settings/*
