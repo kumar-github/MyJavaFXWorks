@@ -2,11 +2,13 @@ package com.tc.app.exchangemonitor.controller;
 
 import org.hibernate.SQLQuery;
 
+import com.tc.app.exchangemonitor.model.ExternalTrade;
+
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
-public class FetchExternalTradesService extends Service<ObservableList<DummyExternalTrade>>
+public class FetchExternalTradesService extends Service<ObservableList<ExternalTrade>>
 {
 	private final SQLQuery sqlQuery;
 	
@@ -21,7 +23,7 @@ public class FetchExternalTradesService extends Service<ObservableList<DummyExte
 	}
 	
 	@Override
-	protected Task<ObservableList<DummyExternalTrade>> createTask()
+	protected Task<ObservableList<ExternalTrade>> createTask()
 	{
 		FetchExternalTradesTask fetchExternalTradesTask = new FetchExternalTradesTask(sqlQuery);
 		return fetchExternalTradesTask;

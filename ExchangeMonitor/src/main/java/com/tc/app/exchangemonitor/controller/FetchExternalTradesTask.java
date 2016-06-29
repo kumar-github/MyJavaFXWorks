@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.hibernate.SQLQuery;
 
+import com.tc.app.exchangemonitor.model.ExternalTrade;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 
-public class FetchExternalTradesTask extends Task<ObservableList<DummyExternalTrade>>
+public class FetchExternalTradesTask extends Task<ObservableList<ExternalTrade>>
 {
 	private final SQLQuery sqlQuery;
 	
@@ -27,7 +29,7 @@ public class FetchExternalTradesTask extends Task<ObservableList<DummyExternalTr
 	}
 	
 	@Override
-	protected ObservableList<DummyExternalTrade> call() throws Exception
+	protected ObservableList<ExternalTrade> call() throws Exception
 	{
 		try
 		{
@@ -39,9 +41,9 @@ public class FetchExternalTradesTask extends Task<ObservableList<DummyExternalTr
 		}
 	}
 
-	private List<DummyExternalTrade> fetchExternalTradesForQuery(SQLQuery sqlQuery)
+	private List<ExternalTrade> fetchExternalTradesForQuery(SQLQuery sqlQuery)
 	{
-		List<DummyExternalTrade> dummyExternalTrades = null;
+		List<ExternalTrade> externalTrades = null;
 		
 		try
 		{
@@ -58,9 +60,9 @@ public class FetchExternalTradesTask extends Task<ObservableList<DummyExternalTr
 			}
 			
 			long startTime = System.currentTimeMillis();
-			dummyExternalTrades = sqlQuery.list();
+			externalTrades = sqlQuery.list();
 			long endTime = System.currentTimeMillis();
-			updateMessage("Task Completed. It took " + (endTime - startTime) + " milliseconds to fetch " + dummyExternalTrades.size() + " record(s).");
+			updateMessage("Task Completed. It took " + (endTime - startTime) + " milliseconds to fetch " + externalTrades.size() + " record(s).");
 			updateProgress(1.0,  1.0);
 			
 			try
@@ -76,7 +78,7 @@ public class FetchExternalTradesTask extends Task<ObservableList<DummyExternalTr
 		{
 			throw exception;
 		}
-		return dummyExternalTrades;
+		return externalTrades;
 	}
 	
 	@Override

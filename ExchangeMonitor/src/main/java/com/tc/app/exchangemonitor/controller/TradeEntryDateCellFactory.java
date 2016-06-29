@@ -2,12 +2,14 @@ package com.tc.app.exchangemonitor.controller;
 
 import java.time.ZonedDateTime;
 
+import com.tc.app.exchangemonitor.model.ExternalTrade;
+
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.util.Callback;
 
 //public class TradeCreationDateCellFactory implements Callback<TableColumn<DummyExternalTrade, ZonedDateTime>, TableCell<DummyExternalTrade, ZonedDateTime>>
-public class TradeEntryDateCellFactory extends DateCellFactory implements Callback<TableColumn<DummyExternalTrade, ZonedDateTime>, TableCell<DummyExternalTrade, ZonedDateTime>>
+public class TradeEntryDateCellFactory extends DateCellFactory implements Callback<TableColumn<ExternalTrade, ZonedDateTime>, TableCell<ExternalTrade, ZonedDateTime>>
 {
 	/*
 	// 1st way of implementing
@@ -58,7 +60,7 @@ public class TradeEntryDateCellFactory extends DateCellFactory implements Callba
 	
 	//3rd way of implementing. Just move the logic to a base class and call it.
 	@Override
-	public TableCell<DummyExternalTrade, ZonedDateTime> call(TableColumn<DummyExternalTrade, ZonedDateTime> param)
+	public TableCell<ExternalTrade, ZonedDateTime> call(TableColumn<ExternalTrade, ZonedDateTime> param)
 	{
 		return super.call(param);
 	}
