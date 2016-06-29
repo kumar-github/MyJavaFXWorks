@@ -1,0 +1,14 @@
+.menu-bar
+{
+     -fx-background-color: transparent;
+     -fx-font-family: Magneto;
+     -fx-font-size: 14px;
+     -fx-text-fill: #00CCFF;
+}
+.context-menu
+{
+     -fx-font-family: Magneto;
+     /*-fx-background-color: transparent;*/
+     -fx-font-size: 12px;
+     -fx-text-fill: white;
+}

@@ -1,0 +1,50 @@
+.style1
+{
+	-fx-border-insets: 10;
+	-fx-background-insets: 10;
+	-fx-background-radius: 6;
+	-fx-border-radius: 6;
+	-fx-border-color: gray;
+	-fx-border-style: solid;
+	-fx-border-width: 1;
+	-fx-effect: dropshadow(three-pass-box, rgba(100, 100, 100, 1), 24, 0.5, 0, 0);
+}
+
+.style2
+{
+	-fx-border-insets: 10;
+	-fx-background-insets: 10;
+	-fx-background-radius: 6;
+	-fx-border-radius: 6;
+	-fx-border-color: gray;
+	-fx-border-style: solid;
+	-fx-border-width: 1;
+	-fx-effect: dropshadow( one-pass-box , black , 8 , 0.0 , 2 , 0 );
+}
+
+/* This is final.  */
+.style3
+{
+	-fx-border-insets: 5;
+	-fx-background-insets: 5;
+	-fx-background-radius: 3;
+	-fx-border-radius: 3;
+	/*-fx-border-color: gray;*/
+	/*-fx-border-style: solid;*/
+	/*-fx-border-width: 1;*/
+	/*-fx-effect: dropshadow(three-pass-box, purple, 10, 0, 0, 0);*/
+	-fx-effect: dropshadow(three-pass-box,  gray, 5, 0, 0, 0);
+}
+
+.style4
+{
+	-fx-border-insets: 3;
+	-fx-background-insets: 3;
+	-fx-background-radius: 3;
+	-fx-border-radius: 3;
+	/*-fx-border-color: gray;*/
+	/*-fx-border-style: solid;*/
+	/*-fx-border-width: 1;*/
+	/*-fx-effect: dropshadow(three-pass-box, purple, 10, 0, 0, 0);*/
+	-fx-effect: dropshadow(three-pass-box,  gray, 5, 0, 0, 0);
+}

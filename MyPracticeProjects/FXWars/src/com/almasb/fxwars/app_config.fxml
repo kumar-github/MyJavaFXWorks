@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import java.lang.*?>
+<?import javafx.beans.property.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.paint.Color?>
+
+<Pane xmlns:fx="http://javafx.com/fxml">
+    <fx:define>
+        <Integer fx:id="APP_W" fx:value="1280" />
+        <Integer fx:id="APP_H" fx:value="720" />
+    
+        <SimpleIntegerProperty fx:id="appWidth" value="$APP_W" />
+        <SimpleIntegerProperty fx:id="appHeight" value="$APP_H" />
+        <!-- wanderers + seekers -->
+        <Integer fx:id="maxEnemies" fx:value="16" />
+        <Integer fx:id="maxPowerups" fx:value="4" />
+        <Integer fx:id="defaultLives" fx:value="5" />
+        <Integer fx:id="wandererPoints" fx:value="200" />
+        <Integer fx:id="seekerPoints" fx:value="100" />
+        <Integer fx:id="powerupPoints" fx:value="50" />
+        <!-- delays are in seconds -->
+        <Double fx:id="enemySpawnDelay" fx:value="1" />
+        <Double fx:id="powerupSpawnDelay" fx:value="3" />
+        <Double fx:id="fireDelay" fx:value="0.25" />
+    </fx:define>
+</Pane>

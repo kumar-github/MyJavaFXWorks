@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import org.controlsfx.control.CheckListView?>
+
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.65" fx:controller="application.Controller">
+   <children>
+      <Button mnemonicParsing="false" text="Button" />
+      <CheckListView fx:id="test"></CheckListView>
+   </children>
+</AnchorPane>

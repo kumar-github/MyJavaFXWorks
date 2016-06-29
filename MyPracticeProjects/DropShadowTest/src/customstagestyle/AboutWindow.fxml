@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane fx:id="pane1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="region" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="customstagestyle.Controller">
+   <children>
+      <Button fx:id="aboutButton1" contentDisplay="RIGHT" layoutX="550.0" layoutY="14.0" mnemonicParsing="false" onAction="#hide" prefHeight="31.0" prefWidth="34.0" styleClass="close-button" text="" />
+      <Button fx:id="aboutButton2" contentDisplay="RIGHT" layoutX="516.0" layoutY="14.0" mnemonicParsing="false" onAction="#minimize" prefHeight="31.0" prefWidth="34.0" styleClass="minimize-button" />
+      <Label fx:id="label1" layoutX="53.0" layoutY="14.0" onMouseDragged="#mouseDragged" onMousePressed="#mousePressed" onMouseReleased="#mouseReleased" prefHeight="31.0" prefWidth="469.0" styleClass="header-label" text="About" />
+      <Separator layoutX="21.0" layoutY="43.0" prefHeight="3.0" prefWidth="563.0" />
+      <ImageView fx:id="icon" fitHeight="23.0" fitWidth="26.0" layoutX="21.0" layoutY="18.0" styleClass="tick">
+         <image>
+            <Image url="@tick.png" />
+         </image>
+      </ImageView>
+      <TextArea editable="false" layoutX="21.0" layoutY="53.0" prefHeight="330.0" prefWidth="563.0" styleClass="content-text" text="    This project was created for Event-driven Gui Programming class at &#10;Muğla Sıtkı Koçman University by Müslüm Ersel Er.&#10;   &#10;    The main purpose of this project is to create a custom view (custom&#10;window) by using JavaFX.  &#10;&#10;Used IDE &amp; Tool&#10;    * NetBeans IDE&#10;    * Scene Builder&#10;&#10;Designed by Müslüm Ersel Er&#10;Instructor: Assoc.Prof.Dr. Bekir Taner Dinçer&#10;January 2015&#10;&#10;" />
+   </children>
+</Pane>

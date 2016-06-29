@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane fx:id="pane1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="region" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="customstagestyle.Controller">
+   <children>
+      <Button fx:id="button1" contentDisplay="RIGHT" layoutX="550.0" layoutY="14.0" mnemonicParsing="false" onAction="#close" prefHeight="31.0" prefWidth="34.0" styleClass="close-button" text="" />
+      <Button fx:id="button2" contentDisplay="RIGHT" layoutX="516.0" layoutY="14.0" mnemonicParsing="false" onAction="#minimize" prefHeight="31.0" prefWidth="34.0" styleClass="minimize-button" />
+      <Label fx:id="label1" layoutX="53.0" layoutY="14.0" onMouseDragged="#mouseDragged" onMousePressed="#mousePressed" onMouseReleased="#mouseReleased" prefHeight="31.0" prefWidth="469.0" styleClass="header-label" text="Custom Stage Style" />
+      <Separator layoutX="21.0" layoutY="43.0" prefHeight="3.0" prefWidth="563.0" />
+      <ImageView fx:id="icon" fitHeight="23.0" fitWidth="26.0" layoutX="21.0" layoutY="18.0" styleClass="tick">
+         <image>
+            <Image url="@tick.png" />
+         </image>
+      </ImageView>
+      <MenuBar fx:id="menuBar" layoutX="12.0" layoutY="43.0" prefHeight="32.0" prefWidth="576.0">
+        <menus>
+          <Menu mnemonicParsing="false" styleClass="menu-item" text="File">
+            <items>
+                  <MenuItem mnemonicParsing="false" text="Open Project..." />
+                  <MenuItem mnemonicParsing="false" text="Open File..." />
+                  <Menu mnemonicParsing="false" text="Open Recent">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Recent1" />
+                        <MenuItem mnemonicParsing="false" text="Recent2" />
+                    </items>
+                  </Menu>
+              <MenuItem mnemonicParsing="false" onAction="#close" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" styleClass="menu-item" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" styleClass="menu-item" text="View">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Content" />
+              </items>
+            </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#newWindow" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <Label layoutX="263.0" layoutY="93.0" prefHeight="31.0" prefWidth="94.0" styleClass="content-label" text="Name:" />
+      <TextField layoutX="368.0" layoutY="93.0" prefHeight="31.0" prefWidth="216.0" styleClass="content-text">
+         <effect>
+            <Reflection fraction="0.59" topOpacity="0.7" />
+         </effect></TextField>
+      <TextField layoutX="368.0" layoutY="158.0" prefHeight="31.0" prefWidth="216.0" styleClass="content-text">
+         <effect>
+            <Reflection fraction="0.6" topOpacity="0.7" />
+         </effect></TextField>
+      <Label layoutX="263.0" layoutY="158.0" prefHeight="31.0" prefWidth="94.0" styleClass="content-label" text="Surname:" />
+      <Button layoutX="368.0" layoutY="225.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="78.0" styleClass="content-button" text="Button" />
+   </children>
+</Pane>

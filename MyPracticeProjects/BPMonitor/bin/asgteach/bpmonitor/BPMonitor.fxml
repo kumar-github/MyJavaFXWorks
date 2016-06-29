@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.chart.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="asgteach.bpmonitor.BPMonitorController">
+    <children>
+        <SplitPane dividerPositions="0.37074148296593185" focusTraversable="true" prefHeight="328.0" prefWidth="630.0" style="-fx-background-color:  linear-gradient(aliceblue, lightblue);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                    <children>
+                        <VBox alignment="TOP_CENTER" layoutY="3.0" spacing="20.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
+                            <children>
+                                <GridPane alignment="TOP_CENTER" hgap="7.0" prefHeight="90.0" prefWidth="141.0" vgap="20.0">
+                                    <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints />
+                                    </rowConstraints>
+                                    <children>
+                                        <DatePicker fx:id="datePicker" promptText="Date" GridPane.columnIndex="0" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.rowIndex="0" />
+                                        <Spinner fx:id="hourSpinner" GridPane.rowIndex="1">
+                                            <valueFactory>
+                                                <javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory fx:id="hourFactory">
+                                                    <min>1</min>
+                                                    <max>12</max>
+                                                    <wrapAround>true</wrapAround>
+                                                </javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory>
+                                            </valueFactory>
+                                        </Spinner>
+                                        <TextField fx:id="systolicField" promptText="Systolic " GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                        <TextField fx:id="diastolicField" promptText="Diastolic" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                        <TextField fx:id="pulseField" promptText="Pulse" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                        <Label text="Systolic" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                                        <Label text="Diastolic" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+                                        <Label text="Pulse" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
+                                        <Button fx:id="addBPButton" mnemonicParsing="false" onAction="#addButtonHandler" text="Add" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
+                                        <Spinner fx:id="minuteSpinner" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                            <valueFactory>
+                                                <javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory fx:id="minuteFactory">
+                                                    <min>0</min>
+                                                    <max>59</max>
+                                                    <wrapAround>true</wrapAround>
+                                                </javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory>
+                                            </valueFactory>
+                                        </Spinner>
+                                        <Label fx:id="mesg" GridPane.columnSpan="2147483647" GridPane.halignment="LEFT" GridPane.rowIndex="6">
+                                            <font>
+                                                <Font name="System Bold" size="14.0" />
+                                            </font>
+                                 <GridPane.margin>
+                                    <Insets left="10.0" />
+                                 </GridPane.margin>
+                                        </Label>
+                                        <ComboBox fx:id="ampmControl" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                        <Button fx:id="updateBPButton" mnemonicParsing="false" onAction="#updateBPData" text="Update" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                        <Button fx:id="deleteBPButton" mnemonicParsing="false" onAction="#deleteBPData" text="Delete" GridPane.columnIndex="2" GridPane.rowIndex="5" />                       
+                                    </children>
+                                    <padding>
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    </padding>
+                                </GridPane>
+                                <TableView fx:id="bpTable" prefWidth="304.0">
+                                    <columns>
+                                        <TableColumn fx:id="dateColumn" minWidth="100.0" prefWidth="75.0" text="Date" />
+                                        <TableColumn fx:id="systolicColumn" prefWidth="60.0" text="Systolic" />
+                                        <TableColumn fx:id="diastolicColumn" prefWidth="65.0" text="Diastolic" />
+                                        <TableColumn fx:id="pulseColumn" prefWidth="60.0" text="Pulse" />
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </VBox>
+                    </children>
+                </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                    <children>
+                        <VBox spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <children>
+                                <HBox alignment="CENTER" spacing="30.0">
+                                    <children>
+                                        <Label alignment="CENTER" text="From" />
+                                        <DatePicker fx:id="startDate" onAction="#setRange" />
+                                        <Button fx:id="firstButton" mnemonicParsing="false" onAction="#goFirst" text="&lt;&lt;" />
+                                        <Button fx:id="prevButton" mnemonicParsing="false" onAction="#goPrevious" text="&lt;" />
+                                        <Button fx:id="nextButton" mnemonicParsing="false" onAction="#goNext" text="&gt;" />
+                                        <Button fx:id="lastButton" mnemonicParsing="false" onAction="#goLast" text="&gt;&gt;" />
+                                        <Label fx:id="toLabel" alignment="CENTER" text="To" />
+                                    </children>
+                                    <padding>
+                                        <Insets bottom="15.0" top="15.0" />
+                                    </padding>
+                                </HBox>
+                                <LineChart fx:id="chart" prefHeight="385.0" prefWidth="662.0" title="Blood Pressure Monitor">
+                                    <xAxis>
+                                        <CategoryAxis side="BOTTOM" />                      
+                                    </xAxis>
+                                    <yAxis>
+                                        <NumberAxis side="LEFT" />
+                                    </yAxis>
+                                </LineChart>
+                                <BarChart fx:id="statChart" prefHeight="233.0" prefWidth="744.0" title="Blood Pressure Stats">
+                                    <xAxis>
+                                        <CategoryAxis side="BOTTOM" />
+                                    </xAxis>
+                                    <yAxis>
+                                        <NumberAxis side="LEFT" />
+                                    </yAxis>
+                                </BarChart>
+                            </children>
+                        </VBox>
+                    </children>
+                </AnchorPane>
+            </items>
+        </SplitPane>
+        <Label fx:id="nodeDisplay" text="">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Label>
+    </children>
+</AnchorPane>

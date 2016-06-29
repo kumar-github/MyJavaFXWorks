@@ -1,0 +1,29 @@
+.root
+{
+  -fx-base: #3E464C;
+}
+
+/*.stacked-titled-panes {
+  -fx-background-color: seagreen; 
+}
+
+.stacked-titled-pane {
+  -fx-color: cadetblue;
+}
+
+.stacked-titled-panes-scroll-pane {
+  -fx-background: darkseagreen;
+}
+
+.root{
+    -fx-background-color: orange;
+}
+
+.grid-pane{
+    -fx-background-color: orange;
+}*/
+
+/*.table-view
+{
+	-fx-base: #3E464C;
+}/*

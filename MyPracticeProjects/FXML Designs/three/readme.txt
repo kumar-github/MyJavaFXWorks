@@ -1,0 +1,2 @@
+This is same as the 2nd file but replaced the anchor pane with flow pane so that when adding nodes (checkbox) dynamically will be easier.
+also adjusted the flowpane width manually to accomodate the scroll pance where as anchorpane is getting it automatically.

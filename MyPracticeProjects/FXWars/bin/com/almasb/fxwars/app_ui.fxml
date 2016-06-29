@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?language javascript?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.paint.Color?>
+
+<Pane xmlns:fx="http://javafx.com/fxml">
+    <fx:include source="app_config.fxml"/>
+    <fx:define>
+        <Font fx:id="font" size="20" />
+    </fx:define>
+    
+    <VBox translateX="50" translateY="50">
+        <Text fx:id="textHighScore" font="$font" fill="white" />
+        <Text fx:id="textScore" font="$font" fill="white" />
+        <Text fx:id="textMultiplier" font="$font" fill="white" />
+        <Text fx:id="textLives" font="$font" fill="white" />
+        <Text fx:id="debug" font="$font" fill="white" />
+    </VBox>
+    
+    <VBox fx:id="legend" translateX="900" translateY="50">
+        <Text text="Wanderer(Green) (100pts, mult +1)" font="$font" fill="white" />
+        <Text text="Seeker  (Red)   (200pts, mult= 1)" font="$font" fill="white" />
+        <Text text="Powerup (White) (50pts, +1 lives)" font="$font" fill="white" />
+    </VBox>
+</Pane>

@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+	<session-factory>
+        <!--<property name="hbm2ddl.auto">validate</property>
+        <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+        <property name="connection.url">jdbc:postgresql://localhost:5432/postgres</property>
+        <property name="connection.username">postgres</property>
+        <property name="connection.password">Admin</property>
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <property name="show_sql">true</property>
+        <property name="format_sql">true</property>-->
+        
+        <property name="connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
+        <property name="connection.url">jdbc:sqlserver://HYDDB05:1460;databaseName=DEV_CS25_trade</property>
+        <property name="connection.username">ictspass</property>
+        <property name="connection.password">ictspass</property>
+        <property name="dialect">org.hibernate.dialect.SQLServerDialect</property>
+        <property name="hbm2ddl.auto">validate</property>
+        <property name="show_sql">true</property>
+        <property name="format_sql">true</property>
+        <property name="hibernate.current_session_context_class">thread</property>
+		
+		<mapping class="a.b.Account" />
+		<mapping class="a.b.AccountType" />
+		<mapping class="a.b.Comment" />
+		<mapping class="a.b.RiskTransferIndicator" />
+		<mapping class="a.b.AccountAddress" />
+		<mapping class="a.b.AccountAgreement" />
+		<mapping class="a.b.TradeGroup" />
+		<mapping class="a.b.AccountContact" />
+		<mapping class="a.b.AccountAlias" />
+		<mapping class="a.b.AliasSource" />
+    
+    </session-factory>
+    
+</hibernate-configuration>

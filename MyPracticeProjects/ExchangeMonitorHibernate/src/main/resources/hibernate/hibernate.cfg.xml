@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+   <session-factory>
+   <property name="connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
+   <!--jdbc:sqlserver://[serverName[\instanceName][:portNumber]][;property=value[;property=value]]-->
+   <!--<property name="connection.url">jdbc:sqlserver://HYDDB05:1460;databaseName=DEV_CS25_trade</property>-->
+   <!--<property name="connection.url">jdbc:sqlserver://HYDDB05:1460;databaseName=DEV_CS25_trade</property>-->
+   <property name="connection.url">jdbc:sqlserver://HYDDB06:1460;databaseName=QA_30_trade</property>
+   <property name="connection.username">ictspass</property>
+   <property name="connection.password">ictspass</property>
+   <property name="dialect">org.hibernate.dialect.SQLServerDialect</property>
+   <!--<property name ="hibernate.implicit_naming_strategy">legacy-hbm</property>-->
+   <property name="hbm2ddl.auto">validate</property>
+   <property name="show_sql">true</property>
+   <property name="format_sql">true</property>
+   <property name="hibernate.current_session_context_class">thread</property>
+   <!--<mapping class="com.tc.app.exchangemonitor.controller.DummyExternalTrade" />-->
+   <!--<mapping class="com.tc.app.exchangemonitor.controller.ExternalTradeStatus" />-->
+   
+   <mapping class="com.tc.app.exchangemonitor.controller.Account" />
+   <mapping class="com.tc.app.exchangemonitor.controller.AccountType" />
+   <mapping class="com.tc.app.exchangemonitor.controller.Comment" />
+   <mapping class="com.tc.app.exchangemonitor.controller.RiskTransferIndicator" />
+   <mapping class="com.tc.app.exchangemonitor.controller.AccountAddress" />
+   <mapping class="com.tc.app.exchangemonitor.controller.AccountAgreement" />
+   <mapping class="com.tc.app.exchangemonitor.controller.TradeGroup" />
+   <mapping class="com.tc.app.exchangemonitor.controller.AccountContact" />
+   <mapping class="com.tc.app.exchangemonitor.controller.AccountAlias" />
+   <mapping class="com.tc.app.exchangemonitor.controller.AliasSource" />
+   <mapping class="com.tc.app.exchangemonitor.controller.IctsUser" />
+   <mapping class="com.tc.app.exchangemonitor.controller.Desk" />
+   <mapping class="com.tc.app.exchangemonitor.controller.Location" />
+   <mapping class="com.tc.app.exchangemonitor.controller.UserJobTitle" />
+   <mapping class="com.tc.app.exchangemonitor.controller.Department" />
+   <mapping class="com.tc.app.exchangemonitor.controller.ContractStatus" />
+   <mapping class="com.tc.app.exchangemonitor.controller.OrderInstruction" />
+   <mapping class="com.tc.app.exchangemonitor.controller.ExecutionType" />
+   <mapping class="com.tc.app.exchangemonitor.controller.Uom" />
+   <mapping class="com.tc.app.exchangemonitor.controller.CommktClrdSwapAttr" />
+   <mapping class="com.tc.app.exchangemonitor.controller.Commodity" />
+   <mapping class="com.tc.app.exchangemonitor.controller.CommodityCategory" />
+   <mapping class="com.tc.app.exchangemonitor.controller.CommodityType" />
+   <mapping class="com.tc.app.exchangemonitor.controller.Country" />
+   <mapping class="com.tc.app.exchangemonitor.controller.CommktFutureAttr" />
+   <mapping class="com.tc.app.exchangemonitor.controller.PriceSource" />
+   <mapping class="com.tc.app.exchangemonitor.controller.CommktOptionAttr" />
+   <mapping class="com.tc.app.exchangemonitor.controller.CommktPhysicalAttr" />
+   <mapping class="com.tc.app.exchangemonitor.controller.CommktSrcAliasInfo" />
+   <mapping class="com.tc.app.exchangemonitor.controller.CommodityUom" />
+   <mapping class="com.tc.app.exchangemonitor.controller.ExternalPosition" />
+   <mapping class="com.tc.app.exchangemonitor.controller.CommodityMarket" />
+   <mapping class="com.tc.app.exchangemonitor.controller.Market" />
+   <mapping class="com.tc.app.exchangemonitor.controller.UomConversion" />
+   <mapping class="com.tc.app.exchangemonitor.controller.CommodityAlias" />
+   <mapping class="com.tc.app.exchangemonitor.controller.CommodityDesc" />
+   <mapping class="com.tc.app.exchangemonitor.controller.CommodityGroup" />
+   <mapping class="com.tc.app.exchangemonitor.controller.CommodityGroupType" />
+   <mapping class="com.tc.app.exchangemonitor.controller.CommodityLocation" />
+   <mapping class="com.tc.app.exchangemonitor.controller.CommodityRollupHierarchy" />
+   <mapping class="com.tc.app.exchangemonitor.controller.CommodityRollupType" />
+   <mapping class="com.tc.app.exchangemonitor.controller.CommoditySpecification" />
+   <mapping class="com.tc.app.exchangemonitor.controller.Specification" />
+   <mapping class="com.tc.app.exchangemonitor.controller.SpecificationGroup" />
+   <mapping class="com.tc.app.exchangemonitor.controller.Portfolio" />
+   <mapping class="com.tc.app.exchangemonitor.controller.CreditGroup" />
+   <mapping class="com.tc.app.exchangemonitor.controller.CommodityMarketFormula" />
+   <mapping class="com.tc.app.exchangemonitor.controller.TradingPeriod" />
+   <mapping class="com.tc.app.exchangemonitor.controller.CommodityMarketSource" />
+   <mapping class="com.tc.app.exchangemonitor.controller.ExternalTrade" />
+   <mapping class="com.tc.app.exchangemonitor.controller.ExternalTradeSource" />
+   <mapping class="com.tc.app.exchangemonitor.controller.ExternalTradeState" />
+   <mapping class="com.tc.app.exchangemonitor.controller.ExternalTradeStatus" />
+   <mapping class="com.tc.app.exchangemonitor.controller.ExternalTradeSystem" />
+   <mapping class="com.tc.app.exchangemonitor.controller.CommodityMarketAlias" />
+   <mapping class="com.tc.app.exchangemonitor.controller.CreditTermGroup" />
+   <mapping class="com.tc.app.exchangemonitor.controller.CreditTerm" />
+   <mapping class="com.tc.app.exchangemonitor.controller.CommktSourceAlias" />
+   <mapping class="com.tc.app.exchangemonitor.controller.CommktSourceRollDate" />
+   <mapping class="com.tc.app.exchangemonitor.controller.ExchToolsTrade" />
+   <mapping class="com.tc.app.exchangemonitor.controller.ExternalTradeType" />
+   <mapping class="com.tc.app.exchangemonitor.controller.ExternalComment" />
+   <mapping class="com.tc.app.exchangemonitor.controller.ExternalMapping" />
+   
+   <mapping class="com.tc.app.exchangemonitor.controller.Trade" />
+   <mapping class="com.tc.app.exchangemonitor.controller.TradeStatus" />
+   <mapping class="com.tc.app.exchangemonitor.controller.IctsProduct" />
+   
+   <!--
+   <mapping class="com.tc.app.exchangemonitor.controller.CommktClrdSwapAttr" />
+   <mapping class="com.tc.app.exchangemonitor.controller.AliasSource" />
+   <mapping class="com.tc.app.exchangemonitor.controller.Portfolio" />
+   <mapping class="com.tc.app.exchangemonitor.controller.ExternalPosition" />
+   <mapping class="com.tc.app.exchangemonitor.controller.PortfolioAlias" />
+   
+   <mapping class="com.tc.app.exchangemonitor.controller.AccountContact" />
+   <mapping class="com.tc.app.exchangemonitor.controller.AccountContactPK" />
+   <mapping class="com.tc.app.exchangemonitor.controller.AccountAddress" />
+   <mapping class="com.tc.app.exchangemonitor.controller.AccountAddressPK" />
+   -->
+
+</session-factory>
+</hibernate-configuration>

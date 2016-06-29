@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="180.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+   <children>
+       <TabPane focusTraversable="false">
+           <tabs>
+               <Tab fx:id="tab" closable="false" text="Timer">
+               <content>
+                  <Group fx:id="g">
+                     <children>
+                         <Label fx:id="lblInfo" alignment="CENTER" prefHeight="42.0" prefWidth="178.0"/>
+                         <Label fx:id="lblTimeDisplay" alignment="CENTER" layoutX="38.0" layoutY="39.0" prefHeight="25.0" prefWidth="100.0"
+                                text="00:00" textAlignment="CENTER" textOverrun="CLIP">
+                         <font>
+                              <Font size="36.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblMinSec" layoutX="35.0" layoutY="118.0" prefHeight="16.0" prefWidth="115.0" text="Minutes : Seconds" />
+                        <Label fx:id="lblColon" layoutX="85.0" layoutY="85.0" text=":">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                         <TextField fx:id="txtMinutes" layoutX="40.0" layoutY="87.0" onKeyTyped="#checkKeyPressed" prefHeight="25.0"
+                                    prefWidth="45.0" promptText="min" text="0">
+                             <font>
+                             <Font size="14.0" />
+                           </font>
+                        </TextField>
+                         <TextField fx:id="txtSeconds" layoutX="90.0" layoutY="87.0" onKeyTyped="#checkKeyPressed" prefHeight="25.0"
+                                    prefWidth="45.0" promptText="sec" text="10">
+                             <font>
+                             <Font size="14.0" />
+                           </font>
+                        </TextField>
+                         <Button fx:id="btnStart" alignment="CENTER" contentDisplay="CENTER" layoutX="28.0" layoutY="165.0"
+                                 mnemonicParsing="false" onAction="#actionClick" snapToPixel="false" text="Start Countdown"/>
+                         <Button fx:id="btnExit" layoutX="65.0" layoutY="196.0" mnemonicParsing="false" onAction="#btnExit" text="Exit"/>
+                     </children>
+                  </Group>
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

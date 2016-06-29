@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="25.0" prefWidth="200.0" style="-fx-background-color: orange;" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" text="This is temp. [Current Status Info Goes Here]" />
+         </children>
+      </HBox>
+   </bottom>
+   <center>
+      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="Monitor">
+               <content>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0">
+                     <top>
+                        <HBox alignment="CENTER" prefHeight="25.0" prefWidth="200.0" style="-fx-background-color: green;" BorderPane.alignment="CENTER">
+                           <children>
+                              <Button mnemonicParsing="false" text="This is temp.[Current Filter Info Goes here]" />
+                           </children>
+                        </HBox>
+                     </top>
+                     <left>
+                        <VBox prefWidth="120.0" spacing="3.0" style="-fx-background-color: red;">
+                           <children>
+                              <Accordion>
+                                <panes>
+                                    <TitledPane alignment="CENTER" animated="false" collapsible="false" expanded="false" text="Query Filter">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font></TitledPane>
+                                  <TitledPane text="Exchange">
+                                       <content>
+                                          <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                                            <content>
+                                              <AnchorPane>
+                                                   <children>
+                                                      <CheckBox mnemonicParsing="false" text="CheckBox1" />
+                                                      <CheckBox layoutY="25.0" mnemonicParsing="false" text="CheckBox2" />
+                                                      <CheckBox layoutY="50.0" mnemonicParsing="false" text="CheckBox3" />
+                                                      <CheckBox layoutY="75.0" mnemonicParsing="false" text="CheckBox4" />
+                                                   </children>
+                                                </AnchorPane>
+                                            </content>
+                                          </ScrollPane>
+                                       </content>
+                                  </TitledPane>
+                                    <TitledPane layoutX="10.0" layoutY="35.0" text="Trade State">
+                                       <content>
+                                          <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                                             <content>
+                                                <AnchorPane>
+                                                   <children>
+                                                      <CheckBox mnemonicParsing="false" text="CheckBox" />
+                                                      <CheckBox layoutY="25.0" mnemonicParsing="false" text="CheckBox" />
+                                                      <CheckBox layoutY="50.0" mnemonicParsing="false" text="CheckBox" />
+                                                      <CheckBox layoutY="75.0" mnemonicParsing="false" text="CheckBox" />
+                                                   </children>
+                                                </AnchorPane>
+                                             </content>
+                                          </ScrollPane>
+                                       </content>
+                                    </TitledPane>
+                                    <TitledPane layoutX="10.0" layoutY="117.0" text="Trade Type">
+                                       <content>
+                                          <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                                             <content>
+                                                <AnchorPane>
+                                                   <children>
+                                                      <CheckBox mnemonicParsing="false" text="CheckBox" />
+                                                      <CheckBox layoutY="25.0" mnemonicParsing="false" text="CheckBox" />
+                                                      <CheckBox layoutY="50.0" mnemonicParsing="false" text="CheckBox" />
+                                                      <CheckBox layoutY="75.0" mnemonicParsing="false" text="CheckBox" />
+                                                   </children>
+                                                </AnchorPane>
+                                             </content>
+                                          </ScrollPane>
+                                       </content>
+                                    </TitledPane>
+                                    <TitledPane layoutX="10.0" layoutY="122.0" text="Trade Account">
+                                       <content>
+                                          <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                                             <content>
+                                                <AnchorPane>
+                                                   <children>
+                                                      <CheckBox mnemonicParsing="false" text="CheckBox" />
+                                                      <CheckBox layoutY="25.0" mnemonicParsing="false" text="CheckBox" />
+                                                      <CheckBox layoutY="50.0" mnemonicParsing="false" text="CheckBox" />
+                                                      <CheckBox layoutY="75.0" mnemonicParsing="false" text="CheckBox" />
+                                                   </children>
+                                                </AnchorPane>
+                                             </content>
+                                          </ScrollPane>
+                                       </content>
+                                    </TitledPane>
+                                    <TitledPane animated="false" layoutX="10.0" layoutY="148.0" text="Start Date" />
+                                    <TitledPane animated="false" layoutX="10.0" layoutY="135.0" text="End Date" />
+                                </panes>
+                              </Accordion>
+                              <Label text="Monitor" />
+                              <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Start" />
+                              <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Stop" />
+                              <Button layoutX="10.0" layoutY="35.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Pause" />
+                              <Label text="Action" />
+                              <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Button" />
+                              <Button layoutX="10.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Button" />
+                              <Button layoutX="10.0" layoutY="381.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Button" />
+                              <Button layoutX="10.0" layoutY="381.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Button" />
+                              <Button layoutX="10.0" layoutY="381.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Button" />
+                           </children>
+                        </VBox>
+                     </left>
+                  </BorderPane>
+               </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+</BorderPane>

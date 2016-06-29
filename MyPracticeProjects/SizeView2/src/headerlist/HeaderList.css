@@ -1,0 +1,17 @@
+/* 
+    Document   : HeaderList
+    Created on : Feb 15, 2013, 3:30:48 PM
+    Author     : ericjbruno
+    Description:
+        This JavaFX style sheet dictates the appearance of the HeaderList
+        custom JavaFX control
+*/
+ 
+root {
+    display: block;
+}
+ 
+.list-cell:filled:selected:focused, .list-cell:filled:selected {
+    -fx-background-color: darkgray;
+    -fx-text-fill: -fx-selection-bar-text;
+}

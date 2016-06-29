@@ -1,0 +1,126 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jan 10, 2015, 9:22:30 PM
+    Author     : Ersel
+*/
+
+.root {
+
+} 
+.region{
+    -fx-opacity:0.9;
+    -fx-effect: dropshadow(three-pass-box, rgba(100, 100, 100, 1), 15, 0.5, 0, 0);
+    /*-fx-effect: dropshadow(three-pass-box, derive(cadetblue, -20%), 10, 0, 4, 4);*/
+    -fx-background-color: gainsboro;
+    -fx-background-insets:12;
+    -fx-background-radius: 0; 
+}
+.close-button{
+    -fx-background-size: cover;
+    -fx-background-image:url("./close.png");
+    -fx-background-repeat:no-repeat;
+    -fx-background-color:transparent;
+    -fx-background-radius: 0;
+    -fx-border:none;
+}
+.minimize-button{
+    -fx-background-size: cover;
+    -fx-background-image:url("./minimize.png");
+    -fx-background-repeat:no-repeat;
+    -fx-background-color:transparent;
+    -fx-background-radius: 0;
+    -fx-border:none;
+}
+.close-button:hover{
+    -fx-background-size: cover;
+    -fx-background-image:url("./close.png");
+    -fx-background-repeat:no-repeat;
+    -fx-background-color:rgb(240,240,240);
+    -fx-background-radius: 0;
+    -fx-border:none;
+}
+.minimize-button:hover{
+    -fx-background-size: cover;
+    -fx-background-image:url("./minimize.png");
+    -fx-background-repeat:no-repeat;
+    -fx-background-color:rgb(240,240,240);
+    -fx-background-radius:0;
+    -fx-border:none;
+}
+
+.header-label{
+    -fx-font-weight:bold;
+}
+.menu-bar{
+    -fx-background-radius:2;
+    -fx-effect: dropshadow(three-pass-box, rgba(100, 100, 100, 1), 10, 0, 0, 0);
+    -fx-background-color:rgb(240,240,240);
+}
+.menu:hover{
+    -fx-background-radius:1;
+    -fx-effect: dropshadow(three-pass-box, rgba(100, 100, 100, 1), 10, 0, 0, 0);
+    -fx-background-color:lightslategrey;
+}
+.menu:showing{
+    -fx-background-radius:1;
+    -fx-effect: dropshadow(three-pass-box, rgba(100, 100, 100, 1), 10, 0, 0, 0);
+    -fx-background-color:lightslategrey;
+}
+.context-menu{
+    -fx-background-radius:2;
+    -fx-effect: dropshadow(three-pass-box, rgba(100, 100, 100, 1), 10, 0, 0, 0);
+    -fx-background-color:rgb(240,240,240);
+}
+
+.menu-item:hover{
+    -fx-background-radius:2;
+    -fx-effect: dropshadow(three-pass-box, rgba(100, 100, 100, 1), 10, 0, 0, 0);
+    -fx-background-color:lightslategrey;
+}
+.menu-item:focused{
+    -fx-background-radius:2;
+    -fx-effect: dropshadow(three-pass-box, rgba(100, 100, 100, 1), 10, 0, 0, 0);
+    -fx-background-color:lightslategrey;
+}
+.content-button{
+    -fx-background-color:
+        #38424b,
+        radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
+    -fx-background-radius: 0;
+    -fx-border:none;
+    -fx-text-fill: linear-gradient(white, #d0d0d0);
+    -fx-font-family:"Arial";
+    -fx-font-weight:bold;
+   
+}
+.content-button:hover{
+    
+    /*-fx-border-color:white;*/
+    -fx-background-color:#485764,
+        radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
+    /*-fx-padding: 3 6 6 6;*/
+}
+
+.content-button:pressed{
+    -fx-font-family:"Arial";
+    -fx-font-weight:bold;
+    -fx-background-color:
+        #38424b,
+        radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
+}
+.content-text{
+    -fx-font-family:"Comic Sans MS";
+    -fx-background-color: rgb(250,250,250);
+}
+.content-text:focused{
+    -fx-border-width: 2;
+    -fx-border-radius:2;
+    -fx-border-color: rgba(114,131,148);
+}
+.content-label{
+    -fx-font-family:"Comic Sans MS";
+}

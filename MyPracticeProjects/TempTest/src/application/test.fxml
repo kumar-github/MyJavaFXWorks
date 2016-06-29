@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1">
+    <top>
+      <Button fx:id="b" text="test" disable="${l.text.isEmpty}" />
+    </top>
+    <center>
+      <TreeView fx:id="treeView" />
+    </center>
+    <bottom>
+      <!--<Label text="${treeView.selectionModel}" />-->
+      <!--<Label text="${treeView.selectionModel.selectedItem.isNull}" />-->
+      <Label text="${b.text}" fx:id="l" />
+    </bottom>
+  </BorderPane>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM 
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+   <session-factory>
+   <!--<property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+   <property name="connection.driver_class">org.postgresql.Driver</property>
+   <property name="connection.url">jdbc:postgresql://localhost:5432/HibernateDB</property>
+   <property name="connection.username">postgres</property>
+   <property name="connection.password">Admin</property>
+   <property name="hbm2ddl.auto">create</property>
+   <property name="show_sql">false</property>
+   <property name="format_sql">true</property>
+   <property name="hibernate.current_session_context_class">thread</property>
+   <mapping class="Book" />
+   <mapping class="Person" />-->
+   <property name="dialect">org.hibernate.dialect.SQLServerDialect</property>
+   <property name="connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
+   <!--<property name="connection.url">jdbc:sqlserver://HYDDB05:1460/DEV_CS25_trade</property>-->
+   <property name="connection.url">jdbc:sqlserver://HYDDB05.tc.com:1460;instanceName=1460;databaseName=DEV_CS25_trade</property>
+   <property name="connection.username">ictspass</property>
+   <property name="connection.password">ictspass</property>
+   <property name="hbm2ddl.auto">create</property>
+   <property name="show_sql">true</property>
+   <property name="format_sql">true</property>
+   <property name="hibernate.current_session_context_class">thread</property>
+</session-factory>
+</hibernate-configuration>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:id="subjectNameStack">
+          <children>
+            <ComboBox fx:id="subjectDropdown" focusTraversable="false" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="150.0" style="-fx-border-color:transparent;" StackPane.alignment="CENTER_LEFT">
+              <items>
+              </items>
+            </ComboBox>
+            <TextField fx:id="subjectName" editable="true" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="130.0" promptText="Person, Company, Place, Thing..." style="-fx-border-color:transparent;">
+              <StackPane.margin>
+                <Insets right="20.0" />
+              </StackPane.margin>
+            </TextField>
+          </children>
+        </StackPane>
+        </AnchorPane>
+

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jul 15, 2011 10:15:12 AM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <!-- <class name="gr.persons.entities.Person" table="PERSON" schema="YOUR_SCHEMA">-->
+    <class name="gr.persons.entities.Person" table="PERSON">
+        <id name="id" type="big_decimal">
+            <column name="ID" precision="22" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <property name="name" type="string">
+            <column name="NAME" length="50" />
+        </property>
+        <property name="surname" type="string">
+            <column name="SURNAME" length="50" />
+        </property>
+        <property name="birthdate" type="date">
+            <column name="BIRTHDATE" length="7" />
+        </property>
+        <property name="sex" type="string">
+            <column name="SEX" length="8" />
+        </property>
+    </class>
+</hibernate-mapping>
