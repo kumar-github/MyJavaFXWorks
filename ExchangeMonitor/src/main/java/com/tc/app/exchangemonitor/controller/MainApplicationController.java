@@ -938,6 +938,9 @@ public class MainApplicationController implements Initializable
 
 	private void initializeExternalTradeTableView()
 	{
+		//exchangeTradesTableView.getSelectionModel().setCellSelectionEnabled(true);
+		//exchangeTradesTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		
 		/*tradeOidTableColumn.setCellValueFactory(new PropertyValueFactory<>("oid"));*/
 		/*tradeOidTableColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DummyExternalTrade, Number>, ObservableValue<Number>>()
 		{

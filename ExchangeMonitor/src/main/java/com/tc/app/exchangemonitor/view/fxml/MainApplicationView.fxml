@@ -336,12 +336,12 @@
 											<TableColumn fx:id="buyingTraderTableColumn" prefWidth="120.0" text="Buying Trader" />
 											<TableColumn fx:id="sellingCompanyTableColumn" prefWidth="120.0" text="Selling Company" />
 											<TableColumn fx:id="sellingTraderTableColumn" prefWidth="120.0" text="Selling Trader" />
-											<TableColumn fx:id="exchangeTradeNumTableColumn" prefWidth="170.0" text="Exchange Trade#" />
+											<TableColumn fx:id="exchangeTradeNumTableColumn" prefWidth="220.0" text="Exchange Trade#" />
 											<TableColumn fx:id="accountTableColumn" prefWidth="75.0" text="Account" />
 											<TableColumn fx:id="ictsTradeNumTableColumn" prefWidth="80.0" text="ICTS Trade#" />
 											<TableColumn fx:id="ictsPortNumTableColumn" prefWidth="80.0" text="ICTS Port#" />
 											<TableColumn fx:id="tradeTypeTableColumn" prefWidth="75.0" text="Trade Type" />
-											<TableColumn fx:id="inputBrokerTableColumn" prefWidth="120.0" text="Input Broker" />
+											<TableColumn fx:id="inputBrokerTableColumn" prefWidth="140.0" text="Input Broker" />
 											<TableColumn fx:id="buyerClearingBrokerTableColumn" prefWidth="150.0" text="Buyer Clearing Broker" />
 											<TableColumn fx:id="sellerClearingBrokerTableColumn" prefWidth="150.0" text="Seller Clearing Broker" />
 											<TableColumn fx:id="commentTableColumn" prefWidth="250.0" text="Comment" />
@@ -644,55 +644,11 @@
                <content>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
                      <top>
-                        <HBox BorderPane.alignment="CENTER">
-                           <BorderPane.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </BorderPane.margin>
-                           <children>
+                     <HBox BorderPane.alignment="CENTER">
+                     <BorderPane.margin><Insets bottom="5.0" left="5.0" right="5.0" top="5.0" /></BorderPane.margin>
+                     <children>
                               <ToolBar>
                                  <items>
-                                    <Button mnemonicParsing="false" text="Test Button" />
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Current Filter:">
-                                       <font>
-                                          <Font name="System Bold" size="12.0" />
-                                       </font>
-                                    </Text>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Exchanges:" />
-                                    <Text fill="blue" layoutX="142.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nymex, ICE">
-                                       <font>
-                                          <Font name="System Bold" size="12.0" />
-                                       </font>
-                                    </Text>
-                                    <Text layoutX="204.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="State:" />
-                                    <Text fill="blue" layoutX="266.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="NULL">
-                                       <font>
-                                          <Font name="System Bold" size="12.0" />
-                                       </font>
-                                    </Text>
-                                    <Text layoutX="328.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type:" />
-                                    <Text fill="blue" layoutX="390.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="NULL">
-                                       <font>
-                                          <Font name="System Bold" size="12.0" />
-                                       </font>
-                                    </Text>
-                                    <Text layoutX="337.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Account:" />
-                                    <Text fill="blue" layoutX="370.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="NULL">
-                                       <font>
-                                          <Font name="System Bold" size="12.0" />
-                                       </font>
-                                    </Text>
-                                    <Text layoutX="418.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start Date:" />
-                                    <Text fill="blue" layoutX="451.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="NULL">
-                                       <font>
-                                          <Font name="System Bold" size="12.0" />
-                                       </font>
-                                    </Text>
-                                    <Text layoutX="484.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="End Date:" />
-                                    <Text fill="blue" layoutX="517.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="NULL">
-                                       <font>
-                                          <Font name="System Bold" size="12.0" />
-                                       </font>
-                                    </Text>
                                  </items>
                               </ToolBar>
                            </children>
@@ -700,163 +656,80 @@
                      </top>
                      <left>
                         <VBox spacing="2.0" BorderPane.alignment="CENTER">
-                           <BorderPane.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </BorderPane.margin>
-                           <padding>
-                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                           </padding>
+                           <BorderPane.margin><Insets bottom="5.0" left="2.0" right="0.0" top="5.0" /></BorderPane.margin>
+                           <padding><Insets bottom="2.0" left="2.0" right="2.0" top="1.0" /></padding>
                            <children>
-                              <TitledPane text="Monitor">
-                                 <font>
-                                    <Font name="System Bold" size="12.0" />
-                                 </font>
+                              <TitledPane mnemonicParsing="true" text="Action">
+                              <font><Font name="System Bold" size="12.0" /></font>
                                  <content>
+                                 <!--
                                     <AnchorPane minHeight="43.0" prefHeight="43.0">
                                        <children>
-                                          <Button layoutX="5.0" layoutY="5.0" mnemonicParsing="false" onAction="#handleStartMonitorButtonClick">
-                                             <graphic>
-                                                <ImageView cache="true" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@/icons/Start.png" />
-                                                   </image>
-                                                </ImageView>
-                                             </graphic>
-                                          </Button>
-                                          <Button layoutX="55.0" layoutY="5.0" mnemonicParsing="false" onAction="#handleStartMonitorButtonClick">
-                                             <graphic>
-                                                <ImageView cache="true" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@/icons/Stop1.png" />
-                                                   </image>
-                                                </ImageView>
-                                             </graphic>
-                                          </Button>
-                                          <Button layoutX="105.0" layoutY="5.0" mnemonicParsing="false" onAction="#handleStartMonitorButtonClick">
-                                             <graphic>
-                                                <ImageView cache="true" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@/icons/Pause1.png" />
-                                                   </image>
-                                                </ImageView>
-                                             </graphic>
-                                          </Button>
+                                          <Button layoutX="5.0" layoutY="5.0" mnemonicParsing="false" text="ADD"></Button>
+                                          <Button layoutX="57.0" layoutY="5.0" mnemonicParsing="false" text="DELETE"></Button>
+                                          <Button layoutX="109.0" layoutY="5.0" mnemonicParsing="false" text="UPDATE"></Button>
                                        </children>
                                     </AnchorPane>
+                                    -->
+                                    <HBox spacing="5.0">
+                                    <children>
+                                    	<Button mnemonicParsing="false" text="ADD" /> 
+                                    	<Button mnemonicParsing="false" text="DELETE" /> 
+                                    	<Button mnemonicParsing="false" text="UPDATE" /> 
+                                    </children>
+                                    </HBox>
                                  </content>
                               </TitledPane>
-                              <TitledPane fx:id="actionTitledPane2" text="Action">
-                                 <font>
-                                    <Font name="System Bold" size="12.0" />
-                                 </font>
+                              
+                              <Accordion fx:id="queryFilterAccordion">
+                              <panes>
+                              	
+                              	<TitledPane alignment="CENTER" animated="false" collapsible="false" expanded="false" text="Query Filter">
+                              		<font><Font name="System Bold" size="12.0" /></font>
+                              	</TitledPane>
+                              	
+                              	<TitledPane mnemonicParsing="true" text="_Exchanges">
+                              		<font><Font name="System Bold" size="12.0" /></font>
+                              		<content>
+                              			<VBox prefHeight="260.0" prefWidth="138.0">
+                              			<children>
+                              				<CheckListView focusTraversable="false" prefHeight="10.0" prefWidth="315.0" VBox.vgrow="ALWAYS" />
+                              				</children>
+                              				<padding><Insets top="1.0" /></padding>
+                              			</VBox>
+                              		</content>
+                              	</TitledPane>
+                              	
+                              	</panes>
+                              	</Accordion>
+                              	
+                              <TitledPane mnemonicParsing="true" text="Mapping Category">
+                                 <font><Font name="System Bold" size="12.0" /></font>
                                  <content>
                                     <AnchorPane minHeight="155.0" prefHeight="155.0">
                                        <children>
-                                          <Button layoutX="5.0" layoutY="5.0" mnemonicParsing="false" prefWidth="147.0" text="ReEnter Failed Trade" />
-                                          <Button layoutX="5.0" layoutY="35.0" mnemonicParsing="false" text="ReEnter All Failed Trades" />
-                                          <Button layoutX="5.0" layoutY="65.0" mnemonicParsing="false" prefWidth="147.0" text="Update Edited Trade" />
-                                          <Button layoutX="5.0" layoutY="95.0" mnemonicParsing="false" prefWidth="147.0" text="Quit Edit Trade Mode" />
-                                          <Button layoutX="5.0" layoutY="125.0" mnemonicParsing="false" prefWidth="147.0" text="Save Trades To Excel" />
                                        </children>
                                     </AnchorPane>
                                  </content>
                               </TitledPane>
-                              <Accordion>
-                                 <panes>
-                                    <TitledPane alignment="CENTER" animated="false" collapsible="false" expanded="false" text="Query Filter">
-                                       <font>
-                                          <Font name="System Bold" size="12.0" />
-                                       </font>
-                                    </TitledPane>
-                                    <TitledPane fx:id="externalTradeSourcesTitledPane2" mnemonicParsing="true" text="_Exchanges">
-                                       <font>
-                                          <Font name="System Bold" size="12.0" />
-                                       </font>
-                                       <content>
-                                          <VBox prefHeight="260.0" prefWidth="138.0">
-                                             <children>
-                                                <CheckListView fx:id="externalTradeSourcesListView2" prefHeight="10.0" prefWidth="315.0" VBox.vgrow="ALWAYS" />
-                                             </children>
-                                             <padding>
-                                                <Insets top="1.0" />
-                                             </padding>
-                                          </VBox>
-                                       </content>
-                                    </TitledPane>
-                                    <TitledPane fx:id="externalTradeStatesTitledPane2" mnemonicParsing="true" text="_Trade State">
-                                       <font>
-                                          <Font name="System Bold" size="12.0" />
-                                       </font>
-                                       <content>
-                                          <VBox prefHeight="100.0" prefWidth="138.0">
-                                             <children>
-                                                <CheckListView fx:id="externalTradeStatesListView2" prefHeight="10.0" prefWidth="315.0" VBox.vgrow="ALWAYS" />
-                                             </children>
-                                             <padding>
-                                                <Insets top="1.0" />
-                                             </padding>
-                                          </VBox>
-                                       </content>
-                                    </TitledPane>
-                                    <TitledPane fx:id="externalTradeStatusesTitledPane2" mnemonicParsing="true" text="Trade _Status">
-                                       <font>
-                                          <Font name="System Bold" size="12.0" />
-                                       </font>
-                                       <content>
-                                          <VBox prefHeight="100.0" prefWidth="138.0">
-                                             <children>
-                                                <CheckListView fx:id="externalTradeStatusesListView2" prefHeight="10.0" prefWidth="315.0" VBox.vgrow="ALWAYS" />
-                                             </children>
-                                             <padding>
-                                                <Insets top="1.0" />
-                                             </padding>
-                                          </VBox>
-                                       </content>
-                                    </TitledPane>
-                                    <TitledPane fx:id="externalTradeAccountsTitledPane2" layoutX="10.0" layoutY="122.0" text="Trade Account">
-                                       <font>
-                                          <Font name="System Bold" size="12.0" />
-                                       </font>
-                                       <opaqueInsets>
-                                          <Insets />
-                                       </opaqueInsets>
-                                       <content>
-                                          <VBox prefHeight="500.0" prefWidth="138.0" spacing="1.0">
-                                             <padding>
-                                                <Insets top="1.0" />
-                                             </padding>
-                                             <children>
-                                                <TextField fx:id="externalTradeAccountsSearchTextField2" promptText="Type To Filter" />
-                                                <CheckListView fx:id="externalTradeAccountsListView2" prefHeight="220.0" prefWidth="315.0" VBox.vgrow="ALWAYS" />
-                                             </children>
-                                          </VBox>
-                                       </content>
-                                    </TitledPane>
-                                    <TitledPane layoutX="10.0" layoutY="148.0" text="Date">
-                                       <font>
-                                          <Font name="System Bold" size="12.0" />
-                                       </font>
-                                       <content>
-                                          <FlowPane prefHeight="71.0" prefWidth="150.0" vgap="5.0">
-                                             <children>
-                                                <DatePicker fx:id="startDateDatePicker2" prefHeight="25.0" prefWidth="130.0" promptText="Start Date" />
-                                                <DatePicker fx:id="endDateDatePicker2" prefHeight="25.0" prefWidth="130.0" promptText="End Date" />
-                                             </children>
-                                          </FlowPane>
-                                       </content>
-                                    </TitledPane>
-                                 </panes>
-                              </Accordion>
-                              <TextField fx:id="dummyExternalTradeTableViewDataFilterTextField2" promptText="Type To Filter Table Data" />
-                              <Label labelFor="$dummyExternalTradeTableViewDataFilterTextField2" mnemonicParsing="true" text="_F" visible="false" />
+                              
                            </children>
                         </VBox>
                      </left>
                      <center>
                         <VBox BorderPane.alignment="CENTER">
-                           <BorderPane.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </BorderPane.margin>
+                           <BorderPane.margin><Insets bottom="5.0" left="0.0" right="5.0" top="5.0" /></BorderPane.margin>
+                           <padding><Insets bottom="2.0" left="2.0" right="2.0" top="1.0" /></padding>
+                           <children>
+                           	<TableView cache="true" tableMenuButtonVisible="true" BorderPane.alignment="CENTER" VBox.vgrow="ALWAYS">
+                           	<columns>
+                           	<TableColumn prefWidth="130.0" text="External Trade Oid" />
+                           	<TableColumn prefWidth="130.0" text="External Trade Oid" />
+                           	<TableColumn prefWidth="130.0" text="External Trade Oid" />
+                           	</columns>
+                           	<BorderPane.margin><Insets bottom="10.0" left="5.0" right="10.0" top="5.0" /></BorderPane.margin>
+                           	</TableView>
+                           </children>
                         </VBox>
                      </center>
                      <right>

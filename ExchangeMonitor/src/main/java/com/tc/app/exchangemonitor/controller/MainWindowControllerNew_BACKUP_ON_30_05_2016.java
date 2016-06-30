@@ -583,7 +583,7 @@ public class MainWindowControllerNew_BACKUP_ON_30_05_2016 implements Initializab
 			public void handle(WorkerStateEvent event)
 			{
 				dummyExternalTrades.clear();
-				dummyExternalTrades.addAll(fetchExternalTradesService.getValue());
+				//dummyExternalTrades.addAll(fetchExternalTradesService.getValue());
 			}
 		});
 		

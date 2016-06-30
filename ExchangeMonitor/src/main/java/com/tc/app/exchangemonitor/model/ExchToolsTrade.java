@@ -170,6 +170,7 @@ public class ExchToolsTrade implements Serializable {
     private String acctContact;
     @Column(name = "gtc")
     private String gtc;
+    
     @Column(name = "trade_type")
     private String tradeType;
     
@@ -703,8 +704,8 @@ public class ExchToolsTrade implements Serializable {
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "ExchToolsTrade[ externalTradeOid=" + externalTradeOid + " ]";
     }
-    
 }

@@ -3,6 +3,7 @@ package com.tc.app.exchangemonitor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.sun.javafx.application.LauncherImpl;
 import com.tc.app.exchangemonitor.util.HibernateUtil;
 import com.tc.app.exchangemonitor.view.java.MainApplicationView;
 import com.tc.framework.injection.Injector;
@@ -11,6 +12,7 @@ import javafx.animation.FadeTransition;
 import javafx.animation.RotateTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.application.Preloader;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -32,20 +34,36 @@ public class ExchangeMonitorApplication extends Application
 	private Stage primaryStage = null;
 	private Scene primaryScene = null;
 	
+	public ExchangeMonitorApplication()
+	{
+		System.out.println("ExchangeMonitorApplication constructor called by " + Thread.currentThread().getName());
+	}
+	
 	public static void main(String[] args)
 	{
-		launch(args);
+		System.out.println("ExchangeMonitorApplication main called by " + Thread.currentThread().getName());
+		Application.launch();
+		//LauncherImpl.launchApplication(ExchangeMonitorApplication.class, ExchangeMonitionApplicationPreloader.class, args); 
 	}
 
 	@Override
 	public void init()
 	{
+		System.out.println("ExchangeMonitorApplication init called by " + Thread.currentThread().getName());
 		HibernateUtil.getSessionFactory();
+		for(int i=0; i<1000; i++)
+		{
+			double progress = (100 * i) / 1000;
+			LauncherImpl.notifyPreloader(this, new Preloader.ProgressNotification(progress));
+		}
 	}
 
 	@Override
 	public void start(Stage primaryStage)
 	{
+		System.out.println("ExchangeMonitorApplication start called by " + Thread.currentThread().getName());
+		// Do all the heavy lifting stuff. One Question. Can we do the heavy lifting stuff in init() instead here?
+		// then load the primary stage
 		/*
 		Parent root = FXMLLoader.load(this.getClass().getResource("MainWindowView.fxml"));
 		primaryStage.setScene(new Scene(root));
@@ -213,6 +231,7 @@ public class ExchangeMonitorApplication extends Application
 	@Override
 	public void stop() throws Exception
 	{
+		System.out.println("ExchangeMonitorApplication stop called by " + Thread.currentThread().getName());
 		super.stop();
 		Injector.forgetAll();
 		HibernateUtil.closeSessionFactory();
