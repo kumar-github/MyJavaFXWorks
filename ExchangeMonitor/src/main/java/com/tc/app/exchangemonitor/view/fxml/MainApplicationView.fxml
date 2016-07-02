@@ -179,23 +179,28 @@
 										<content>
 											<!--<AnchorPane> revert back if any problem-->
 											<AnchorPane minHeight="43.0" prefHeight="43.0">
+											<!--<HBox spacing="5.0">-->
 												<children>
 													<Button fx:id="startMonitorButton" layoutX="5.0" layoutY="5.0" mnemonicParsing="false" onAction="#handleStartMonitorButtonClick">
+													<!--<Button fx:id="startMonitorButton" contentDisplay="TOP" graphicTextGap="0.0" mnemonicParsing="false" onAction="#handleStartMonitorButtonClick" text="Start">-->
 														<graphic><ImageView cache="true" pickOnBounds="true" preserveRatio="true"><image><Image url="@/icons/Start.png" /></image></ImageView></graphic>
 														<tooltip><Tooltip text="Click to START monitoring external trades." /></tooltip>
 													</Button>
 													
 													<Button fx:id="pauseMonitorButton" layoutX="57.0" layoutY="5.0" mnemonicParsing="false" onAction="#handlePauseMonitorButtonClick">
+													<!--<Button fx:id="pauseMonitorButton" contentDisplay="TOP" graphicTextGap="0.0" mnemonicParsing="false" onAction="#handlePauseMonitorButtonClick" text="Pause">-->
 														<graphic><ImageView cache="true" pickOnBounds="true" preserveRatio="true"><image><Image url="@/icons/Pause1.png" /></image></ImageView></graphic>
 														<tooltip><Tooltip text="Click to PAUSE monitoring external trades." /></tooltip>
 													</Button>
 													
 													<Button fx:id="stopMonitorButton" layoutX="109.0" layoutY="5.0" mnemonicParsing="false" onAction="#handleStopMonitorButtonClick">
+													<!--<Button fx:id="stopMonitorButton" contentDisplay="TOP" graphicTextGap="0.0" mnemonicParsing="false" onAction="#handleStopMonitorButtonClick" text="Stop">-->
 														<graphic><ImageView cache="true" pickOnBounds="true" preserveRatio="true"><image><Image url="@/icons/Stop1.png" /></image></ImageView></graphic>
 														<tooltip><Tooltip text="Click to STOP monitoring external trades." /></tooltip>
-													</Button>	
+													</Button>
 												</children>
 											</AnchorPane>
+											<!--</HBox>-->
 										</content>
 										</TitledPane>
 										
@@ -673,9 +678,15 @@
                                     -->
                                     <HBox spacing="5.0">
                                     <children>
-                                    	<Button mnemonicParsing="false" text="ADD" /> 
-                                    	<Button mnemonicParsing="false" text="DELETE" /> 
-                                    	<Button mnemonicParsing="false" text="UPDATE" /> 
+                                    	<Button mnemonicParsing="false" contentDisplay="LEFT" graphicTextGap="0.0">
+                                    	<graphic><ImageView cache="true" pickOnBounds="true" preserveRatio="true"><image><Image url="@/icons/plus-32.png" /></image></ImageView></graphic>
+                                    	</Button>
+                                    	<Button mnemonicParsing="false" contentDisplay="LEFT" graphicTextGap="0.0">
+                                    	<graphic><ImageView cache="true" pickOnBounds="true" preserveRatio="true"><image><Image url="@/icons/minus-32.png" /></image></ImageView></graphic>
+                                    	</Button>
+                                    	<Button mnemonicParsing="false" contentDisplay="LEFT" graphicTextGap="0.0">
+                                    	<graphic><ImageView cache="true" pickOnBounds="true" preserveRatio="true"><image><Image url="@/icons/edit2-32.png" /></image></ImageView></graphic>
+                                    	</Button>
                                     </children>
                                     </HBox>
                                  </content>

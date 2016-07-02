@@ -24,6 +24,7 @@ import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
+@SuppressWarnings("restriction")
 public class ExchangeMonitorApplication extends Application
 {
 	private double xOffset = 0.0;

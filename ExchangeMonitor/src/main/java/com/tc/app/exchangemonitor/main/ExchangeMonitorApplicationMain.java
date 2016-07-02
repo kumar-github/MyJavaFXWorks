@@ -1,6 +1,8 @@
-package com.tc.app.exchangemonitor;
+package com.tc.app.exchangemonitor.main;
 
 import com.sun.javafx.application.LauncherImpl;
+import com.tc.app.exchangemonitor.ExchangeMonitorApplication;
+import com.tc.app.exchangemonitor.preloader.ExchangeMonitionApplicationPreloader;
 
 @SuppressWarnings("restriction")
 public class ExchangeMonitorApplicationMain

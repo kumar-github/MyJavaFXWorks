@@ -82,7 +82,7 @@ public class MainApplicationController implements Initializable
 	 * 																																							All Variables injected through FXML starts here
 	 * ============================================================================================================================================================================
 	 */
-
+	
 	@FXML
 	private BorderPane mainApplicationBorderPane;
 
@@ -259,7 +259,7 @@ public class MainApplicationController implements Initializable
 
 	@FXML
 	private StatusBar applicationMainStatusBar;
-
+	
 	/**
 	 * ============================================================================================================================================================================
 	 * 																																							All FXML Variables ends here

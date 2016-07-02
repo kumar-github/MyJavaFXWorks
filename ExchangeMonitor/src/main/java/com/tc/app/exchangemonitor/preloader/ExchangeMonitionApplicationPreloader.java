@@ -1,11 +1,10 @@
-package com.tc.app.exchangemonitor;
+package com.tc.app.exchangemonitor.preloader;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.tc.app.exchangemonitor.view.java.PreloaderView;
 
-import antlr.debug.Event;
 import javafx.animation.FadeTransition;
 import javafx.application.Preloader;
 import javafx.event.ActionEvent;
@@ -25,14 +24,12 @@ public class ExchangeMonitionApplicationPreloader extends Preloader
 	
 	public ExchangeMonitionApplicationPreloader()
 	{
-		//LOGGER.log(Level.INFO, "ExchangeMonitorApplicationPreloader constructor called by " + Thread.currentThread().getName());
 		System.out.println("ExchangeMonitorApplicationPreloader constructor called by " + Thread.currentThread().getName());
 	}
 	
 	@Override
 	public void init() throws Exception
 	{
-		//LOGGER.log(Level.INFO, "ExchangeMonitorApplicationPreloader init called by " + Thread.currentThread().getName());
 		System.out.println("ExchangeMonitorApplicationPreloader init called by " + Thread.currentThread().getName());
 		super.init();
 		/* If the preloader has complex UI it's initialization can be done in here. Ensure that you do it with Platform.runLater() */
@@ -41,7 +38,6 @@ public class ExchangeMonitionApplicationPreloader extends Preloader
 	@Override
 	public void start(Stage primaryStage) throws Exception
 	{
-		//LOGGER.log(Level.INFO, "ExchangeMonitorApplicationPreloader start called by " + Thread.currentThread().getName());
 		System.out.println("ExchangeMonitorApplicationPreloader start called by " + Thread.currentThread().getName());
 		preloaderStage = primaryStage;
 		preloaderStage.setScene(createPreloaderScene());
@@ -80,19 +76,16 @@ public class ExchangeMonitionApplicationPreloader extends Preloader
 		{
 		case BEFORE_LOAD:
 			// Called after preloader#start is called.
-			//LOGGER.log(Level.INFO, "ExchangeMonitorApplicationPreloader " + notificationType);
 			System.out.println("ExchangeMonitorApplicationPreloader " + notificationType);
 			break;
 		
 		case BEFORE_INIT:
 			//Called before application#init is called.
-			//LOGGER.log(Level.INFO, "ExchangeMonitorApplicationPreloader " + notificationType);
 			System.out.println("ExchangeMonitorApplicationPreloader " + notificationType);
 			break;
 		
 		case BEFORE_START:
 			//Called after application#init and before application#start is called.
-			//LOGGER.log(Level.INFO, "ExchangeMonitorApplicationPreloader " + notificationType);
 			System.out.println("ExchangeMonitorApplicationPreloader " + notificationType);
 			if(preloaderStage.isShowing())
 			{
