@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import org.controlsfx.control.StatusBar?>
+<?import javafx.scene.layout.BorderPane?>
+
+<!--<StatusBar fx:id="applicationMainStatusBar" progress="10.0" BorderPane.alignment="CENTER" />-->
+<StatusBar progress="10.0" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"  fx:controller="com.tc.app.exchangemonitor.controller.MainApplicationStatusBarController"/>

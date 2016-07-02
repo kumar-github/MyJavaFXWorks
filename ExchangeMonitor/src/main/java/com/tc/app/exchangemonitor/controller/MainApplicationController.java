@@ -53,6 +53,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -82,6 +83,15 @@ public class MainApplicationController implements Initializable
 	 * 																																							All Variables injected through FXML starts here
 	 * ============================================================================================================================================================================
 	 */
+	
+	@FXML
+	//private MainApplicationStatusBarView mainApplicationStatusBarView;
+	private Parent mainApplicationStatusBarView;
+	
+	@FXML
+	//private MainApplicationStatusBarController mainApplicationStatusBarController;
+	/*changed the name from mainApplicationStatusBarController to mainApplicationStatusBarViewController, not working otherwise. */
+	private MainApplicationStatusBarController mainApplicationStatusBarViewController;
 	
 	@FXML
 	private BorderPane mainApplicationBorderPane;
@@ -402,8 +412,8 @@ public class MainApplicationController implements Initializable
 		startDateFilterValueText.textProperty().bind(startDateDatePicker.valueProperty().asString());
 		endDateFilterValueText.textProperty().bind(endDateDatePicker.valueProperty().asString());
 
-		applicationMainStatusBar.textProperty().bind(statusMessagesProperty());
-		applicationMainStatusBar.progressProperty().bind(progressStatusesProperty());
+		//applicationMainStatusBar.textProperty().bind(statusMessagesProperty());
+		//applicationMainStatusBar.progressProperty().bind(progressStatusesProperty());
 
 		startMonitorButton.disableProperty().bind(fetchExternalTradesScheduledService.runningProperty());
 		pauseMonitorButton.disableProperty().bind(fetchExternalTradesScheduledService.runningProperty().not());
