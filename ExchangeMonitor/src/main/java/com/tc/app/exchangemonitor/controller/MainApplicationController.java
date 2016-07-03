@@ -22,6 +22,7 @@ import org.hibernate.transform.Transformers;
 import org.hibernate.type.StringType;
 
 import com.tc.app.exchangemonitor.model.ExternalTrade;
+import com.tc.app.exchangemonitor.util.ApplicationHelper;
 import com.tc.app.exchangemonitor.util.DatePickerConverter;
 import com.tc.app.exchangemonitor.util.HibernateUtil;
 
@@ -34,13 +35,11 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ReadOnlyDoubleWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener.Change;
@@ -299,7 +298,7 @@ public class MainApplicationController implements Initializable
 
 	@Inject
 	private String sqlQueryStringToFetchExternalTradesWithoutBuyerAccountQualifier;
-
+	
 	/**
 	 * ============================================================================================================================================================================
 	 * 																																							All Variables injected through @Inject ends here
@@ -340,6 +339,9 @@ public class MainApplicationController implements Initializable
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
 	{
+		/* add the instantiated controller object to map, so that we can use in the future. */
+		addThisControllerToControllersMap();
+		
 		/* so that we can track if any fxml variables are not injected. */
 		doAssertion();
 
@@ -368,6 +370,11 @@ public class MainApplicationController implements Initializable
 
 		/* This will initialize the animations if needed so that, we see the table rotation or button fade effect etc... */
 		initializeAnimationsIfNeeded();
+	}
+	
+	private void addThisControllerToControllersMap()
+	{
+		ApplicationHelper.controllersMap.putInstance(MainApplicationController.class, this);
 	}
 
 	private void doAssertion()
@@ -412,6 +419,7 @@ public class MainApplicationController implements Initializable
 		startDateFilterValueText.textProperty().bind(startDateDatePicker.valueProperty().asString());
 		endDateFilterValueText.textProperty().bind(endDateDatePicker.valueProperty().asString());
 
+		/* the below 2 lines have been moved to MainApplicationStatusBarController.java */
 		//applicationMainStatusBar.textProperty().bind(statusMessagesProperty());
 		//applicationMainStatusBar.progressProperty().bind(progressStatusesProperty());
 
@@ -1431,9 +1439,20 @@ public class MainApplicationController implements Initializable
 		fetchExternalTradesScheduledService.setSQLQuery(sqlQueryToFetchData);
 		fetchExternalTradesScheduledService.setDelay(Duration.seconds(1));
 		fetchExternalTradesScheduledService.setPeriod(Duration.seconds(10));
+		
+		/*
 		fetchExternalTradesScheduledService.messageProperty().addListener((ObservableValue<? extends String> observableValue, String oldValue, String newValue) -> { statusMessagesProperty().set(newValue); });
 		fetchExternalTradesScheduledService.progressProperty().addListener((ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) -> { progressStatusesProperty().set(newValue.doubleValue()); });
-
+		*/
+		/*
+		 *  modified the above 2 lines as below. previously statusMessagesProperty and progressStatusesProperty are available in the same class but now moved to a different controller.
+		 *  Eventually the below code has to be modified to access those properties from the respective controller class.
+		 *  Currently accessing the statusMessagesProperty and progressStatusesProperty through the controller whose reference is injected while loading. this may not be the perfect approach,
+		 *  need to find out a better way.
+		 */
+		fetchExternalTradesScheduledService.messageProperty().addListener((ObservableValue<? extends String> observableValue, String oldValue, String newValue) -> { mainApplicationStatusBarViewController.statusMessagesProperty().set(newValue); });
+		fetchExternalTradesScheduledService.progressProperty().addListener((ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) -> { mainApplicationStatusBarViewController.progressStatusesProperty().set(newValue.doubleValue()); });
+		
 		fetchExternalTradesScheduledService.restart();
 
 		fetchExternalTradesScheduledService.setOnSucceeded(new EventHandler<WorkerStateEvent>()
@@ -1533,7 +1552,9 @@ public class MainApplicationController implements Initializable
 	{
 		return false;
 	}
-
+	
+	/* Commented the below 2 properties here and moved it to the status bar related controller class. */
+	/*
 	private StringProperty statusMessagesProperty = null;
 	private StringProperty statusMessagesProperty()
 	{
@@ -1553,8 +1574,8 @@ public class MainApplicationController implements Initializable
 		}
 		return progressStatusesProperty;
 	}
-
-
+	*/
+	
 	/* ******************************************************************************************************************************************************************************************************* */
 
 	/**
