@@ -25,6 +25,7 @@ import com.tc.app.exchangemonitor.model.ExternalTrade;
 import com.tc.app.exchangemonitor.util.ApplicationHelper;
 import com.tc.app.exchangemonitor.util.DatePickerConverter;
 import com.tc.app.exchangemonitor.util.HibernateUtil;
+import com.tc.app.exchangemonitor.viewmodel.MainApplicationStatusBarViewModel;
 
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
@@ -298,6 +299,9 @@ public class MainApplicationController implements Initializable
 
 	@Inject
 	private String sqlQueryStringToFetchExternalTradesWithoutBuyerAccountQualifier;
+	
+	@Inject
+	private MainApplicationStatusBarViewModel mainApplicationStatusBarViewModel;
 	
 	/**
 	 * ============================================================================================================================================================================
@@ -1450,8 +1454,16 @@ public class MainApplicationController implements Initializable
 		 *  Currently accessing the statusMessagesProperty and progressStatusesProperty through the controller whose reference is injected while loading. this may not be the perfect approach,
 		 *  need to find out a better way.
 		 */
-		fetchExternalTradesScheduledService.messageProperty().addListener((ObservableValue<? extends String> observableValue, String oldValue, String newValue) -> { mainApplicationStatusBarViewController.statusMessagesProperty().set(newValue); });
-		fetchExternalTradesScheduledService.progressProperty().addListener((ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) -> { mainApplicationStatusBarViewController.progressStatusesProperty().set(newValue.doubleValue()); });
+		/*fetchExternalTradesScheduledService.messageProperty().addListener((ObservableValue<? extends String> observableValue, String oldValue, String newValue) -> { mainApplicationStatusBarViewController.statusMessagesProperty().set(newValue); });
+		fetchExternalTradesScheduledService.progressProperty().addListener((ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) -> { mainApplicationStatusBarViewController.progressStatusesProperty().set(newValue.doubleValue()); });*/
+		
+		/* modified the above 2 lines as below. The intention is to implement a viewmodel pattern. instead of having the status bar's  statusMessagesProperty and progressStatusesProperty inside 
+		 * the status bar controller class and accessing it from the main controller class by getting the status bar's controller reference which is actually injected through fxml annotation. We now 
+		 * implemented a viewmodel class for status bar and moved the statusMessagesProperty and progressStatusesProperty there. The viewmodel class reference will be available in the 
+		 * main controller class through @Inject annotation. Using that reference access those properties.
+		 * */
+		fetchExternalTradesScheduledService.messageProperty().addListener((ObservableValue<? extends String> observableValue, String oldValue, String newValue) -> { mainApplicationStatusBarViewModel.statusMessagesProperty().set(newValue); });
+		fetchExternalTradesScheduledService.progressProperty().addListener((ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) -> { mainApplicationStatusBarViewModel.progressStatusProperty().set(newValue.doubleValue()); });
 		
 		fetchExternalTradesScheduledService.restart();
 

@@ -3,9 +3,12 @@ package com.tc.app.exchangemonitor.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javax.inject.Inject;
+
 import org.controlsfx.control.StatusBar;
 
 import com.tc.app.exchangemonitor.util.ApplicationHelper;
+import com.tc.app.exchangemonitor.viewmodel.MainApplicationStatusBarViewModel;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -18,6 +21,9 @@ public class MainApplicationStatusBarController implements Initializable
 {
 	@FXML
 	private StatusBar mainApplicationStatusBar;
+	
+	@Inject
+	private MainApplicationStatusBarViewModel mainApplicationStatusBarViewModel;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
@@ -33,8 +39,15 @@ public class MainApplicationStatusBarController implements Initializable
 	
 	private void doInitialBinding()
 	{
+		/*
 		mainApplicationStatusBar.textProperty().bind(statusMessagesProperty());
 		mainApplicationStatusBar.progressProperty().bind(progressStatusesProperty());
+		*/
+		
+		/* modified the above 2 lines as below. implemented the MVVM pattern */
+		mainApplicationStatusBar.textProperty().bind(mainApplicationStatusBarViewModel.statusMessagesProperty());
+		mainApplicationStatusBar.progressProperty().bind(mainApplicationStatusBarViewModel.progressStatusProperty());
+		
 	}
 	
 	private StringProperty statusMessagesProperty = null;
