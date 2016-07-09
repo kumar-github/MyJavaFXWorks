@@ -116,7 +116,7 @@ public class ExternalTradeStatus implements Serializable {
 
     @Override
     public String toString() {
-        return "ExternalTradeStatus[ oid=" + oid + " ]";
+        return getExternalTradeStatusName();
     }
     
 }

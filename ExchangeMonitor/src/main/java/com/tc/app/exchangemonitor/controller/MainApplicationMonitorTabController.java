@@ -5,9 +5,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 import javax.inject.Inject;
@@ -19,9 +17,13 @@ import org.hibernate.transform.Transformers;
 import org.hibernate.type.StringType;
 
 import com.tc.app.exchangemonitor.model.ExternalTrade;
+import com.tc.app.exchangemonitor.model.ExternalTradeSource;
+import com.tc.app.exchangemonitor.model.ExternalTradeState;
+import com.tc.app.exchangemonitor.model.ExternalTradeStatus;
 import com.tc.app.exchangemonitor.util.ApplicationHelper;
 import com.tc.app.exchangemonitor.util.DatePickerConverter;
 import com.tc.app.exchangemonitor.util.HibernateUtil;
+import com.tc.app.exchangemonitor.util.ReferenceDataCache;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
@@ -105,13 +107,13 @@ public class MainApplicationMonitorTabController implements Initializable
 	private Accordion queryFilterAccordion;
 
 	@FXML
-	private CheckListView<String> externalTradeSourcesListView;
+	private CheckListView<ExternalTradeSource> externalTradeSourcesListView;
 
 	@FXML
-	private CheckListView<String> externalTradeStatesListView;
+	private CheckListView<ExternalTradeState> externalTradeStatesListView;
 
 	@FXML
-	private CheckListView<String> externalTradeStatusesListView;
+	private CheckListView<ExternalTradeStatus> externalTradeStatusesListView;
 
 	@FXML
 	private CheckListView<String> externalTradeAccountsListView;
@@ -232,16 +234,7 @@ public class MainApplicationMonitorTabController implements Initializable
 	 * 																																							All Variables injected through @Inject starts here
 	 * ============================================================================================================================================================================
 	 */
-
-	@Inject
-	private String sqlQueryToFetchExternalTradeSources;
-
-	@Inject
-	private String sqlQueryStringToFetchExternalTradeStates;
-
-	@Inject
-	private String sqlQueryStringToFetchExternalTradeStatuses;
-
+	
 	@Inject
 	private String sqlQueryStringToFetchExternalTradeAccounts;
 
@@ -266,10 +259,11 @@ public class MainApplicationMonitorTabController implements Initializable
 	private List<String> externalTradeAccounts;
 	private List<String> checkedExternalTradeAccounts = new ArrayList<String>();
 	private ObservableList<ExternalTrade> externalTrades = FXCollections.observableArrayList();
-	private Map<String, String> externalTradeSourceTableMap = new HashMap<String, String>();
-	private Map<String, String> externalTradeStateTableMap = new HashMap<String, String>();
-	private Map<String, String> externalTradeStatusTableMap = new HashMap<String, String>();
-
+	
+	private ObservableList<ExternalTradeSource> externalTradeSourceObservableList = FXCollections.observableArrayList();
+	private ObservableList<ExternalTradeState> externalTradeStateObservableList = FXCollections.observableArrayList();
+	private ObservableList<ExternalTradeStatus> externalTradeStatusObservableList = FXCollections.observableArrayList();
+	
 	private FetchExternalTradesScheduledService fetchExternalTradesScheduledService = new FetchExternalTradesScheduledService();
 	//private FetchExternalTradesService fetchExternalTradesService = new FetchExternalTradesService();
 
@@ -377,6 +371,10 @@ public class MainApplicationMonitorTabController implements Initializable
 				.or(startDateFilterKeyText.visibleProperty())
 				.or(endDateFilterKeyText.visibleProperty())
 				);
+		
+		externalTradeSourcesListView.setItems(externalTradeSourceObservableList);
+		externalTradeStatesListView.setItems(externalTradeStateObservableList);
+		externalTradeStatusesListView.setItems(externalTradeStatusObservableList);
 	}
 
 	private void initializeGUI()
@@ -384,20 +382,19 @@ public class MainApplicationMonitorTabController implements Initializable
 		/**
 		 * fetch exchanges from external_trade_source table and construct checkbox for each exchange and set it on the UI
 		 */
-		List<String> externalTradeSourceNames = fetchAllExternalTradeSourcesFromDB();
-		setExternalTradeSourceCheckBoxesOnUI(externalTradeSourceNames);
+		//List<String> externalTradeSourceNames = fetchAllExternalTradeSourcesFromDB();
+		//setExternalTradeSourceCheckBoxesOnUI(externalTradeSourceNames);
+		fetchExternalTradeSources();
 
 		/**
 		 * fetch external trades states from external_trade_state table and construct checkbox for each trade state and set it on the UI
 		 */
-		List<String> externalTradeStateNames = fetchAllExternalTradeStatesFromDB();
-		setExternalTradeStateCheckBoxesOnUI(externalTradeStateNames);
+		fetchExternalTradeStates();
 
 		/**
 		 * fetch external trades statuses from external_trade_status table and construct checkbox for each trade status and set it on the UI
 		 */
-		List<String> externalTradeStatusNames = fetchAllExternalTradeStatusesFromDB();
-		setExternalTradeStatusCheckBoxesOnUI(externalTradeStatusNames);
+		fetchExternalTradeStatuses();
 
 		/**
 		 * fetch trade accounts from external_mapping table and with mapping_type 'K' and construct checkbox for trade account and set it on the UI
@@ -426,79 +423,22 @@ public class MainApplicationMonitorTabController implements Initializable
 		 * trade_type_name in the UI
 		 */
 	}
-
-	public List<String> fetchAllExternalTradeSourcesFromDB()
+	
+	private void fetchExternalTradeSources()
 	{
-		List<Object> externalTradeSourceTable = Collections.emptyList();
-		List<String> externalTradeSourceNamesList = new ArrayList<String>();
-
-		/**
-		 * Variables injected through properties files takes priority over the code. so if we found a variable in the properties file
-		 * with value then use that value if not then proceed with the value in the code.
-		 */
-		if(sqlQueryToFetchExternalTradeSources == null || sqlQueryToFetchExternalTradeSources.isEmpty())
-		{
-			sqlQueryToFetchExternalTradeSources = getSQLQueryToFetchExternalTradeSources();
-		}
-		externalTradeSourceTable = fetchDataFromDB(sqlQueryToFetchExternalTradeSources, "externalTradeSrcName", "externalTradeSrcOid");
-		for(Object anExternalTradeSourceRecord : externalTradeSourceTable)
-		{
-			String externalTradeSrcName = ((Map)anExternalTradeSourceRecord).get("externalTradeSrcName").toString();
-			String externalTradeSrcOid = ((Map)anExternalTradeSourceRecord).get("externalTradeSrcOid").toString();
-			externalTradeSourceTableMap.put(externalTradeSrcName, externalTradeSrcOid);
-			externalTradeSourceNamesList.add(externalTradeSrcName);
-		}
-		return externalTradeSourceNamesList;
+		externalTradeSourceObservableList.addAll(ReferenceDataCache.fetchExternalTradeSources().values());
 	}
-
-	public List<String> fetchAllExternalTradeStatesFromDB()
+	
+	private void fetchExternalTradeStates()
 	{
-		List<Object> externalTradeStateTable = Collections.emptyList();
-		List<String> externalTradeStateNamesList = new ArrayList<String>();
-
-		/**
-		 * Variables injected through properties files takes priority over the code. so if we found a variable in the properties file
-		 * with value then use that value if not then proceed with the value in the code.
-		 */
-		if(sqlQueryStringToFetchExternalTradeStates == null || sqlQueryStringToFetchExternalTradeStates.isEmpty())
-		{
-			sqlQueryStringToFetchExternalTradeStates = getSQLQueryToFetchExternalTradeStates();
-		}
-		externalTradeStateTable = fetchDataFromDB(sqlQueryStringToFetchExternalTradeStates, "externalTradeStateName", "externalTradeStateOid");
-		for(Object anExternalTradeStateRecord : externalTradeStateTable)
-		{
-			String externalTradeStateName = ((Map)anExternalTradeStateRecord).get("externalTradeStateName").toString();
-			String externalTradeStatecOid = ((Map)anExternalTradeStateRecord).get("externalTradeStateOid").toString();
-			externalTradeStateTableMap.put(externalTradeStateName, externalTradeStatecOid);
-			externalTradeStateNamesList.add(externalTradeStateName);
-		}
-		return externalTradeStateNamesList;
+		externalTradeStateObservableList.addAll(ReferenceDataCache.fetchExternalTradeStates().values());
 	}
-
-	public List<String> fetchAllExternalTradeStatusesFromDB()
+	
+	private void fetchExternalTradeStatuses()
 	{
-		List<Object> externalTradeStatusTable = Collections.emptyList();
-		List<String> externalTradeStatusNamesList = new ArrayList<String>();
-
-		/**
-		 * Variables injected through properties files takes priority over the code. so if we found a variable in the properties file
-		 * with value then use that value if not then proceed with the value in the code.
-		 */
-		if(sqlQueryStringToFetchExternalTradeStatuses == null || sqlQueryStringToFetchExternalTradeStatuses.isEmpty())
-		{
-			sqlQueryStringToFetchExternalTradeStatuses = getSQLQueryToFetchExternalTradeStatuses();
-		}
-		externalTradeStatusTable = fetchDataFromDB(sqlQueryStringToFetchExternalTradeStatuses, "externalTradeStatusName", "externalTradeStatusOid");
-		for(Object aRecord : externalTradeStatusTable)
-		{
-			String externalTradeStatusName = ((Map)aRecord).get("externalTradeStatusName").toString();
-			String externalTradeStatusOid = ((Map)aRecord).get("externalTradeStatusOid").toString();
-			externalTradeStatusTableMap.put(externalTradeStatusName, externalTradeStatusOid);
-			externalTradeStatusNamesList.add(externalTradeStatusName);
-		}
-		return externalTradeStatusNamesList;
+		externalTradeStatusObservableList.addAll(ReferenceDataCache.fetchExternalTradeStatuses().values());
 	}
-
+	
 	public List<String> fetchAllExternalTradeAccountsFromDB()
 	{
 		/**
@@ -536,43 +476,13 @@ public class MainApplicationMonitorTabController implements Initializable
 
 		return aTable;
 	}
-
-	public void setExternalTradeSourceCheckBoxesOnUI(List<String> externalTradeSources)
-	{
-		externalTradeSourcesListView.setItems(FXCollections.observableArrayList(externalTradeSources));
-	}
-
-	public void setExternalTradeStateCheckBoxesOnUI(List<String> externalTradeStates)
-	{
-		externalTradeStatesListView.setItems(FXCollections.observableArrayList(externalTradeStates));
-	}
-
-	public void setExternalTradeStatusCheckBoxesOnUI(List<String> externalTradeStatuses)
-	{
-		externalTradeStatusesListView.setItems(FXCollections.observableArrayList(externalTradeStatuses));
-	}
-
+	
 	public void setExternalTradeAccountCheckBoxesOnUI(List<String> externalTradeAccounts)
 	{
 		externalTradeAccounts.add(0, "Any");
 		externalTradeAccountsListView.setItems(FXCollections.observableArrayList(externalTradeAccounts));
 	}
-
-	private String getSQLQueryToFetchExternalTradeSources()
-	{
-		return "select etsource.external_trade_src_name as externalTradeSrcName, etsource.oid as externalTradeSrcOid from external_trade_system etsystem join external_trade_source etsource on etsystem.oid = etsource.external_trade_system_oid and etsource.external_trade_src_name <> 'NonDefined' order by etsource.external_trade_src_name";
-	}
-
-	private String getSQLQueryToFetchExternalTradeStates()
-	{
-		return "select etstate.external_trade_state_name as externalTradeStateName, etstate.oid as externalTradeStateOid from external_trade_state etstate order by etstate.external_trade_state_name";
-	}
-
-	private String getSQLQueryToFetchExternalTradeStatuses()
-	{
-		return "select etstatus.external_trade_status_name as externalTradeStatusName, etstatus.oid as externalTradeStatusOid from external_trade_status etstatus order by etstatus.external_trade_status_name";
-	}
-
+	
 	private String getSQLQueryToFetchExternalTradeAccounts()
 	{
 		return "select distinct em.external_value1 as externalValue1 from external_mapping em where em.mapping_type = 'K' order by em.external_value1";
@@ -595,20 +505,24 @@ public class MainApplicationMonitorTabController implements Initializable
 
 	private void initializeListeners()
 	{
-		externalTradeSourcesListView.getCheckModel().getCheckedItems().addListener((Change<? extends String> change) ->
+		externalTradeSourcesListView.getCheckModel().getCheckedItems().addListener((Change<? extends ExternalTradeSource> change) ->
 		{
 			handleExternalTradeSourcesCheckBoxClick(change);
 		});
+		/*externalTradeSourcesListView.getCheckModel().getCheckedItems().addListener((Change<? extends String> change) ->
+		{
+			handleExternalTradeSourcesCheckBoxClick(change);
+		});*/
 
-		externalTradeStatesListView.getCheckModel().getCheckedItems().addListener((Change<? extends String> change) ->
+		/*externalTradeStatesListView.getCheckModel().getCheckedItems().addListener((Change<? extends String> change) ->
 		{
 			handleExternalTradeStatesCheckBoxClick(change);
-		});
+		});*/
 
-		externalTradeStatusesListView.getCheckModel().getCheckedItems().addListener((Change<? extends String> change) ->
+		/*externalTradeStatusesListView.getCheckModel().getCheckedItems().addListener((Change<? extends String> change) ->
 		{
 			handleExternalTradeStatusesCheckBoxClick(change);
-		});
+		});*/
 
 		//tradeAccountListView.getCheckModel().getCheckedItems().addListener(accountsCheckBoxCheckedItemListener);
 		externalTradeAccountsListView.getCheckModel().getCheckedItems().addListener((Change<? extends String> change) ->
@@ -680,7 +594,7 @@ public class MainApplicationMonitorTabController implements Initializable
 		});
 	}
 
-	public void handleExternalTradeSourcesCheckBoxClick(Change<? extends String> change)
+	public void handleExternalTradeSourcesCheckBoxClick(Change<? extends ExternalTradeSource> change)
 	{
 		if(externalTradeSourcesListView.getCheckModel().getCheckedItems().size() == 0)
 			externalTradeSourcesTitledPane.setText(ApplicationConstants.EXTERNAL_TRADE_SOURCES_TITLEDPANE_TEXT);
@@ -693,7 +607,7 @@ public class MainApplicationMonitorTabController implements Initializable
 		else
 			exchangesFilterValueText.setText(null);
 	}
-
+	
 	public void handleExternalTradeStatesCheckBoxClick(Change<? extends String> change)
 	{
 		if(externalTradeStatesListView.getCheckModel().getCheckedItems().size() == 0)
@@ -1049,9 +963,11 @@ public class MainApplicationMonitorTabController implements Initializable
 	{
 		SQLQuery sqlQueryToFetchData = null;
 
-		List<String> selectedExternalTradeSources = getExternalTradeSourcesSelectedByUserFromUI();
-		List<String> selectedExternalTradeStatuses = getExternalTradeStatusesSelectedByUserFromUI();
-		List<String> selectedExternalTradeStates = getExternalTradeStatesSelectedByUserFromUI();
+		//List<String> selectedExternalTradeSources = getExternalTradeSourcesSelectedByUserFromUI();
+		List<ExternalTradeSource> selectedExternalTradeSources = getExternalTradeSourcesSelectedByUserFromUI();
+		
+		List<ExternalTradeState> selectedExternalTradeStates = getExternalTradeStatesSelectedByUserFromUI();
+		List<ExternalTradeStatus> selectedExternalTradeStatuses = getExternalTradeStatusesSelectedByUserFromUI();
 		List<String> selectedExternalTradeAccounts = getExternalTradeAccountsSelectedByUserFromUI();
 
 		String startDate = DateTimeFormatter.ofPattern("dd-MMM-yyyy").format(startDateDatePicker.getValue());
@@ -1076,21 +992,22 @@ public class MainApplicationMonitorTabController implements Initializable
 
 		//selectedExternalTradeSources.forEach(anExternalTradeSourceName -> externalTradeSources.add(externalTradeSourceTableMap.get(a)));
 		List<String> externalTradeSources = new ArrayList<String>();
-		for(String anExternalTradeSourceName : selectedExternalTradeSources)
+		for(ExternalTradeSource anExternalTradeSource : selectedExternalTradeSources)
 		{
-			externalTradeSources.add(externalTradeSourceTableMap.get(anExternalTradeSourceName));
+			//externalTradeSources.add(externalTradeSourceTableMap.get(anExternalTradeSourceName));
+			externalTradeSources.add(anExternalTradeSource.getOid().toString());
 		}
 
-		List<String> externalTradeStatuses = new ArrayList<String>();
-		for(String anExternalTradeStatusName : selectedExternalTradeStatuses)
+		List<String> externalTradeStates = new ArrayList<String>();
+		for(ExternalTradeState anExternalTradeState : selectedExternalTradeStates)
 		{
-			externalTradeStatuses.add(externalTradeStatusTableMap.get(anExternalTradeStatusName));
+			externalTradeStates.add(anExternalTradeState.getOid().toString());
 		}
 
-		List<String> externalTradeStates= new ArrayList<String>();
-		for(String anExternalTradeStateName : selectedExternalTradeStates)
+		List<String> externalTradeStatuses= new ArrayList<String>();
+		for(ExternalTradeStatus anExternalTradeStatus : selectedExternalTradeStatuses)
 		{
-			externalTradeStates.add(externalTradeStateTableMap.get(anExternalTradeStateName));
+			externalTradeStates.add(anExternalTradeStatus.getOid().toString());
 		}
 
 		Session session = HibernateUtil.beginTransaction();
@@ -1195,17 +1112,19 @@ public class MainApplicationMonitorTabController implements Initializable
 		});
 	}
 
-	public List<String> getExternalTradeSourcesSelectedByUserFromUI()
+	//public List<String> getExternalTradeSourcesSelectedByUserFromUI()
+	public ObservableList<ExternalTradeSource> getExternalTradeSourcesSelectedByUserFromUI()
 	{
+		//return externalTradeSourcesListView.getCheckModel().getCheckedItems();
 		return externalTradeSourcesListView.getCheckModel().getCheckedItems();
 	}
 
-	public List<String> getExternalTradeStatesSelectedByUserFromUI()
+	public List<ExternalTradeState> getExternalTradeStatesSelectedByUserFromUI()
 	{
 		return externalTradeStatesListView.getCheckModel().getCheckedItems();
 	}
 
-	public List<String> getExternalTradeStatusesSelectedByUserFromUI()
+	public List<ExternalTradeStatus> getExternalTradeStatusesSelectedByUserFromUI()
 	{
 		return externalTradeStatusesListView.getCheckModel().getCheckedItems();
 	}

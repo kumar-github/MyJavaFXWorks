@@ -114,8 +114,8 @@ public class ExternalTradeState implements Serializable {
     }
 
     @Override
-    public String toString() {
-        return "ExternalTradeState[ oid=" + oid + " ]";
+    public String toString()
+    {
+        return getExternalTradeStateName();
     }
-    
 }

@@ -106,6 +106,6 @@
    <mapping class="com.tc.app.exchangemonitor.model.ExternalTradeType" />
    <mapping class="com.tc.app.exchangemonitor.model.ExternalComment" />
    <mapping class="com.tc.app.exchangemonitor.model.ExternalMapping" />
-   
+   <mapping resource="/hibernate/NamedQueries.xml"/>
    </session-factory>
 </hibernate-configuration>

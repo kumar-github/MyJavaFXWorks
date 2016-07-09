@@ -30,7 +30,7 @@
 		<content>
 			<VBox prefHeight="260.0">
 			<children>
-				<ListView fx:id="exchangesListView" focusTraversable="false" prefHeight="100.0" prefWidth="100.0" VBox.vgrow="ALWAYS" />
+				<ListView fx:id="externalTradeSourcesListView" focusTraversable="false" prefHeight="100.0" prefWidth="100.0" VBox.vgrow="ALWAYS" />
 			</children>
 			<padding><Insets top="1.0" /></padding>
 			</VBox>

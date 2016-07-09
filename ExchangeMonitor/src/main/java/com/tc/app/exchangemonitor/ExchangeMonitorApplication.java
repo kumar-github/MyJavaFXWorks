@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.sun.javafx.application.LauncherImpl;
 import com.tc.app.exchangemonitor.util.HibernateUtil;
+import com.tc.app.exchangemonitor.util.ReferenceDataCache;
 import com.tc.app.exchangemonitor.view.java.MainApplicationView;
 import com.tc.framework.injection.Injector;
 
@@ -52,6 +53,7 @@ public class ExchangeMonitorApplication extends Application
 	{
 		System.out.println("ExchangeMonitorApplication init called by " + Thread.currentThread().getName());
 		HibernateUtil.getSessionFactory();
+		ReferenceDataCache.loadAllReferenceData();
 		for(int i=0; i<1000; i++)
 		{
 			double progress = (100 * i) / 1000;
