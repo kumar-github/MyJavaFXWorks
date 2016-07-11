@@ -94,7 +94,7 @@
 		</content>
 		</TitledPane>
 		
-		<TitledPane fx:id="actionTitledPane" mnemonicParsing="true" text="_Action">
+		<TitledPane fx:id="actionTitledPane" expanded="false" mnemonicParsing="true" text="_Action">
 		<font><Font name="System Bold" size="12.0" />	</font>
 		<content>
 			<!--<AnchorPane> revert back if any problem-->
@@ -186,8 +186,8 @@
 			<content>
 				<FlowPane prefHeight="71.0" prefWidth="150.0" vgap="5.0">
 				<children>
-					<DatePicker fx:id="startDateDatePicker" prefHeight="25.0" prefWidth="130.0" promptText="Start Date" />
-					<DatePicker fx:id="endDateDatePicker" prefHeight="25.0" prefWidth="130.0" promptText="End Date" />
+					<DatePicker fx:id="startDateDatePicker" prefHeight="25.0" prefWidth="130.0" promptText="Start Date" editable="false"/>
+					<DatePicker fx:id="endDateDatePicker" prefHeight="25.0" prefWidth="130.0" promptText="End Date" editable="false"/>
 				</children>
 				</FlowPane>
 			</content>

@@ -382,8 +382,6 @@ public class MainApplicationMonitorTabController implements Initializable
 		/**
 		 * fetch exchanges from external_trade_source table and construct checkbox for each exchange and set it on the UI
 		 */
-		//List<String> externalTradeSourceNames = fetchAllExternalTradeSourcesFromDB();
-		//setExternalTradeSourceCheckBoxesOnUI(externalTradeSourceNames);
 		fetchExternalTradeSources();
 
 		/**
@@ -395,14 +393,13 @@ public class MainApplicationMonitorTabController implements Initializable
 		 * fetch external trades statuses from external_trade_status table and construct checkbox for each trade status and set it on the UI
 		 */
 		fetchExternalTradeStatuses();
-
+		
 		/**
 		 * fetch trade accounts from external_mapping table and with mapping_type 'K' and construct checkbox for trade account and set it on the UI
 		 */
-		//List<String> externalTradeAccounts = fetchExternalTradeAccountsFromDB();
 		externalTradeAccounts = fetchAllExternalTradeAccountsFromDB();
 		setExternalTradeAccountCheckBoxesOnUI(externalTradeAccounts);
-
+		
 		/**
 		 * set yesterday's date as default start date
 		 */
@@ -460,7 +457,7 @@ public class MainApplicationMonitorTabController implements Initializable
 		sqlQueryToFetchData.addScalar(scalarColumn, StringType.INSTANCE);
 		return sqlQueryToFetchData.list();
 	}
-
+	
 	public List<Object> fetchDataFromDB(String sqlQueryString, String scalarColumn1, String scalarColumn2)
 	{
 		List<Object> aTable = Collections.emptyList();
@@ -490,7 +487,8 @@ public class MainApplicationMonitorTabController implements Initializable
 
 	private void setAnyUIComponentStateIfNeeded()
 	{
-		actionTitledPane.setExpanded(false);
+		//achieved it thru fxml
+		//actionTitledPane.setExpanded(false);
 	}
 
 	private void setComponentToolTipIfNeeded()
@@ -505,24 +503,24 @@ public class MainApplicationMonitorTabController implements Initializable
 
 	private void initializeListeners()
 	{
-		externalTradeSourcesListView.getCheckModel().getCheckedItems().addListener((Change<? extends ExternalTradeSource> change) ->
-		{
-			handleExternalTradeSourcesCheckBoxClick(change);
-		});
 		/*externalTradeSourcesListView.getCheckModel().getCheckedItems().addListener((Change<? extends String> change) ->
 		{
 			handleExternalTradeSourcesCheckBoxClick(change);
 		});*/
-
-		/*externalTradeStatesListView.getCheckModel().getCheckedItems().addListener((Change<? extends String> change) ->
+		externalTradeSourcesListView.getCheckModel().getCheckedItems().addListener((Change<? extends ExternalTradeSource> change) ->
+		{
+			handleExternalTradeSourcesCheckBoxClick(change);
+		});
+		
+		externalTradeStatesListView.getCheckModel().getCheckedItems().addListener((Change<? extends ExternalTradeState> change) ->
 		{
 			handleExternalTradeStatesCheckBoxClick(change);
-		});*/
+		});
 
-		/*externalTradeStatusesListView.getCheckModel().getCheckedItems().addListener((Change<? extends String> change) ->
+		externalTradeStatusesListView.getCheckModel().getCheckedItems().addListener((Change<? extends ExternalTradeStatus> change) ->
 		{
 			handleExternalTradeStatusesCheckBoxClick(change);
-		});*/
+		});
 
 		//tradeAccountListView.getCheckModel().getCheckedItems().addListener(accountsCheckBoxCheckedItemListener);
 		externalTradeAccountsListView.getCheckModel().getCheckedItems().addListener((Change<? extends String> change) ->
@@ -554,7 +552,7 @@ public class MainApplicationMonitorTabController implements Initializable
 	 * 																																							All Listeners methods starts here
 	 * ============================================================================================================================================================================
 	 */
-
+	
 	public void handleExternalTradeAccountsFilterByKey(String oldValue, String newValue)
 	{
 		// If the number of characters in the text box is less than last time it must be because the user pressed delete
@@ -608,7 +606,7 @@ public class MainApplicationMonitorTabController implements Initializable
 			exchangesFilterValueText.setText(null);
 	}
 	
-	public void handleExternalTradeStatesCheckBoxClick(Change<? extends String> change)
+	public void handleExternalTradeStatesCheckBoxClick(Change<? extends ExternalTradeState> change)
 	{
 		if(externalTradeStatesListView.getCheckModel().getCheckedItems().size() == 0)
 			externalTradeStatesTitledPane.setText(ApplicationConstants.EXTERNAL_TRADE_STATES_TITLEDPANE_TEXT);
@@ -622,7 +620,7 @@ public class MainApplicationMonitorTabController implements Initializable
 			statesFilterValueText.setText(null);
 	}
 
-	public void handleExternalTradeStatusesCheckBoxClick(Change<? extends String> change)
+	public void handleExternalTradeStatusesCheckBoxClick(Change<? extends ExternalTradeStatus> change)
 	{
 		if(externalTradeStatusesListView.getCheckModel().getCheckedItems().size() == 0)
 			externalTradeStatusesTitledPane.setText(ApplicationConstants.EXTERNAL_TRADE_STATUSES_TITLEDPANE_TEXT);
@@ -1007,7 +1005,7 @@ public class MainApplicationMonitorTabController implements Initializable
 		List<String> externalTradeStatuses= new ArrayList<String>();
 		for(ExternalTradeStatus anExternalTradeStatus : selectedExternalTradeStatuses)
 		{
-			externalTradeStates.add(anExternalTradeStatus.getOid().toString());
+			externalTradeStatuses.add(anExternalTradeStatus.getOid().toString());
 		}
 
 		Session session = HibernateUtil.beginTransaction();
@@ -1115,7 +1113,6 @@ public class MainApplicationMonitorTabController implements Initializable
 	//public List<String> getExternalTradeSourcesSelectedByUserFromUI()
 	public ObservableList<ExternalTradeSource> getExternalTradeSourcesSelectedByUserFromUI()
 	{
-		//return externalTradeSourcesListView.getCheckModel().getCheckedItems();
 		return externalTradeSourcesListView.getCheckModel().getCheckedItems();
 	}
 

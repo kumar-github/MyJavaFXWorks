@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import com.tc.app.exchangemonitor.model.ExternalMapping;
 import com.tc.app.exchangemonitor.model.ExternalTradeSource;
 import com.tc.app.exchangemonitor.model.ExternalTradeState;
 import com.tc.app.exchangemonitor.model.ExternalTradeStatus;
@@ -46,6 +47,15 @@ public class ReferenceDataCache
 		return externalTradeStatusReferenceDataHashMap;
 	}
 	
+	public static ConcurrentMap<String, ExternalMapping> fetchExternalTradeAccounts()
+	{
+		if(externalTradeAccountReferenceDataHashMap == null)
+		{
+			loadExternalTradeAccountReferenceData();
+		}
+		return externalTradeAccountReferenceDataHashMap;
+	}
+	
 	/* Do we really need a map here? Think please...*/
 	private static ConcurrentMap<Integer, ExternalTradeSource> externalTradeSourceReferenceDataHashMap = null;
 	@SuppressWarnings("unchecked")
@@ -58,7 +68,7 @@ public class ReferenceDataCache
 			long startTime = System.currentTimeMillis();
 			List<ExternalTradeSource> externalTradeSourceList = HibernateReferenceDataFetchUtil.fetchDataFromDBForSQLNamedQuery("ExternalTradeSource.findAllExternalTradeSources");
 			long endTime = System.currentTimeMillis();
-			System.out.println("It took " + (endTime - startTime) + "milli seconds to fetch " + externalTradeSourceList.size() + "external trade sources.");
+			System.out.println("It took " + (endTime - startTime) + " milli seconds to fetch " + externalTradeSourceList.size() + " external trade sources.");
 
 			if(externalTradeSourceList != null)
 			{
@@ -81,7 +91,7 @@ public class ReferenceDataCache
 			long startTime = System.currentTimeMillis();
 			List<ExternalTradeState> externalTradeStateList = HibernateReferenceDataFetchUtil.fetchDataFromDBForSQLNamedQuery("ExternalTradeState.findAllExternalTradeStates");
 			long endTime = System.currentTimeMillis();
-			System.out.println("It took " + (endTime - startTime) + "milli seconds to fetch " + externalTradeStateList.size() + "external trade states.");
+			System.out.println("It took " + (endTime - startTime) + " milli seconds to fetch " + externalTradeStateList.size() + " external trade states.");
 
 			if(externalTradeStateList != null)
 			{
@@ -104,13 +114,37 @@ public class ReferenceDataCache
 			long startTime = System.currentTimeMillis();
 			List<ExternalTradeStatus> externalTradeStatusList = HibernateReferenceDataFetchUtil.fetchDataFromDBForSQLNamedQuery("ExternalTradeStatus.findAllExternalTradeStatuses");
 			long endTime = System.currentTimeMillis();
-			System.out.println("It took " + (endTime - startTime) + "milli seconds to fetch " + externalTradeStatusList.size() + "external trade statuses.");
+			System.out.println("It took " + (endTime - startTime) + " milli seconds to fetch " + externalTradeStatusList.size() + " external trade statuses.");
 
 			if(externalTradeStatusList != null)
 			{
 				for(ExternalTradeStatus anExternalTradeStatus : externalTradeStatusList)
 				{
 					externalTradeStatusReferenceDataHashMap.put(anExternalTradeStatus.getOid(), anExternalTradeStatus);
+				}
+			}
+		}
+	}
+	
+	private static ConcurrentMap<String, ExternalMapping> externalTradeAccountReferenceDataHashMap = null;
+	@SuppressWarnings("unchecked")
+	public static void loadExternalTradeAccountReferenceData()
+	{
+		if(externalTradeAccountReferenceDataHashMap == null)
+		{
+			externalTradeAccountReferenceDataHashMap = new ConcurrentHashMap<String, ExternalMapping>();
+
+			long startTime = System.currentTimeMillis();
+			List<ExternalMapping> externalTradeAccountList = HibernateReferenceDataFetchUtil.fetchDataFromDBForSQLNamedQuery("ExternalMapping.findAllExternalTradeAccounts");
+			long endTime = System.currentTimeMillis();
+			System.out.println("It took " + (endTime - startTime) + " milli seconds to fetch " + externalTradeAccountList.size() + " external trade accounts.");
+
+			if(externalTradeAccountList != null)
+			{
+				for(ExternalMapping anExternalTradeAccount : externalTradeAccountList)
+				{
+					//externalTradeAccountReferenceDataHashMap.put(anExternalTradeStatus.getOid(), anExternalTradeStatus);
+					externalTradeAccountReferenceDataHashMap.put(anExternalTradeAccount.getExternalValue1(), anExternalTradeAccount);
 				}
 			}
 		}
