@@ -170,8 +170,8 @@ public class ExternalMapping implements Serializable {
     }
 
     @Override
-    public String toString() {
-        return "ExternalMapping[ oid=" + oid + " ]";
+    public String toString()
+    {
+    	return getExternalValue1();
     }
-    
 }

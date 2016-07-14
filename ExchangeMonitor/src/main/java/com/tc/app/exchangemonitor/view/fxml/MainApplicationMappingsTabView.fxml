@@ -83,12 +83,15 @@
 	<BorderPane.margin><Insets bottom="5.0" left="0.0" right="5.0" top="5.0" /></BorderPane.margin>
 	<padding><Insets bottom="2.0" left="2.0" right="2.0" top="1.0" /></padding>
 	<children>
+		<fx:include source="TradersMappingTableView.fxml" />
+		<!--
 		<TableView cache="true" tableMenuButtonVisible="true" BorderPane.alignment="CENTER" VBox.vgrow="ALWAYS">
 		<columns>
 			<TableColumn prefWidth="130.0" text="External Trade Oid" />
 		</columns>
 		<BorderPane.margin><Insets bottom="10.0" left="5.0" right="10.0" top="5.0" /></BorderPane.margin>
 		</TableView>
+		-->
 	</children>
 	</VBox>
 </center>

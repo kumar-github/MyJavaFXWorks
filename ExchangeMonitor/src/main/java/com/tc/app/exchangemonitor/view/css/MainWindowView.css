@@ -1,125 +1,60 @@
-/*
-.table-row-cell:filled:selected { 
-    -fx-background: -fx-selection-bar;
-    -fx-table-cell-border-color: derive(-fx-selection-bar, 20%);
-    -fx-background-color: linear-gradient(#38B8EB, #32A4D1, #247C9E);
-
-}
-.table-row-cell:odd:filled:selected {
-    -fx-background: -fx-selection-bar;
-    -fx-table-cell-border-color: derive(-fx-selection-bar, 20%);
-    -fx-background-color: linear-gradient(#38B8EB, #32A4D1, #247C9E);
-}
-*/
-
-#test
+HBox
 {
-    -light-black: rgb(74, 75, 78);
-    -dark-highlight: rgb(87, 89, 92);
-    -dark-black: rgb(39, 40, 40);
-    -darkest-black: rgb(5, 5, 5);
-    -mid-gray: rgb(216, 222, 227);
-    /*-fx-background-color: -mid-gray;*/
-    -fx-background-color: #3b3a36;
-}
-
-/*
-.button:focused {
-    -fx-background-color: -fx-outer-border, -fx-inner-border, -fx-body-color; 
-    -fx-background-insets: 0, 1, 2;
-    -fx-background-radius: 5, 4, 3;
-}
-
-*:focused
+    TOP-COLOR: ladder(-fx-base, derive(-fx-base,0%) 0%, derive(-fx-base,46%) 100%);
+    -fx-background-color: linear-gradient(to bottom, derive(TOP-COLOR,25%) 0%, -fx-outer-border 90%), linear-gradient(to bottom, TOP-COLOR 2%, derive(-fx-base,-2.1%) 95%); 
+    -fx-background-insets: 0 0 0 0, 1 0 1 0;
+    /*
+    -fx-padding: 0.416667em 0.5em 0.416667em 0.5em;
+    -fx-spacing: 0.333em;
+    -fx-alignment: CENTER_LEFT;*/
+    }
+ 
+.mainWindowViewHomeImageViewStyle
 {
-	outline:none;
-	-fx-background-color: -fx-outer-border, -fx-inner-border, -fx-body-color;
-	-fx-background-insets: 0, 1, 2;
-	-fx-background-radius: 5, 4, 3;
+	-fx-image:url("/icons/home-20.png");
 }
 
-.table-view:focused
+.mainWindowViewHomeImageViewStyle:hover
 {
-	outline:none;
-	-fx-background-color: -fx-outer-border, -fx-inner-border, -fx-body-color;
-	-fx-background-insets: 0, 1, 2;
-	-fx-background-radius: 5, 4, 3;
+	-fx-opacity: 0.5;
 }
-*/
 
-/*.table-view
+.mainWindowViewMinimizeImageViewStyle
 {
-   -fx-background-color: transparent;
+	-fx-image:url("/icons/minimize-20.png");
 }
 
-.table-view:focused
+.mainWindowViewMinimizeImageViewStyle:hover
 {
-    -fx-background-color: transparent;
+	-fx-opacity: 0.5;
 }
 
-.root{
-    -fx-background-color: #262626;
-}
-
-.table-view{
-   -fx-background-color: transparent;
-}
-
-.table-view:focused{
-    -fx-background-color: transparent;
-}
-
-.table-view .column-header-background{
-    -fx-background-color: linear-gradient(#131313 0%, #424141 100%);
-}
-
-.table-view .column-header-background .label{
-    -fx-background-color: transparent;
-    -fx-text-fill: white;
-}
-
-.table-view .column-header {
-    -fx-background-color: transparent;
-}
-
-.table-view .table-cell{
-    -fx-text-fill: white;
-}
-
-.table-row-cell{
-    -fx-background-color: -fx-table-cell-border-color, #616161;
-    -fx-background-insets: 0, 0 0 1 0;
-    -fx-padding: 0.0em;
-}
-
-.table-row-cell:odd{
-    -fx-background-color: -fx-table-cell-border-color, #424242;
-    -fx-background-insets: 0, 0 0 1 0;
-    -fx-padding: 0.0em;  
-}
-
-.table-row-cell:selected {
-    -fx-background-color: #005797;
-    -fx-background-insets: 0;
-    -fx-background-radius: 1;
-}
-
-.table-view > .virtual-flow > .scroll-bar:vertical,
-.table-view > .virtual-flow > .scroll-bar:vertical > .track,
-.table-view > .virtual-flow > .scroll-bar:vertical > .track-background, 
-.table-view > .virtual-flow > .scroll-bar:horizontal,
-.table-view > .virtual-flow > .scroll-bar:horizontal > .track,
-.table-view > .virtual-flow > .scroll-bar:horizontal > .track-background {
-    -fx-background-color: transparent;
-}
-
-
-
-.table-view > .virtual-flow > .scroll-bar > .increment-button, 
-.table-view > .virtual-flow > .scroll-bar > .decrement-button {
-    -fx-opacity: 0;
-}
-
-.table-view .filler
+.mainWindowViewMaximizeImageViewStyle
 {
-}*/
+	-fx-image:url("/icons/maximize-20.png");
+}
+
+.mainWindowViewMaximizeImageViewStyle:hover
+{
+	-fx-opacity: 0.5;
+}
+
+.mainWindowViewRestoreImageViewStyle
+{
+	-fx-image:url("/icons/restore-20.png");
+}
+
+.mainWindowViewRestoreImageViewStyle:hover
+{
+	-fx-opacity: 0.5;
+}
+
+.mainWindowViewCloseImageViewStyle
+{
+	-fx-image:url("/icons/close-20.png");
+}
+
+.mainWindowViewCloseImageViewStyle:hover
+{
+	-fx-opacity: 0.5;
+}

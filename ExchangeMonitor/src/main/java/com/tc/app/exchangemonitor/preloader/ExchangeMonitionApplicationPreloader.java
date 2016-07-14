@@ -24,13 +24,13 @@ public class ExchangeMonitionApplicationPreloader extends Preloader
 	
 	public ExchangeMonitionApplicationPreloader()
 	{
-		System.out.println("ExchangeMonitorApplicationPreloader constructor called by " + Thread.currentThread().getName());
+		LOGGER.debug("ExchangeMonitorApplicationPreloader constructor called by ", Thread.currentThread().getName());
 	}
 	
 	@Override
 	public void init() throws Exception
 	{
-		System.out.println("ExchangeMonitorApplicationPreloader init called by " + Thread.currentThread().getName());
+		LOGGER.debug("ExchangeMonitorApplicationPreloader init called by ", Thread.currentThread().getName());
 		super.init();
 		/* If the preloader has complex UI it's initialization can be done in here. Ensure that you do it with Platform.runLater() */
 	}
@@ -38,7 +38,7 @@ public class ExchangeMonitionApplicationPreloader extends Preloader
 	@Override
 	public void start(Stage primaryStage) throws Exception
 	{
-		System.out.println("ExchangeMonitorApplicationPreloader start called by " + Thread.currentThread().getName());
+		LOGGER.debug("ExchangeMonitorApplicationPreloader start called by ", Thread.currentThread().getName());
 		preloaderStage = primaryStage;
 		preloaderStage.setScene(createPreloaderScene());
 		
@@ -76,17 +76,17 @@ public class ExchangeMonitionApplicationPreloader extends Preloader
 		{
 		case BEFORE_LOAD:
 			// Called after preloader#start is called.
-			System.out.println("ExchangeMonitorApplicationPreloader " + notificationType);
+			LOGGER.debug("ExchangeMonitorApplicationPreloader ", notificationType);
 			break;
 		
 		case BEFORE_INIT:
 			//Called before application#init is called.
-			System.out.println("ExchangeMonitorApplicationPreloader " + notificationType);
+			LOGGER.debug("ExchangeMonitorApplicationPreloader ", notificationType);
 			break;
 		
 		case BEFORE_START:
 			//Called after application#init and before application#start is called.
-			System.out.println("ExchangeMonitorApplicationPreloader " + notificationType);
+			LOGGER.debug("ExchangeMonitorApplicationPreloader ", notificationType);
 			if(preloaderStage.isShowing())
 			{
 				FadeTransition fadeTransition = new FadeTransition(Duration.millis(1000), preloaderStage.getScene().getRoot());

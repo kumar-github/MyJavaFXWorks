@@ -3,6 +3,7 @@ package com.tc.app.exchangemonitor.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -260,6 +261,7 @@ public class ExternalTrade implements Serializable {
         this.externalTradeSystemOid = externalTradeSystemOid;
     }
 
+    /*
     @Override
     public int hashCode()
     {
@@ -267,7 +269,17 @@ public class ExternalTrade implements Serializable {
         hash += (oid != null ? oid.hashCode() : 0);
         return hash;
     }
+    */
+    
+    @Override
+    public int hashCode()
+    {
+    	int hash = 5;
+    	hash = 97 * hash + Objects.hashCode(this.oid);
+    	return hash;
+    }
 
+    /*
     @Override
     public boolean equals(Object object)
     {
@@ -282,6 +294,21 @@ public class ExternalTrade implements Serializable {
             return false;
         }
         return true;
+    }
+    */
+    
+    @Override
+    public boolean equals(Object obj)
+    {
+    	if(obj == null)
+    		return false;
+    	if(this.getClass() != obj.getClass())
+    		return false;
+    	
+    	final ExternalTrade other = (ExternalTrade)obj;
+    	if(!Objects.equals(this.oid, other.oid))
+    		return false;
+    	return true;
     }
 
     @Override

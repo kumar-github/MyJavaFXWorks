@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import org.controlsfx.control.StatusBar?>
+
+<BorderPane fx:id="mainWindowBorderPane" prefHeight="750.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tc.app.exchangemonitor.controller.MainWindowController">
+<top>
+	<VBox>
+	<children>
+		<HBox spacing="10.0">
+		<children>
+			<ImageView fx:id="homeImageView" cache="true" pickOnBounds="true" preserveRatio="true" styleClass="mainWindowViewHomeImageViewStyle"/>
+			<ImageView cache="true" pickOnBounds="true" preserveRatio="true" visible="false" styleClass="mainWindowViewHomeImageViewStyle"/>
+			
+			<Region HBox.hgrow="ALWAYS" />
+			<Label prefHeight="25.0" text="${controller.APPLICATION_TITLE}" />
+			<!--<Label prefHeight="25.0" text="%Abcd" />-->
+			<!--<Label prefHeight="25.0" text="Application Name" />-->
+			<Region HBox.hgrow="ALWAYS" />
+			
+			<ImageView fx:id="minimizeImageView" cache="true" pickOnBounds="true" preserveRatio="true" styleClass="mainWindowViewMinimizeImageViewStyle">
+			<HBox.margin><Insets top="2.0" /></HBox.margin>
+			</ImageView>
+			
+			<ImageView fx:id="maximizeOrRestoreImageView" cache="true" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" styleClass="mainWindowViewMaximizeImageViewStyle" onMouseClicked="#handleMaximizeOrRestoreImageViewClick">
+				<HBox.margin><Insets top="4.0" /></HBox.margin>
+			</ImageView>
+			
+			<ImageView fx:id="closeImageView" cache="true" pickOnBounds="true" preserveRatio="true" styleClass="mainWindowViewCloseImageViewStyle">
+			<HBox.margin><Insets top="2.0" /></HBox.margin>
+			</ImageView>
+		</children>
+		<!--<padding><Insets bottom="1.0" left="1.0" right="1.0" top="1.0" /></padding>-->
+		</HBox>
+	</children>
+	</VBox>
+</top>
+<bottom>
+	<StatusBar fx:id="mainWindowStatusBar" progress="0.0" text=""/>
+</bottom>
+</BorderPane>

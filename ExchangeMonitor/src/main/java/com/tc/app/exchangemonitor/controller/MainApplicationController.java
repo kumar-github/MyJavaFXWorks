@@ -25,7 +25,7 @@ public class MainApplicationController implements Initializable
 	
 	@FXML
 	private MainApplicationStatusBarController mainApplicationStatusBarViewController;
-
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
 	{
@@ -148,20 +148,6 @@ public class MainApplicationController implements Initializable
 		tradeAccountListView.setItems(subentries);
 	}
 	 */
-
-	/*public ObservableList<DummyTableData> getDummyTableData()
-	{
-		ObservableList<DummyTableData> dummyTableData = FXCollections.observableArrayList();
-
-		dummyTableData.add(new DummyTableData(101, "Ken", "Anderson", new Date()));		
-		dummyTableData.add(new DummyTableData(102, "Davinder", "Virk", new Date()));
-		dummyTableData.add(new DummyTableData(103, "Betty", "Quay", new Date()));
-		dummyTableData.add(new DummyTableData(104, "Gwen", "Woody", new Date()));
-		dummyTableData.add(new DummyTableData(105, "Robert", "Brad", new Date()));
-		dummyTableData.add(new DummyTableData(106, "Rama", "Pakala", new Date()));
-
-		return dummyTableData;
-	}*/
 
 	/**
 	 * ============================================================================================================================================================================

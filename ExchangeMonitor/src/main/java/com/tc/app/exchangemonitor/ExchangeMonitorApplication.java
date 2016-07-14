@@ -38,20 +38,20 @@ public class ExchangeMonitorApplication extends Application
 	
 	public ExchangeMonitorApplication()
 	{
-		System.out.println("ExchangeMonitorApplication constructor called by " + Thread.currentThread().getName());
+		LOGGER.debug("ExchangeMonitorApplication constructor called by ", Thread.currentThread().getName());
 	}
 	
 	public static void main(String[] args)
 	{
-		System.out.println("ExchangeMonitorApplication main called by " + Thread.currentThread().getName());
+		LOGGER.debug("ExchangeMonitorApplication main called by ", Thread.currentThread().getName());
 		Application.launch();
-		//LauncherImpl.launchApplication(ExchangeMonitorApplication.class, ExchangeMonitionApplicationPreloader.class, args); 
+		//LauncherImpl.launchApplication(ExchangeMonitorApplication.class, ExchangeMonitionApplicationPreloader.class, args);
 	}
 
 	@Override
 	public void init()
 	{
-		System.out.println("ExchangeMonitorApplication init called by " + Thread.currentThread().getName());
+		LOGGER.debug("ExchangeMonitorApplication init called by ", Thread.currentThread().getName());
 		HibernateUtil.getSessionFactory();
 		ReferenceDataCache.loadAllReferenceData();
 		for(int i=0; i<1000; i++)
@@ -64,7 +64,7 @@ public class ExchangeMonitorApplication extends Application
 	@Override
 	public void start(Stage primaryStage)
 	{
-		System.out.println("ExchangeMonitorApplication start called by " + Thread.currentThread().getName());
+		LOGGER.debug("ExchangeMonitorApplication start called by ", Thread.currentThread().getName());
 		// Do all the heavy lifting stuff. One Question. Can we do the heavy lifting stuff in init() instead here?
 		// then load the primary stage
 		/*
@@ -234,7 +234,7 @@ public class ExchangeMonitorApplication extends Application
 	@Override
 	public void stop() throws Exception
 	{
-		System.out.println("ExchangeMonitorApplication stop called by " + Thread.currentThread().getName());
+		LOGGER.debug("ExchangeMonitorApplication stop called by ", Thread.currentThread().getName());
 		super.stop();
 		Injector.forgetAll();
 		HibernateUtil.closeSessionFactory();
@@ -246,20 +246,6 @@ public class ExchangeMonitorApplication extends Application
 	private void closeStage(WindowEvent windowEvent)
 	{
 		windowEvent.consume();
-		/*windowEvent.consume();
-		primaryStage.close();
-		Platform.exit();
-		System.exit(0);*/
-        /*FadeTransition fade = new FadeTransition(Duration.seconds(0.5), primaryScene.getRoot());
-        fade.setOnFinished(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                System.exit(0);
-            }
-        });
-        fade.setFromValue(1);
-        fade.setToValue(0);
-        fade.play();*/
 		RotateTransition r = new RotateTransition(Duration.seconds(0.5), primaryScene.getRoot());
 		r.setOnFinished((ActionEvent actionEvent) -> {
 			primaryStage.close();

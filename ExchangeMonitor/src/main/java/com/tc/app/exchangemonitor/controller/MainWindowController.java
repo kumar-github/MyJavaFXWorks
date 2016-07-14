@@ -3,69 +3,87 @@ package com.tc.app.exchangemonitor.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javax.inject.Inject;
-
-import com.tc.app.exchangemonitor.view.java.MainWindowMenuBarView;
-import com.tc.app.exchangemonitor.view.java.MainWindowStatusBarView;
-import com.tc.app.exchangemonitor.view.java.MainWindowTabPaneView;
+import org.controlsfx.control.StatusBar;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 
 public class MainWindowController implements Initializable
 {
 	@FXML
-	BorderPane mainWindowBorderPane;
-	
-	
-	//ObservableList data = FXCollections.observableArrayList("One", "Two", "Three", "Four");
-	//@FXML
-	//private ListView listView;
-	
-	@Inject
-	private String prefix;
-	
-	
+	private ImageView homeImageView;
 	@FXML
-    private void initialize() 
-    {
-    	System.out.println("...........");
-    }
-    
-    public MainWindowController()
-    {
-    	System.out.println("constructor");
-    }
+	private ImageView minimizeImageView;
+	@FXML
+	private ImageView maximizeOrRestoreImageView;
+	@FXML
+	private ImageView closeImageView;
+	@FXML
+	private BorderPane mainWindowBorderPane;
+	@FXML
+	private StatusBar mainWindowStatusBar;
+	
+	private String APPLICATION_TITLE = "Application Title New"; 
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb)
-    {
-    	MainWindowMenuBarView mainWindowMenuBarView = new MainWindowMenuBarView();
-    	mainWindowBorderPane.setTop(mainWindowMenuBarView.getView());
-    	
-    	MainWindowStatusBarView mainWindowStatusBarView = new MainWindowStatusBarView();
-    	mainWindowBorderPane.setBottom(mainWindowStatusBarView.getView());
-    	
-    	MainWindowTabPaneView mainWindowTabPaneView = new MainWindowTabPaneView();
-    	mainWindowBorderPane.setCenter(mainWindowTabPaneView.getView());
-    	
-    	//fetched from dashboard.properties
-        if(rb != null)
-        {
-        	System.out.println("theEnd : " + rb.getString("theEnd") + "prefix :" + prefix);
-        	/*listView.setItems(data);
-        	
-            listView.setCellFactory(CheckBoxListCell.forListView(new Callback<String, ObservableValue<Boolean>>() {
-                @Override
-                public ObservableValue<Boolean> call(String item) {
-                    BooleanProperty observable = new SimpleBooleanProperty();
-                    observable.addListener((obs, wasSelected, isNowSelected) -> 
-                        System.out.println("Check box for "+item+" changed from "+wasSelected+" to "+isNowSelected)
-                    );
-                    return observable ;
-                }
-            }));*/
-        }
-    }
+	@Override
+	public void initialize(URL location, ResourceBundle resources)
+	{
+	}
+
+	private boolean isInMaximizedState = true;
+	@FXML
+	private void handleMaximizeOrRestoreImageViewClick()
+	{
+		/* We may be here bcoz user clicked maximize of restore. so first find out. */
+		if(isInMaximizedState)
+		{
+			removeCSSStyleFromNode(maximizeOrRestoreImageView, "mainWindowViewMaximizeImageViewStyle");
+			addCSSStyleToNode(maximizeOrRestoreImageView, "mainWindowViewRestoreImageViewStyle");
+		}
+		//else if(isInRestoredState)
+		else
+		{
+			removeCSSStyleFromNode(maximizeOrRestoreImageView, "mainWindowViewRestoreImageViewStyle");
+			addCSSStyleToNode(maximizeOrRestoreImageView, "mainWindowViewMaximizeImageViewStyle");
+		}
+	}
+
+	private void removeCSSStyleFromNode(Node aNode, String cssStyle)
+	{
+		aNode.getStyleClass().remove(cssStyle);
+	}
+
+	private void addCSSStyleToNode(Node aNode, String cssStyle)
+	{
+		aNode.getStyleClass().add(cssStyle);
+	}
+	
+	private void makeSceneDraggable()
+	{
+		mainWindowBorderPane.setOnMousePressed(event ->
+		{
+			//xOffset = primaryStage.getX() - event.getScreenX();
+			//yOffset = primaryStage.getY() - event.getScreenY();
+			//primaryScene.setCursor(Cursor.MOVE);
+		});
+		
+		mainWindowBorderPane.setOnMouseReleased(event ->
+		{
+			//primaryScene.setCursor(Cursor.HAND);
+		});
+		
+		mainWindowBorderPane.setOnMouseDragged(event ->
+		{
+			//primaryStage.setX(event.getScreenX() + xOffset);
+			//primaryStage.setY(event.getScreenY() + yOffset);
+		});
+	}
+	
+	public String getAPPLICATION_TITLE()
+	{
+		return APPLICATION_TITLE;
+	}
 }

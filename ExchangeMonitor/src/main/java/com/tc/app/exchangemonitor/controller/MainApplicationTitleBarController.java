@@ -3,6 +3,8 @@ package com.tc.app.exchangemonitor.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javax.inject.Inject;
+
 import org.controlsfx.control.PopOver;
 import org.controlsfx.control.PopOver.ArrowLocation;
 
@@ -37,6 +39,9 @@ public class MainApplicationTitleBarController implements Initializable
 
 	@FXML
 	private ImageView closeImageView;
+	
+	@Inject
+	private String APPLICATION_TITLE;
 	
 	private boolean isInMaximizedState = false;
 	private boolean isInRestoredState = true;
@@ -247,5 +252,10 @@ public class MainApplicationTitleBarController implements Initializable
 		BorderPane mainApplicationBorderPane = ApplicationHelper.controllersMap.getInstance(MainApplicationController.class).getMainApplicationBorderPane();
 		Stage primaryStage = ((Stage)(mainApplicationBorderPane.getScene().getWindow()));
 		savedBounds = new BoundingBox(primaryStage.getX(), primaryStage.getY(), primaryStage.getWidth(), primaryStage.getHeight());
+	}
+	
+	public String getAPPLICATION_TITLE()
+	{
+		return APPLICATION_TITLE;
 	}
 }

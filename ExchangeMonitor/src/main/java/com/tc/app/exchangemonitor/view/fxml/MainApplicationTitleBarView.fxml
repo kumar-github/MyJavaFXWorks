@@ -16,7 +16,7 @@
 	<ImageView cache="true" pickOnBounds="true" preserveRatio="true" visible="false"><image><Image url="@/icons/Options-6.png" /></image></ImageView>
 	
 	<Region HBox.hgrow="ALWAYS" />
-	<Label styleClass="applicationMainWindowTitleLabelStyle" text="Exchange Monitor" />
+	<Label styleClass="applicationMainWindowTitleLabelStyle" text="${controller.APPLICATION_TITLE}" />
 	<Region HBox.hgrow="ALWAYS" />
 	<ImageView fx:id="minimizeImageView" cache="true" onMouseClicked="#handleMinimizeImageViewClick" pickOnBounds="true" preserveRatio="true" styleClass="applicationMainWindowMinimizeImageViewStyle" />
 	<ImageView fx:id="maximizeorRestoreImageView" cache="true" onMouseClicked="#handleMaximizeorRestoreImageViewClick" pickOnBounds="true" preserveRatio="true" styleClass="applicationMainWindowMaximizeImageViewStyle" />
