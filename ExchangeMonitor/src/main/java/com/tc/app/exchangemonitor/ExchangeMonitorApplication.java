@@ -6,7 +6,7 @@ import org.apache.logging.log4j.Logger;
 import com.sun.javafx.application.LauncherImpl;
 import com.tc.app.exchangemonitor.util.HibernateUtil;
 import com.tc.app.exchangemonitor.util.ReferenceDataCache;
-import com.tc.app.exchangemonitor.view.java.MainApplicationView;
+import com.tc.app.exchangemonitor.view.java.MainWindowView;
 import com.tc.framework.injection.Injector;
 
 import javafx.animation.FadeTransition;
@@ -80,7 +80,7 @@ public class ExchangeMonitorApplication extends Application
 			initializePrimaryStage();
 			initializePrimaryScene();
 			
-			makeSceneDraggable();
+			//makeSceneDraggable();
 			//animateStageIfNeeded();
 			
 			this.primaryStage.setScene(primaryScene);
@@ -153,9 +153,13 @@ public class ExchangeMonitorApplication extends Application
 	
 	private Scene createPrimaryScene()
 	{
+		/*
 		MainApplicationView appView = new MainApplicationView();
 		Scene scene = new Scene(appView.getView());
 		return scene;
+		*/
+		MainWindowView mainWindowView = new MainWindowView(primaryStage);
+		return mainWindowView.getScene();
 	}
 	
 	/* Since our stage is undecorated, we cannot drag it. This method will make the scene draggable. */
