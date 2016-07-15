@@ -1,52 +1,54 @@
 package com.tc.app.exchangemonitor.view.java;
 
+import java.util.Objects;
+
 import com.tc.framework.fxmlview.FXMLView;
 
+import javafx.animation.RotateTransition;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import javafx.util.Duration;
 
 public class MainWindowView extends FXMLView
 {
 	private double xOffset = 0.0;
 	private double yOffset = 0.0;
-	Stage primaryStage;
 	public MainWindowView()
 	{
 	}
-
+	
+	private Stage primaryStage;
 	public MainWindowView(Stage primaryStage)
 	{
-		this.primaryStage = primaryStage;
+		this.primaryStage = Objects.requireNonNull(primaryStage, "Primary Stage cannot be NULL");
+		this.primaryStage.setOnCloseRequest((WindowEvent windowEvent) -> closeStageWithAnimation(windowEvent));
 	}
-
-	Parent x;
+	
 	@Override
 	public Parent getView()
 	{
 		return super.getView();
 	}
 	
-	Scene primaryScene;
+	private Scene primaryScene;
 	public Scene getScene()
 	{
 		primaryScene = new Scene(getView());
-		makeSceneDraggable();
+		makePrimarySceneDraggable();
 		return primaryScene;
 	}
 
-	public void makeSceneDraggable()
+	/* Since our stage is undecorated, we cannot drag it. This method will make the scene draggable. */
+	private void makePrimarySceneDraggable()
 	{
 		primaryScene.setOnMousePressed(event ->
 		{
 			xOffset = primaryStage.getX() - event.getScreenX();
 			yOffset = primaryStage.getY() - event.getScreenY();
-			//primaryScene.setCursor(Cursor.MOVE);
-		});
-
-		primaryScene.setOnMouseReleased(event ->
-		{
-			//primaryScene.setCursor(Cursor.HAND);
 		});
 
 		primaryScene.setOnMouseDragged(event ->
@@ -54,21 +56,20 @@ public class MainWindowView extends FXMLView
 			primaryStage.setX(event.getScreenX() + xOffset);
 			primaryStage.setY(event.getScreenY() + yOffset);
 		});
-
-		/*primaryScene.setOnMouseEntered(event ->
-		{
-			if(!event.isPrimaryButtonDown())
-			{
-				primaryScene.setCursor(Cursor.HAND);
-			}
+	}
+	
+	private void closeStageWithAnimation(WindowEvent windowEvent)
+	{
+		windowEvent.consume();
+		RotateTransition rotateTransition = new RotateTransition(Duration.seconds(0.5), this.primaryScene.getRoot());
+		rotateTransition.setOnFinished((ActionEvent actionEvent)->{
+			this.primaryStage.close();
+			Platform.exit();
+			System.exit(0);
 		});
-
-		primaryScene.setOnMouseExited(event ->
-		{
-			if(!event.isPrimaryButtonDown())
-			{
-				primaryScene.setCursor(Cursor.DEFAULT);
-			}
-		});*/
+		
+		rotateTransition.setFromAngle(0);
+		rotateTransition.setByAngle(360);
+		rotateTransition.play();
 	}
 }

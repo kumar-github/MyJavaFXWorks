@@ -1,4 +1,57 @@
-HBox
+/* Need to think about this whether to do or not.*/
+/*
+.root
+{
+	-fx-background-color: rgb(255, 255, 255);
+}
+*/
+
+/*
+ * Need to think about this whether to do or not. Basically Why do we need this
+.border-pane
+{
+	-fx-background-radius: 30;
+	-fx-border-radius: 20;
+}
+*/
+
+/* Need to think about this whether to do or not. Basically Why do we need this*/
+.mainWindowBorderPaneDropShadowStyle
+{
+	 -fx-padding: 5;
+	-fx-border-insets: 5;
+	-fx-background-insets: 5;
+	-fx-background-radius: 3;
+	-fx-border-radius: 3;
+	
+	/*-fx-border-color: gray;*/
+	/*-fx-border-style: solid;*/
+	/*-fx-border-width: 1;*/
+	/*-fx-effect: dropshadow(three-pass-box, purple, 10, 0, 0, 0);*/
+	
+	-fx-effect: dropshadow(three-pass-box,  gray, 10, 0,  0, 0);
+}
+
+.tooltip
+{
+	-fx-background-radius: 15 15 15 15;
+}
+
+.menu-bar
+{
+	/*-fx-background-color: rgb(255, 255, 255);*/
+}
+
+.mainWindowTitleLabelStyle
+{
+	-fx-font-family: "Ubuntu";
+	-fx-font-weight: bold;
+	-fx-font-size: 13;
+	-fx-text-fill: rgb(0,104,139);
+	/*-fx-font: 16px "Serif";*/
+}
+
+.mainWindowTitleBarHBoxStyle
 {
     TOP-COLOR: ladder(-fx-base, derive(-fx-base,0%) 0%, derive(-fx-base,46%) 100%);
     -fx-background-color: linear-gradient(to bottom, derive(TOP-COLOR,25%) 0%, -fx-outer-border 90%), linear-gradient(to bottom, TOP-COLOR 2%, derive(-fx-base,-2.1%) 95%); 
