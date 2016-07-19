@@ -15,16 +15,6 @@
 	-fx-border-radius: 20;
 }
 
-.applicationMainWindowOptionsImageViewStyle
-{
-	-fx-opacity: 0.6;
-}
-
-.applicationMainWindowOptionsImageViewStyle:hover
-{
-	-fx-opacity: 1.0;
-}
-
 .applicationMainWindowTitleLabelStyle
 {
 	-fx-font-family: "Ubuntu";
@@ -32,46 +22,6 @@
 	-fx-font-size: 13;
 	-fx-text-fill: rgb(0,104,139);
 	/*-fx-font: 16px "Serif";*/
-}
-
-.applicationMainWindowMinimizeImageViewStyle
-{
-	-fx-image:url("/icons/Minimize.png");
-}
-
-.applicationMainWindowMinimizeImageViewStyle:hover
-{
-	-fx-image:url("/icons/MinimizeHover.png");
-}
-
-.applicationMainWindowMaximizeImageViewStyle
-{
-	-fx-image:url("/icons/Maximize.png");
-}
-
-.applicationMainWindowMaximizeImageViewStyle:hover
-{
-	-fx-image:url("/icons/MaximizeHover.png");
-}
-
-.applicationMainWindowRestoreImageViewStyle
-{
-	-fx-image:url("/icons/Restore.png");
-}
-
-.applicationMainWindowRestoreImageViewStyle:hover
-{
-	-fx-image:url("/icons/RestoreHover.png");
-}
-
-.applicationMainWindowCloseImageViewStyle
-{
-	-fx-image:url("/icons/Close.png");
-}
-
-.applicationMainWindowCloseImageViewStyle:hover
-{
-	-fx-image:url("/icons/CloseHover.png");
 }
 
 .menu-bar
@@ -86,11 +36,6 @@
 	/*-fx-font-weight: bold;
 	-fx-font-size: 13;
 	-fx-text-fill: rgb(0,104,139);*/
-}
-
-.tool-bar
-{
-	-fx-background-color: rgb(255, 255, 255);
 }
 
 .filterKeyTextStyle

@@ -4,16 +4,13 @@ import java.net.URL;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
-
-import javax.inject.Inject;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.controlsfx.control.CheckListView;
-import org.hibernate.SQLQuery;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.tc.app.exchangemonitor.model.ExternalMapping;
@@ -42,6 +39,8 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener.Change;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -118,7 +117,6 @@ public class MainApplicationMonitorTabController implements Initializable
 	private CheckListView<ExternalTradeStatus> externalTradeStatusesListView;
 
 	@FXML
-	//private CheckListView<String> externalTradeAccountsListView;
 	private CheckListView<ExternalMapping> externalTradeAccountsListView;
 
 	@FXML
@@ -238,12 +236,6 @@ public class MainApplicationMonitorTabController implements Initializable
 	 * ============================================================================================================================================================================
 	 */
 	
-	@Inject
-	private String sqlQueryStringToFetchExternalTradesWithBuyerAccountQualifier;
-
-	@Inject
-	private String sqlQueryStringToFetchExternalTradesWithoutBuyerAccountQualifier;
-
 	/**
 	 * ============================================================================================================================================================================
 	 * 																																							All Variables injected through @Inject ends here
@@ -257,15 +249,20 @@ public class MainApplicationMonitorTabController implements Initializable
 	 */
 
 	//private List<String> externalTradeAccounts;
-	private Collection<ExternalMapping> externalTradeAccounts;
+	//private Collection<ExternalMapping> externalTradeAccounts;
+	private List<ExternalMapping> externalTradeAccounts = new ArrayList<ExternalMapping>();
+	
 	//private List<String> checkedExternalTradeAccounts = new ArrayList<String>();
 	private List<ExternalMapping> checkedExternalTradeAccounts = new ArrayList<ExternalMapping>();
-	private ObservableList<ExternalTrade> externalTrades = FXCollections.observableArrayList();
 	
 	private ObservableList<ExternalTradeSource> externalTradeSourceObservableList = FXCollections.observableArrayList();
 	private ObservableList<ExternalTradeState> externalTradeStateObservableList = FXCollections.observableArrayList();
 	private ObservableList<ExternalTradeStatus> externalTradeStatusObservableList = FXCollections.observableArrayList();
 	private ObservableList<ExternalMapping> externalTradeAccountObservableList = FXCollections.observableArrayList();
+	
+	private ObservableList<ExternalTrade> externalTradesObservableList = FXCollections.observableArrayList();
+	private FilteredList<ExternalTrade> externalTradesFilteredList = new FilteredList<>(externalTradesObservableList, p->true);
+	private SortedList<ExternalTrade> externalTradesSortedList = new SortedList<>(externalTradesFilteredList);
 	
 	private FetchExternalTradesScheduledService fetchExternalTradesScheduledService = new FetchExternalTradesScheduledService();
 
@@ -350,7 +347,7 @@ public class MainApplicationMonitorTabController implements Initializable
 		endDateFilterKeyText.managedProperty().bind(endDateFilterKeyText.visibleProperty());
 		endDateFilterValueText.managedProperty().bind(endDateFilterValueText.visibleProperty());
 
-		exchangeTradesTableView.setItems(externalTrades);
+		exchangeTradesTableView.setItems(externalTradesObservableList);
 		startDateFilterValueText.textProperty().bind(startDateDatePicker.valueProperty().asString());
 		endDateFilterValueText.textProperty().bind(endDateDatePicker.valueProperty().asString());
 
@@ -401,8 +398,6 @@ public class MainApplicationMonitorTabController implements Initializable
 		 * fetch trade accounts from external_mapping table and with mapping_type 'K' and construct checkbox for trade account and set it on the UI
 		 */
 		fetchExternalTradeAccounts();
-		//externalTradeAccounts = fetchAllExternalTradeAccountsFromDB();
-		//setExternalTradeAccountCheckBoxesOnUI(externalTradeAccounts);
 		
 		/**
 		 * set yesterday's date as default start date
@@ -442,17 +437,11 @@ public class MainApplicationMonitorTabController implements Initializable
 	
 	private void fetchExternalTradeAccounts()
 	{
-		//externalTradeAccountObservableList.addAll(ReferenceDataCache.fetchExternalTradeAccounts().values());
-		externalTradeAccounts = ReferenceDataCache.fetchExternalTradeAccounts().values();
+		externalTradeAccounts.addAll(ReferenceDataCache.fetchExternalTradeAccounts().values());
+		// the below line is creating a dummy external mapping record with name "Any". not a better way.
+		externalTradeAccounts.add(0, new ExternalMapping("Any"));
 		externalTradeAccountObservableList.addAll(externalTradeAccounts);
 	}
-	
-	//commenting it for now.
-	/*public void setExternalTradeAccountCheckBoxesOnUI(List<String> externalTradeAccounts)
-	{
-		externalTradeAccounts.add(0, "Any");
-		externalTradeAccountsListView.setItems(FXCollections.observableArrayList(externalTradeAccounts));
-	}*/
 	
 	private void setAnyUIComponentStateIfNeeded()
 	{
@@ -493,7 +482,6 @@ public class MainApplicationMonitorTabController implements Initializable
 
 		//tradeAccountListView.getCheckModel().getCheckedItems().addListener(accountsCheckBoxCheckedItemListener);
 		
-		//commenting it for now.
 		externalTradeAccountsListView.getCheckModel().getCheckedItems().addListener((Change<? extends ExternalMapping> change) ->
 		{
 			handleExternalTradeAccountsCheckBoxClick(change);
@@ -501,7 +489,6 @@ public class MainApplicationMonitorTabController implements Initializable
 
 		externalTradeAccountsSearchTextField.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) ->
 		{
-			//commenting it for now
 			handleExternalTradeAccountsFilterByKey(oldValue, newValue);
 		});
 
@@ -636,21 +623,21 @@ public class MainApplicationMonitorTabController implements Initializable
 	{
 		if(externalTradeTableViewDataFilterTextField.textProperty().get().isEmpty())
 		{
-			exchangeTradesTableView.setItems(FXCollections.observableArrayList(externalTrades));
+			exchangeTradesTableView.setItems(FXCollections.observableArrayList(externalTradesObservableList));
 			return;
 		}
 		ObservableList<ExternalTrade> tableItems = FXCollections.observableArrayList();
 		ObservableList<TableColumn<ExternalTrade, ?>> allCoulmns = exchangeTradesTableView.getColumns();
-		for(int i=0; i<externalTrades.size(); i++)
+		for(int i=0; i<externalTradesObservableList.size(); i++)
 		{
 			for(int j=0; j<allCoulmns.size(); j++)
 			{
 				TableColumn<ExternalTrade, ?> col = allCoulmns.get(j);
-				String cellValue = col.getCellData(externalTrades.get(i)).toString();
+				String cellValue = col.getCellData(externalTradesObservableList.get(i)).toString();
 				cellValue = cellValue.toLowerCase();
 				if(cellValue.contains(externalTradeTableViewDataFilterTextField.textProperty().get().toLowerCase()))
 				{
-					tableItems.add(externalTrades.get(i));
+					tableItems.add(externalTradesObservableList.get(i));
 					break;
 				}
 			}
@@ -918,7 +905,7 @@ public class MainApplicationMonitorTabController implements Initializable
 	private void stopMonitoringExternalTrades()
 	{
 		pauseMonitoringExternalTrades();
-		externalTrades.clear();
+		externalTradesObservableList.clear();
 
 	}
 
@@ -932,46 +919,26 @@ public class MainApplicationMonitorTabController implements Initializable
 	{
 	}
 
+	
 	public void fetchExternalTradesFromDBForTableView()
 	{
-		SQLQuery sqlQueryToFetchData = null;
+		Query sqlQueryToFetchExternalTrades = null;
 
-		//List<String> selectedExternalTradeSources = getExternalTradeSourcesSelectedByUserFromUI();
 		List<ExternalTradeSource> selectedExternalTradeSources = getExternalTradeSourcesSelectedByUserFromUI();
-		
 		List<ExternalTradeState> selectedExternalTradeStates = getExternalTradeStatesSelectedByUserFromUI();
 		List<ExternalTradeStatus> selectedExternalTradeStatuses = getExternalTradeStatusesSelectedByUserFromUI();
-		//List<String> selectedExternalTradeAccounts = getExternalTradeAccountsSelectedByUserFromUI();
 		List<ExternalMapping> selectedExternalTradeAccounts = getExternalTradeAccountsSelectedByUserFromUI();
 
-		String startDate = DateTimeFormatter.ofPattern("dd-MMM-yyyy").format(startDateDatePicker.getValue());
-		String endDate = DateTimeFormatter.ofPattern("dd-MMM-yyyy").format(endDateDatePicker.getValue());
-
-		//SQLQuery sqlQueryStringToFetchExternalTrade = session.createSQLQuery("SELECT et.oid as oid, ett.creation_date as creationDate, et.entry_date as entryDate, et.external_trade_system_oid as externalTradeSystemOid, et.external_trade_status_oid as externalTradeStatusOid, et.external_trade_source_oid as externalTradeSourceOid, et.external_trade_state_oid as externalTradeStateOid, et.trade_num as tradeNum, et.port_num as portNum, ec.comment_text as commentText, ett.exch_tools_trade_num as exchToolsTradeNum, ett.commodity as commodity, ett.trading_period as tradingPeriod, ett.call_put as callPut, ett.strike_price as strikePrice, ett.quantity as quantity, ett.price as price, ett.input_action as inputAction, ett.input_company as inputCompany, ett.input_trader as inputTrader, ett.accepted_action as acceptedAction, ett.accepted_company as acceptedCompany, ett.accepted_trader as acceptedTrader, ett.buyer_account as buyerAccount, ett.trade_type as tradeType ,ett.input_broker as inputBroker, ett.seller_clrng_broker as sellerClearingBroker, ett.buyer_clrng_broker as buyerClearingBroker, ett.accepted_broker as acceptedBroker FROM  dbo.external_trade AS et LEFT OUTER JOIN dbo.external_comment AS ec ON et.external_comment_oid = ec.oid INNER JOIN dbo.exch_tools_trade AS ett ON et.oid = ett.external_trade_oid WHERE (et.external_trade_system_oid IN(1,1)) AND (et.external_trade_source_oid IN (3,1,12)) AND (et.external_trade_status_oid IN (2,3,1,4)) AND(et.external_trade_state_oid IN (1,3,4,2) ) AND (ett.creation_date >= CONVERT(datetime, CONVERT(varchar, '01-Dec-2015 12:00 AM', 109))) AND (ett.creation_date <= CONVERT(datetime,convert(varchar,'06-Mar-2016 11:59 PM',109))) ORDER BY ett.creation_date DESC");
-
-		/**
-		 * Variables injected through properties files takes priority over the code. so if we found a variable in the properties file
-		 * with value then use that value if not then proceed with the value in the code.
-		 */
-		if(sqlQueryStringToFetchExternalTradesWithBuyerAccountQualifier == null || sqlQueryStringToFetchExternalTradesWithBuyerAccountQualifier.isEmpty())
-		{
-			//sqlQueryStringToFetchExternalTradesWithBuyerAccountQualifier = "SELECT et.oid as externalTradeOid, ett.creation_date as creationDate, et.entry_date as entryDate, et.external_trade_system_oid as externalTradeSystemOid, et.external_trade_status_oid as externalTradeStatusOid, et.external_trade_source_oid as externalTradeSourceOid, et.external_trade_state_oid as externalTradeStateOid, et.trade_num as tradeNum, et.port_num as portNum, ec.comment_text as commentText, ett.exch_tools_trade_num as exchToolsTradeNum, ett.commodity as commodity, ett.trading_period as tradingPeriod, ett.call_put as callPut, ett.strike_price as strikePrice, ett.quantity as quantity, ett.price as price, ett.input_action as inputAction, ett.input_company as inputCompany, ett.input_trader as inputTrader, ett.accepted_action as acceptedAction, ett.accepted_company as acceptedCompany, ett.accepted_trader as acceptedTrader, ett.buyer_account as buyerAccount, ett.trade_type as tradeType ,ett.input_broker as inputBroker, ett.seller_clrng_broker as sellerClearingBroker, ett.buyer_clrng_broker as buyerClearingBroker, ett.accepted_broker as acceptedBroker FROM dbo.external_trade AS et LEFT OUTER JOIN dbo.external_comment AS ec ON et.external_comment_oid = ec.oid INNER JOIN dbo.exch_tools_trade AS ett ON et.oid = ett.external_trade_oid WHERE (et.external_trade_source_oid IN (:externalTradeSourcesParam)) AND (et.external_trade_status_oid IN (:externalTradeStatusesParam)) AND (et.external_trade_state_oid IN (:externalTradeStatesParam)) AND (ett.buyer_account IN (:buyerAccountsParam)) AND (ett.creation_date >= (:startDate)) AND (ett.creation_date <= (:endDate)) ORDER BY ett.creation_date DESC";
-			sqlQueryStringToFetchExternalTradesWithBuyerAccountQualifier = "SELECT et.* FROM dbo.external_trade AS et LEFT OUTER JOIN dbo.external_comment AS ec ON et.external_comment_oid = ec.oid INNER JOIN dbo.exch_tools_trade AS ett ON et.oid = ett.external_trade_oid WHERE (et.external_trade_source_oid IN (:externalTradeSourcesParam)) AND (et.external_trade_status_oid IN (:externalTradeStatusesParam)) AND (et.external_trade_state_oid IN (:externalTradeStatesParam)) AND (ett.buyer_account IN (:buyerAccountsParam)) AND (ett.creation_date >= (:startDate)) AND (ett.creation_date <= (:endDate)) ORDER BY ett.creation_date DESC";
-		}
-		if(sqlQueryStringToFetchExternalTradesWithoutBuyerAccountQualifier == null || sqlQueryStringToFetchExternalTradesWithoutBuyerAccountQualifier.isEmpty())
-		{
-			//sqlQueryStringToFetchExternalTradesWithoutBuyerAccountQualifier = "SELECT et.oid as externalTradeOid, ett.creation_date as creationDate, et.entry_date as entryDate, et.external_trade_system_oid as externalTradeSystemOid, et.external_trade_status_oid as externalTradeStatusOid, et.external_trade_source_oid as externalTradeSourceOid, et.external_trade_state_oid as externalTradeStateOid, et.trade_num as tradeNum, et.port_num as portNum, ec.comment_text as commentText, ett.exch_tools_trade_num as exchToolsTradeNum, ett.commodity as commodity, ett.trading_period as tradingPeriod, ett.call_put as callPut, ett.strike_price as strikePrice, ett.quantity as quantity, ett.price as price, ett.input_action as inputAction, ett.input_company as inputCompany, ett.input_trader as inputTrader, ett.accepted_action as acceptedAction, ett.accepted_company as acceptedCompany, ett.accepted_trader as acceptedTrader, ett.buyer_account as buyerAccount, ett.trade_type as tradeType ,ett.input_broker as inputBroker, ett.seller_clrng_broker as sellerClearingBroker, ett.buyer_clrng_broker as buyerClearingBroker, ett.accepted_broker as acceptedBroker FROM dbo.external_trade AS et LEFT OUTER JOIN dbo.external_comment AS ec ON et.external_comment_oid = ec.oid INNER JOIN dbo.exch_tools_trade AS ett ON et.oid = ett.external_trade_oid WHERE (et.external_trade_source_oid IN (:externalTradeSourcesParam)) AND (et.external_trade_status_oid IN (:externalTradeStatusesParam)) AND(et.external_trade_state_oid IN (:externalTradeStatesParam)) AND (ett.buyer_account NOT IN (:buyerAccountsParam)) AND (ett.creation_date >= (:startDate)) AND (ett.creation_date <= (:endDate)) ORDER BY ett.creation_date DESC";
-			sqlQueryStringToFetchExternalTradesWithoutBuyerAccountQualifier = "SELECT et .* FROM dbo.external_trade AS et LEFT OUTER JOIN dbo.external_comment AS ec ON et.external_comment_oid = ec.oid INNER JOIN dbo.exch_tools_trade AS ett ON et.oid = ett.external_trade_oid WHERE (et.external_trade_source_oid IN (:externalTradeSourcesParam)) AND (et.external_trade_status_oid IN (:externalTradeStatusesParam)) AND(et.external_trade_state_oid IN (:externalTradeStatesParam)) AND (ett.buyer_account NOT IN (:buyerAccountsParam)) AND (ett.creation_date >= (:startDate)) AND (ett.creation_date <= (:endDate)) ORDER BY ett.creation_date DESC";
-		}
-
+		String selectedStartDate = DateTimeFormatter.ofPattern("dd-MMM-yyyy").format(startDateDatePicker.getValue());
+		String selectedEndDate = DateTimeFormatter.ofPattern("dd-MMM-yyyy").format(endDateDatePicker.getValue());
+		
 		//selectedExternalTradeSources.forEach(anExternalTradeSourceName -> externalTradeSources.add(externalTradeSourceTableMap.get(a)));
 		List<String> externalTradeSources = new ArrayList<String>();
 		for(ExternalTradeSource anExternalTradeSource : selectedExternalTradeSources)
 		{
-			//externalTradeSources.add(externalTradeSourceTableMap.get(anExternalTradeSourceName));
 			externalTradeSources.add(anExternalTradeSource.getOid().toString());
 		}
-
+		
 		List<String> externalTradeStates = new ArrayList<String>();
 		for(ExternalTradeState anExternalTradeState : selectedExternalTradeStates)
 		{
@@ -985,24 +952,28 @@ public class MainApplicationMonitorTabController implements Initializable
 		}
 
 		Session session = HibernateUtil.beginTransaction();
-		if(selectedExternalTradeAccounts.contains("Any"))
+		List<String> externalTradeAccountsTemp = new ArrayList<String>();
+		if(externalTradeAccountsListView.getCheckModel().getCheckedIndices().contains(0))
 		{
-			sqlQueryToFetchData = session.createSQLQuery(sqlQueryStringToFetchExternalTradesWithoutBuyerAccountQualifier);
-			sqlQueryToFetchData.setParameter("buyerAccountsParam", "" );
+			sqlQueryToFetchExternalTrades = session.getNamedQuery("externalTradesWithoutBuyerAccount");
+			sqlQueryToFetchExternalTrades.setParameter("buyerAccountsParam", "" );
 		}
 		else
 		{
-			sqlQueryToFetchData = session.createSQLQuery(sqlQueryStringToFetchExternalTradesWithBuyerAccountQualifier);
-			sqlQueryToFetchData.setParameterList("buyerAccountsParam", selectedExternalTradeAccounts);
+			for(ExternalMapping anExternalMapping : selectedExternalTradeAccounts)
+			{
+				externalTradeAccountsTemp.add(anExternalMapping.getExternalValue1());
+			}
+			sqlQueryToFetchExternalTrades = session.getNamedQuery("externalTradesWithBuyerAccount");
+			sqlQueryToFetchExternalTrades.setParameterList("buyerAccountsParam", externalTradeAccountsTemp);
 		}
+		sqlQueryToFetchExternalTrades.setParameterList("externalTradeSourcesParam", externalTradeSources);
+		sqlQueryToFetchExternalTrades.setParameterList("externalTradeStatusesParam", externalTradeStatuses);
+		sqlQueryToFetchExternalTrades.setParameterList("externalTradeStatesParam", externalTradeStates);
+		sqlQueryToFetchExternalTrades.setParameter("startDate", selectedStartDate);
+		sqlQueryToFetchExternalTrades.setParameter("endDate", selectedEndDate);
 
-		sqlQueryToFetchData.setParameterList("externalTradeSourcesParam", externalTradeSources);
-		sqlQueryToFetchData.setParameterList("externalTradeStatusesParam", externalTradeStatuses);
-		sqlQueryToFetchData.setParameterList("externalTradeStatesParam", externalTradeStates);
-		sqlQueryToFetchData.setParameter("startDate", startDate);
-		sqlQueryToFetchData.setParameter("endDate", endDate);
-
-		sqlQueryToFetchData.addEntity(ExternalTrade.class);
+		//sqlQueryToFetchData.addEntity(ExternalTrade.class);
 
 		/* This will fetch the data in FX thread which will freeze the UI.  This will run as a one time task but we need it to a recurring one. */
 		//dummyExternalTrades = sqlQueryToFetchData.list();
@@ -1048,9 +1019,7 @@ public class MainApplicationMonitorTabController implements Initializable
 
 
 		/* This will fetch the data in a background thread, so UI will not be freezed and user can interact with the UI. Here we use a scheduled service which will invoke the task recurringly. */
-		//FetchExternalTradesScheduledService fetchExternalTradesScheduledService = new FetchExternalTradesScheduledService(sqlQueryToFetchData);
-		//fetchExternalTradesScheduledService = new FetchExternalTradesScheduledService(sqlQueryToFetchData, Duration.seconds(1), Duration.seconds(10));
-		fetchExternalTradesScheduledService.setSQLQuery(sqlQueryToFetchData);
+		fetchExternalTradesScheduledService.setSQLQuery(sqlQueryToFetchExternalTrades);
 		fetchExternalTradesScheduledService.setDelay(Duration.seconds(1));
 		fetchExternalTradesScheduledService.setPeriod(Duration.seconds(10));
 
@@ -1067,8 +1036,11 @@ public class MainApplicationMonitorTabController implements Initializable
 		//fetchExternalTradesScheduledService.messageProperty().addListener((ObservableValue<? extends String> observableValue, String oldValue, String newValue) -> { mainApplicationStatusBarViewController.statusMessagesProperty().set(newValue); });
 		//fetchExternalTradesScheduledService.progressProperty().addListener((ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) -> { mainApplicationStatusBarViewController.progressStatusesProperty().set(newValue.doubleValue()); });
 		
-		fetchExternalTradesScheduledService.messageProperty().addListener((ObservableValue<? extends String> observableValue, String oldValue, String newValue) -> { ApplicationHelper.controllersMap.getInstance(MainApplicationStatusBarController.class).statusMessagesProperty().set(newValue); });
-		fetchExternalTradesScheduledService.progressProperty().addListener((ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) -> { ApplicationHelper.controllersMap.getInstance(MainApplicationStatusBarController.class).progressStatusesProperty().set(newValue.doubleValue()); });
+		//fetchExternalTradesScheduledService.messageProperty().addListener((ObservableValue<? extends String> observableValue, String oldValue, String newValue) -> { ApplicationHelper.controllersMap.getInstance(MainApplicationStatusBarController.class).statusMessagesProperty().set(newValue); });
+		//fetchExternalTradesScheduledService.progressProperty().addListener((ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) -> { ApplicationHelper.controllersMap.getInstance(MainApplicationStatusBarController.class).progressStatusesProperty().set(newValue.doubleValue()); });
+		
+		fetchExternalTradesScheduledService.messageProperty().addListener((ObservableValue<? extends String> observableValue, String oldValue, String newValue) -> { ApplicationHelper.controllersMap.getInstance(MainWindowController.class).statusMessagesProperty().set(newValue); });
+		fetchExternalTradesScheduledService.progressProperty().addListener((ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) -> { ApplicationHelper.controllersMap.getInstance(MainWindowController.class).progressStatusesProperty().set(newValue.doubleValue()); });
 
 		fetchExternalTradesScheduledService.restart();
 
@@ -1078,8 +1050,8 @@ public class MainApplicationMonitorTabController implements Initializable
 			public void handle(WorkerStateEvent event)
 			{
 				//statusMessagesProperty().set("");
-				externalTrades.clear();
-				externalTrades.addAll(fetchExternalTradesScheduledService.getValue());
+				externalTradesObservableList.clear();
+				externalTradesObservableList.addAll(fetchExternalTradesScheduledService.getValue());
 				//dummyExternalTrades.addAll(fetchExternalTradesScheduledService.getLastValue());
 				//dummyExternalTrades.addAll(fetchExternalTradesScheduledService.getLastValue() != null ? fetchExternalTradesScheduledService.getLastValue() : fetchExternalTradesScheduledService.getValue());
 			}
@@ -1101,7 +1073,6 @@ public class MainApplicationMonitorTabController implements Initializable
 		return externalTradeStatusesListView.getCheckModel().getCheckedItems();
 	}
 
-	//public List<String> getExternalTradeAccountsSelectedByUserFromUI()
 	public List<ExternalMapping> getExternalTradeAccountsSelectedByUserFromUI()
 	{
 		return externalTradeAccountsListView.getCheckModel().getCheckedItems();

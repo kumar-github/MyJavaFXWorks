@@ -2,7 +2,7 @@ package com.tc.app.exchangemonitor.controller;
 
 import java.util.List;
 
-import org.hibernate.SQLQuery;
+import org.hibernate.Query;
 
 import com.tc.app.exchangemonitor.model.ExternalTrade;
 
@@ -12,7 +12,7 @@ import javafx.concurrent.Task;
 
 public class FetchExternalTradesTask extends Task<ObservableList<ExternalTrade>>
 {
-	private final SQLQuery sqlQuery;
+	private final Query sqlQuery;
 	
 	public FetchExternalTradesTask()
 	{
@@ -21,7 +21,7 @@ public class FetchExternalTradesTask extends Task<ObservableList<ExternalTrade>>
 		sqlQuery = null;
 	}
 	
-	public FetchExternalTradesTask(SQLQuery sqlQuery)
+	public FetchExternalTradesTask(Query sqlQuery)
 	{
 		updateMessage("");
 		updateProgress(0.0, 0.0);
@@ -41,7 +41,7 @@ public class FetchExternalTradesTask extends Task<ObservableList<ExternalTrade>>
 		}
 	}
 
-	private List<ExternalTrade> fetchExternalTradesForQuery(SQLQuery sqlQuery)
+	private List<ExternalTrade> fetchExternalTradesForQuery(Query sqlQuery)
 	{
 		List<ExternalTrade> externalTrades = null;
 		

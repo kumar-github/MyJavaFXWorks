@@ -63,7 +63,13 @@ public class ExternalMapping implements Serializable {
     @ManyToOne(optional = false)
     private ExternalTradeSource externalTradeSourceOid;
 
-    public ExternalMapping() {
+    public ExternalMapping()
+    {
+    }
+    
+    public ExternalMapping(String anyString)
+    {
+    	this.externalValue1 = anyString;
     }
 
     public ExternalMapping(Integer oid) {

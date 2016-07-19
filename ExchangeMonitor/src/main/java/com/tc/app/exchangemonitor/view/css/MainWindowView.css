@@ -37,9 +37,14 @@
 	-fx-background-radius: 15 15 15 15;
 }
 
+.mainWindowMenuBarHBoxStyle
+{
+	-fx-background-color: rgb(255, 255, 255);
+}
+
 .menu-bar
 {
-	/*-fx-background-color: rgb(255, 255, 255);*/
+	-fx-background-color: rgb(255, 255, 255);
 }
 
 .mainWindowTitleLabelStyle
@@ -110,4 +115,43 @@
 .mainWindowViewCloseImageViewStyle:hover
 {
 	-fx-opacity: 0.5;
+}
+
+/* change background color behind tabs to have a nice gradient fill*/
+.tab-pane *.tab-header-background
+{
+	-fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
+	-fx-background-insets: 0 0 -1 0, 0, 1, 2;
+}
+
+/*
+ * do we need this?
+.tab-pane .tab .tab-label
+{
+	-fx-font-family: "Ubuntu";
+	-fx-font-size: 12;
+}
+*/
+
+.filterKeyTextStyle
+{
+	-fx-font-family: "Ubuntu";
+	/*-fx-font-weight: bold;*/
+	-fx-font-size: 13;
+	/*-fx-text-fill: rgb(0,104,139);*/
+}
+
+.filterValueTextStyle
+{
+	-fx-font-family: "Ubuntu";
+	/*-fx-font-weight: bold;*/
+	-fx-font-size: 13;
+	/*-fx-text-fill: rgb(0,104,139);*/
+	-fx-fill: rgb(0, 0, 255);
+}
+
+.tool-bar
+{
+	/*-fx-background-color: rgb(255, 255, 255);*/
+	-fx-background-color: TRANSPARENT;
 }

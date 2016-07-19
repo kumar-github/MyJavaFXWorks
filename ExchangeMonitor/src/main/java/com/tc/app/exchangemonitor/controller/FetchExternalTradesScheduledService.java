@@ -1,6 +1,6 @@
 package com.tc.app.exchangemonitor.controller;
 
-import org.hibernate.SQLQuery;
+import org.hibernate.Query;
 
 import com.tc.app.exchangemonitor.model.ExternalTrade;
 
@@ -12,7 +12,7 @@ import javafx.util.Duration;
 public class FetchExternalTradesScheduledService extends ScheduledService<ObservableList<ExternalTrade>>
 {
 	//private final SQLQuery sqlQuery;
-	private SQLQuery sqlQuery;
+	private Query sqlQuery;
 	//private final Duration DELAY = Duration.seconds(5);
 	//private final Duration PERIOD = Duration.seconds(30);
 	
@@ -21,7 +21,7 @@ public class FetchExternalTradesScheduledService extends ScheduledService<Observ
 		this(null, Duration.seconds(5.0), Duration.seconds(30.0));
 	}
 	
-	public FetchExternalTradesScheduledService(SQLQuery sqlQuery, Duration delay, Duration period)
+	public FetchExternalTradesScheduledService(Query sqlQuery, Duration delay, Duration period)
 	{
 		super();
 		this.sqlQuery = sqlQuery;
@@ -29,7 +29,7 @@ public class FetchExternalTradesScheduledService extends ScheduledService<Observ
 		this.setPeriod(period);
 	}
 	
-	public void setSQLQuery(SQLQuery sqlQuery)
+	public void setSQLQuery(Query sqlQuery)
 	{
 		this.sqlQuery = sqlQuery;
 	}

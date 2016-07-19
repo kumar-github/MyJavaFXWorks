@@ -9,10 +9,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.controlsfx.control.PopOver;
 import org.controlsfx.control.PopOver.ArrowLocation;
+import org.controlsfx.control.StatusBar;
 
 import com.tc.app.exchangemonitor.util.ApplicationHelper;
 
 import javafx.application.Platform;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -37,7 +42,7 @@ public class MainWindowController implements Initializable
 	 * 																																							All Variables injected through FXML starts here
 	 * ============================================================================================================================================================================
 	 */
-	
+
 	@FXML
 	private BorderPane mainWindowBorderPane;
 	@FXML
@@ -48,6 +53,8 @@ public class MainWindowController implements Initializable
 	private ImageView maximizeOrRestoreImageView;
 	@FXML
 	private ImageView closeImageView;
+	@FXML
+	private StatusBar mainWindowStatusBar;
 
 	/**
 	 * ============================================================================================================================================================================
@@ -108,6 +115,8 @@ public class MainWindowController implements Initializable
 
 	private void doInitialDataBinding()
 	{
+		mainWindowStatusBar.textProperty().bind(statusMessagesProperty());
+		mainWindowStatusBar.progressProperty().bind(progressStatusesProperty());
 	}
 
 	private void setComponentToolTipIfNeeded()
@@ -179,7 +188,7 @@ public class MainWindowController implements Initializable
 			isInRestoredState = false;
 		}
 	}
-	
+
 	@FXML
 	private void handleCloseImageViewClick(MouseEvent mouseEvent)
 	{
@@ -325,6 +334,28 @@ public class MainWindowController implements Initializable
 	 * 																																							General Methods starts here
 	 * ============================================================================================================================================================================
 	 */
+
+	private StringProperty statusMessagesProperty = null;
+	//private StringProperty statusMessagesProperty()
+	public StringProperty statusMessagesProperty()
+	{
+		if (statusMessagesProperty == null)
+		{
+			statusMessagesProperty = new SimpleStringProperty();
+		}
+		return statusMessagesProperty;
+	}
+
+	private DoubleProperty progressStatusesProperty = null;
+	//private DoubleProperty progressStatusesProperty()
+	public DoubleProperty progressStatusesProperty()
+	{
+		if (progressStatusesProperty == null)
+		{
+			progressStatusesProperty = new SimpleDoubleProperty();
+		}
+		return progressStatusesProperty;
+	}
 
 }
 

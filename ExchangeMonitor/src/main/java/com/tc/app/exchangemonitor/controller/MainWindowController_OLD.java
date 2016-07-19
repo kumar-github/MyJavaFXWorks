@@ -5,10 +5,6 @@ import java.util.ResourceBundle;
 
 import javax.inject.Inject;
 
-import com.tc.app.exchangemonitor.view.java.MainWindowMenuBarView;
-import com.tc.app.exchangemonitor.view.java.MainWindowStatusBarView;
-import com.tc.app.exchangemonitor.view.java.MainWindowTabPaneView;
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.BorderPane;
@@ -41,15 +37,15 @@ public class MainWindowController_OLD implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
+    	/*
     	MainWindowMenuBarView mainWindowMenuBarView = new MainWindowMenuBarView();
     	mainWindowBorderPane.setTop(mainWindowMenuBarView.getView());
-    	
     	MainWindowStatusBarView mainWindowStatusBarView = new MainWindowStatusBarView();
     	mainWindowBorderPane.setBottom(mainWindowStatusBarView.getView());
     	
     	MainWindowTabPaneView mainWindowTabPaneView = new MainWindowTabPaneView();
     	mainWindowBorderPane.setCenter(mainWindowTabPaneView.getView());
-    	
+    	*/
     	//fetched from dashboard.properties
         if(rb != null)
         {

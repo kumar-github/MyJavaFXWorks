@@ -22,6 +22,10 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 <?import org.controlsfx.control.CheckListView?>
+<!--
+<?import javafx.collections.*?>
+<?import com.tc.app.exchangemonitor.model.ExternalMapping?>
+--> 
 
 <Tab text="Monitor" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tc.app.exchangemonitor.controller.MainApplicationMonitorTabController">
 <content>
@@ -35,7 +39,6 @@
 			<!--<ToolBar prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: skyblue;">-->
 			<ToolBar fx:id="applicationMainWindowCurrentFilterToolBar">
 			<items>
-				<!--<Button mnemonicParsing="false" text="Test Button" />-->
 				<Text styleClass="filterKeyTextStyle" text="Current Filter: " />
 				<Text fx:id="exchangesFilterKeyText" styleClass="filterKeyTextStyle" text="Exchanges:" />
 				<Text fx:id="exchangesFilterValueText" layoutX="142.0" layoutY="27.0" styleClass="filterValueTextStyle" text="" />
@@ -97,16 +100,16 @@
 		<TitledPane fx:id="actionTitledPane" expanded="false" mnemonicParsing="true" text="_Action">
 		<font><Font name="System Bold" size="12.0" />	</font>
 		<content>
-			<!--<AnchorPane> revert back if any problem-->
-			<AnchorPane minHeight="155.0" prefHeight="155.0">
+			<VBox spacing="5.0">
 			<children>
-				<Button layoutX="5.0" layoutY="5.0" mnemonicParsing="false" onAction="#handleReEnterFailedTradeButtonClick" prefWidth="147.0" text="ReEnter Failed Trade" />
-				<Button layoutX="5.0" layoutY="35.0" mnemonicParsing="false" onAction="#handleReEnterAllFailedTradesButtonClick" text="ReEnter All Failed Trades" />
-				<Button layoutX="5.0" layoutY="65.0" mnemonicParsing="false" prefWidth="147.0" text="Update Edited Trade" />
-				<Button layoutX="5.0" layoutY="95.0" mnemonicParsing="false" prefWidth="147.0" text="Quit Edit Trade Mode" />
-				<Button layoutX="5.0" layoutY="125.0" mnemonicParsing="false" prefWidth="147.0" text="Save Trades To Excel" />
+				<Button maxWidth="1.7976931348623157E308" text="ReEnter Failed Trade"  onAction="#handleReEnterFailedTradeButtonClick"/>
+				<Button maxWidth="1.7976931348623157E308" text="ReEnter All Failed Trades" onAction="#handleReEnterAllFailedTradesButtonClick" />
+				<Button maxWidth="1.7976931348623157E308" text="Update Edited Trade" />
+				<Button maxWidth="1.7976931348623157E308" text="Quit Edit Trade Mode" />
+				<Button maxWidth="1.7976931348623157E308" text="Save Trades To Excel" />
 			</children>
-			</AnchorPane>
+			<padding><Insets bottom="5.0" left="5.0" right="5.0" top="5.0" /></padding>
+			</VBox>
 		</content>
 		</TitledPane>
 		
@@ -175,6 +178,14 @@
 					<!-- below line commented. dont know what's the use. Let's check if there is any problem in alignment -->
 					<!--<VBox.margin><Insets /></VBox.margin> -->
 					<!--</ListView> -->
+					<!--
+					<items>
+					<FXCollections fx:factory="observableArrayList">
+					<ExternalMapping externalValue1="Testing123"/>
+					<ExternalMapping externalValue1="AA"/>
+					</FXCollections>
+					</items>
+					-->
 					</CheckListView>
 				</children>
 				</VBox>
@@ -186,8 +197,8 @@
 			<content>
 				<FlowPane prefHeight="71.0" prefWidth="150.0" vgap="5.0">
 				<children>
-					<DatePicker fx:id="startDateDatePicker" prefHeight="25.0" prefWidth="130.0" promptText="Start Date" editable="false"/>
-					<DatePicker fx:id="endDateDatePicker" prefHeight="25.0" prefWidth="130.0" promptText="End Date" editable="false"/>
+					<DatePicker fx:id="startDateDatePicker" editable="false" prefHeight="25.0" prefWidth="130.0" promptText="Start Date" />
+					<DatePicker fx:id="endDateDatePicker" editable="false" prefHeight="25.0" prefWidth="130.0" promptText="End Date" />
 				</children>
 				</FlowPane>
 			</content>

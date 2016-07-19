@@ -38,13 +38,15 @@
 		</children>
 		<!--<padding><Insets bottom="1.0" left="1.0" right="1.0" top="1.0" /></padding>-->
 		</HBox>
-		<fx:include fx:id="mainApplicationMenuBarView" source="MainApplicationMenuBarView.fxml" />
+		<fx:include source="MainWindowMenuBarView.fxml" />
 	</children>
 	</VBox>
 </top>
 
 <bottom>
-	<StatusBar progress="0.0" text=""/>
+	<!--<StatusBar progress="0.0" text=""/>-->
+	<!--<StatusBar fx:id="mainApplicationStatusBar" progress="10.0" text="Status Message goes here..." BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tc.app.exchangemonitor.controller.MainApplicationStatusBarController" />-->
+	<StatusBar fx:id="mainWindowStatusBar" progress="0.0" text=""/>
 </bottom>
 
 <left></left>
@@ -54,7 +56,8 @@
 <center>
 	<TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
 	<tabs>
-		<fx:include fx:id="mainApplicationMonitorTabView" source="MainApplicationMonitorTabView.fxml" />
+		<fx:include source="MainWindowMonitorTabView.fxml" />
+		<fx:include source="MainWindowMappingsTabView.fxml" />
 	</tabs>
 	</TabPane>
 </center>
