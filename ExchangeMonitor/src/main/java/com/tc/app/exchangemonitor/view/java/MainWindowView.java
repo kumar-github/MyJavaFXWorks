@@ -4,7 +4,7 @@ import java.util.Objects;
 
 import com.tc.framework.fxmlview.FXMLView;
 
-import javafx.animation.RotateTransition;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.Parent;
@@ -61,6 +61,7 @@ public class MainWindowView extends FXMLView
 	private void closeStageWithAnimation(WindowEvent windowEvent)
 	{
 		windowEvent.consume();
+		/*
 		RotateTransition rotateTransition = new RotateTransition(Duration.seconds(0.5), this.primaryScene.getRoot());
 		rotateTransition.setOnFinished((ActionEvent actionEvent)->{
 			this.primaryStage.close();
@@ -70,6 +71,16 @@ public class MainWindowView extends FXMLView
 		
 		rotateTransition.setFromAngle(0);
 		rotateTransition.setByAngle(360);
-		rotateTransition.play();
+		rotateTransition.play();*/
+		TranslateTransition tt = new TranslateTransition(Duration.seconds(2), this.primaryScene.getRoot());
+		tt.setOnFinished((ActionEvent actionEvent)->{
+			this.primaryStage.close();
+			Platform.exit();
+			System.exit(0);
+		});
+		tt.setFromX(100);
+		tt.setToX(1200);
+		//tt.setCycleCount(Timeline.INDEFINITE);
+		tt.play();
 	}
 }

@@ -11,9 +11,9 @@ public class ExternalTradeExchangesCellFactory implements Callback<TableColumn<E
 	/*
 	// 1st way of implementing
 	@Override
-	public TableCell<DummyExternalTrade, ZonedDateTime> call(TableColumn<DummyExternalTrade, ZonedDateTime> param)
+	public TableCell<ExternalTrade, ZonedDateTime> call(TableColumn<ExternalTrade, ZonedDateTime> param)
 	{
-		return new TableCell<DummyExternalTrade, ZonedDateTime>(){
+		return new TableCell<ExternalTrade, ZonedDateTime>(){
 			@Override
 			protected void updateItem(ZonedDateTime item, boolean empty)
 			{

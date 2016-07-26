@@ -1,5 +1,6 @@
 package com.tc.app.exchangemonitor.util;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -18,6 +19,10 @@ public class ReferenceDataCache
 	public static void loadAllReferenceData()
 	{
 		loadExternalTradeSourceReferenceData();
+		loadExternalTradeStateReferenceData();
+		loadExternalTradeStatusReferenceData();
+		loadExternalTradeAccountReferenceData();
+		loadExternalMappingReferenceData();
 	}
 	
 	public static ConcurrentMap<Integer, ExternalTradeSource> fetchExternalTradeSources()
@@ -54,6 +59,15 @@ public class ReferenceDataCache
 			loadExternalTradeAccountReferenceData();
 		}
 		return externalTradeAccountReferenceDataHashMap;
+	}
+	
+	public static List<ExternalMapping> fetchExternalMappings()
+	{
+		if(externalMappingReferenceDataList == null)
+		{
+			loadExternalMappingReferenceData();
+		}
+		return externalMappingReferenceDataList;
 	}
 	
 	/* Do we really need a map here? Think please...*/
@@ -147,6 +161,23 @@ public class ReferenceDataCache
 					externalTradeAccountReferenceDataHashMap.put(anExternalTradeAccount.getExternalValue1(), anExternalTradeAccount);
 				}
 			}
+		}
+	}
+	
+	//private static ConcurrentMap<String, ExternalMapping> externalMappingReferenceDataHashMap = null;
+	private static List<ExternalMapping> externalMappingReferenceDataList = null;
+	@SuppressWarnings("unchecked")
+	public static void loadExternalMappingReferenceData()
+	{
+		if(externalMappingReferenceDataList == null)
+		{
+			externalMappingReferenceDataList = new ArrayList<ExternalMapping>();
+			
+			long startTime = System.currentTimeMillis();
+			//List<ExternalMapping> externalMappingList = HibernateReferenceDataFetchUtil.fetchDataFromDBForSQLNamedQuery("ExternalMapping.findAllExternalMappings");
+			externalMappingReferenceDataList = HibernateReferenceDataFetchUtil.fetchDataFromDBForSQLNamedQuery("ExternalMapping.findAllExternalMappings");
+			long endTime = System.currentTimeMillis();
+			System.out.println("It took " + (endTime - startTime) + " milli seconds to fetch " + externalMappingReferenceDataList.size() + " external mappings.");
 		}
 	}
 }

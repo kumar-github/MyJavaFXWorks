@@ -39,7 +39,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ExternalTrade.findByInhousePortNum", query = "SELECT e FROM ExternalTrade e WHERE e.inhousePortNum = :inhousePortNum"),
     @NamedQuery(name = "ExternalTrade.findByOrderNum", query = "SELECT e FROM ExternalTrade e WHERE e.orderNum = :orderNum"),
     @NamedQuery(name = "ExternalTrade.findByItemNum", query = "SELECT e FROM ExternalTrade e WHERE e.itemNum = :itemNum")})
-public class ExternalTrade implements Serializable {
+public class ExternalTrade implements Serializable
+{
 
     private static final long serialVersionUID = 1L;
     @Id

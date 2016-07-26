@@ -33,7 +33,6 @@
 	<sql-query name="externalTradesWithBuyerAccount">
 		<![CDATA[
 			SELECT et.* FROM dbo.external_trade AS et LEFT OUTER JOIN dbo.external_comment AS ec ON et.external_comment_oid = ec.oid INNER JOIN dbo.exch_tools_trade AS ett ON et.oid = ett.external_trade_oid WHERE (et.external_trade_source_oid IN (:externalTradeSourcesParam)) AND (et.external_trade_status_oid IN (:externalTradeStatusesParam)) AND (et.external_trade_state_oid IN (:externalTradeStatesParam)) AND (ett.buyer_account IN (:buyerAccountsParam)) AND (ett.creation_date >= (:startDate)) AND (ett.creation_date <= (:endDate)) ORDER BY ett.creation_date DESC
-		select distinct em.* from external_mapping em where em.mapping_type = 'K' order by em.external_value1
 		]]>
 		<return class="com.tc.app.exchangemonitor.model.ExternalTrade" />
 	</sql-query>
@@ -43,6 +42,20 @@
 		SELECT et.* FROM dbo.external_trade AS et LEFT OUTER JOIN dbo.external_comment AS ec ON et.external_comment_oid = ec.oid INNER JOIN dbo.exch_tools_trade AS ett ON et.oid = ett.external_trade_oid WHERE (et.external_trade_source_oid IN (:externalTradeSourcesParam)) AND (et.external_trade_status_oid IN (:externalTradeStatusesParam)) AND(et.external_trade_state_oid IN (:externalTradeStatesParam)) AND (ett.buyer_account NOT IN (:buyerAccountsParam)) AND (ett.creation_date >= (:startDate)) AND (ett.creation_date <= (:endDate)) ORDER BY ett.creation_date DESC
 		]]>
 		<return class="com.tc.app.exchangemonitor.model.ExternalTrade" />
+	</sql-query>
+	
+	<sql-query name="ExternalMapping.findAllExternalMappings">
+		<![CDATA[
+		SELECT em.* FROM dbo.external_mapping em order by em.external_value1
+		]]>
+		<return class="com.tc.app.exchangemonitor.model.ExternalMapping" />
+	</sql-query>
+	
+	<sql-query name="ExternalMapping.findAllTradersExternalMappingForICE">
+		<![CDATA[
+		SELECT em.* FROM dbo.external_mapping em where em.external_trade_source_oid = 3 and em.mapping_type = 'T' order by em.external_value1
+		]]>
+		<return class="com.tc.app.exchangemonitor.model.ExternalMapping" />
 	</sql-query>
 	
 	<query name="test">select distinct em from ExternalMapping em where em.mappingType = 'K'</query>

@@ -15,7 +15,7 @@
 
 <Tab text="Mappings" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tc.app.exchangemonitor.controller.MainApplicationMappingsTabController">
 <content>
-	<BorderPane prefHeight="200.0" prefWidth="200.0">
+	<BorderPane prefHeight="200.0" prefWidth="200.0" fx:id="mappingsWindowBorderPane">
 	<top>
 	</top>
 	
@@ -43,15 +43,27 @@
 		<content>
 			<VBox spacing="5.0">
 			<children>
-				<Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Traders" />
-				<Button layoutX="20.0" layoutY="20.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Brokers" />
-				<Button layoutX="20.0" layoutY="45.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Companies" />
-				<Button layoutX="20.0" layoutY="70.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Currencies" />
-				<Button layoutX="20.0" layoutY="95.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Portfolios" />
-				<Button layoutX="20.0" layoutY="132.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Trades" />
-				<Button layoutX="20.0" layoutY="160.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Accounts" />
-				<Button layoutX="20.0" layoutY="188.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="UOM Conversions" />
-				<Button layoutX="20.0" layoutY="188.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Trading Periods" />
+			<!--
+				<Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Traders"  onAction="#handleTradersMappingButtonClick"/>
+				<Button layoutX="20.0" layoutY="20.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Brokers" onAction="#handleBrokersMappingButtonClick"/>
+				<Button layoutX="20.0" layoutY="45.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Companies" onAction="#handleCompaniesMappingButtonClick"/>
+				<Button layoutX="20.0" layoutY="70.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Currencies" onAction="#handleCurrenciesMappingButtonClick"/>
+				<Button layoutX="20.0" layoutY="95.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Portfolios" onAction="#handlePortfoliosMappingButtonClick"/>
+				<Button layoutX="20.0" layoutY="132.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Trades" onAction="#handleTradesMappingButtonClick"/>
+				<Button layoutX="20.0" layoutY="160.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Accounts" onAction="#handleAccountsMappingButtonClick"/>
+				<Button layoutX="20.0" layoutY="188.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="UOM Conversions" onAction="#handleUOMConversionsMappingButtonClick"/>
+				<Button layoutX="20.0" layoutY="188.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Trading Periods" onAction="#handleTradingPeriodsMappingButtonClick"/>
+				-->
+				
+				<Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Traders"  onAction="#handleTradersMappingButtonClick"/>
+				<Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Brokers" onAction="#handleBrokersMappingButtonClick"/>
+				<Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Companies" onAction="#handleCompaniesMappingButtonClick"/>
+				<Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Currencies" onAction="#handleCurrenciesMappingButtonClick"/>
+				<Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Portfolios" onAction="#handlePortfoliosMappingButtonClick"/>
+				<Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Trades" onAction="#handleTradesMappingButtonClick"/>
+				<Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Accounts" onAction="#handleAccountsMappingButtonClick"/>
+				<Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="UOM Conversions" onAction="#handleUOMConversionsMappingButtonClick"/>
+				<Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Trading Periods" onAction="#handleTradingPeriodsMappingButtonClick"/>
 			</children>
 			<padding><Insets bottom="5.0" left="5.0" right="5.0" top="5.0" /></padding>
 			</VBox>
@@ -79,21 +91,17 @@
 </left>
 
 <center>
-	<VBox BorderPane.alignment="CENTER">
-	<BorderPane.margin><Insets bottom="5.0" left="0.0" right="5.0" top="5.0" /></BorderPane.margin>
-	<padding><Insets bottom="2.0" left="2.0" right="2.0" top="1.0" /></padding>
-	<children>
-		<fx:include source="TradersMappingTableView.fxml" />
-		<!--
-		<TableView cache="true" tableMenuButtonVisible="true" BorderPane.alignment="CENTER" VBox.vgrow="ALWAYS">
-		<columns>
-			<TableColumn prefWidth="130.0" text="External Trade Oid" />
-		</columns>
-		<BorderPane.margin><Insets bottom="10.0" left="5.0" right="10.0" top="5.0" /></BorderPane.margin>
-		</TableView>
-		-->
-	</children>
-	</VBox>
+<!--
+	<fx:include source="TradersMappingTableView.fxml" />
+	<fx:include source="BrokersMappingTableView.fxml" />
+	<fx:include source="CompaniesMappingTableView.fxml" />
+	<fx:include source="CurrenciesMappingTableView.fxml" />
+	<fx:include source="PortfoliosMappingTableView.fxml" />
+	<fx:include source="TradesMappingTableView.fxml" />
+	<fx:include source="AccountsMappingTableView.fxml" />
+	<fx:include source="UOMConversionsMappingTableView.fxml" />
+	<fx:include source="TradingPeriodsMappingTableView.fxml" />
+-->
 </center>
 
 <right>

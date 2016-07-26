@@ -152,6 +152,76 @@
 
 .tool-bar
 {
-	/*-fx-background-color: rgb(255, 255, 255);*/
 	-fx-background-color: TRANSPARENT;
+}
+
+/* ============================================================================================================================================================== */
+/* ================================================================ ALL TableView RELATED CSS GOES HERE =========================================================== */
+/* ============================================================================================================================================================== */
+
+/*
+ lightcoral
+ lightgreen
+ palegreen
+ paleviolet 
+*/
+
+/*
+.table-row-cell:odd
+{
+
+    -fx-background-color: lightblue;
+}
+
+.table-row-cell:odd > .table-cell
+{
+    -fx-text-fill: blue;
+}
+
+.table-row-cell:even
+{
+    -fx-background-color: lightpink;
+
+}
+
+.table-row-cell:even > .table-cell
+{
+    -fx-text-fill: red;
+}
+
+.table-row-cell:empty
+{
+    -fx-background-color: khaki;
+    -fx-border-color: grey
+}
+ 
+.table-row-cell:hover
+{
+    -fx-background-color: blanchedalmond;
+}
+ 
+.table-row-cell:selected
+{
+    -fx-background-color: chocolate;
+}
+*/
+
+.table-row-cell:pending 
+{
+	-fx-control-inner-background: lightblue;
+}
+
+.table-row-cell:completed
+{
+	-fx-control-inner-background: lightgreen;
+}
+
+.table-row-cell:failed
+{
+    -fx-control-inner-background: lightcoral;
+}
+
+.table-row-cell:skipped
+{
+    -fx-control-inner-background: lightpink;
 }

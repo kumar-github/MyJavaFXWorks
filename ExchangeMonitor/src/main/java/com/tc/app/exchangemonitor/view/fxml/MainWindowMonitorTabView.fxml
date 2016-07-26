@@ -22,6 +22,18 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 <?import org.controlsfx.control.CheckListView?>
+
+<?import com.tc.app.exchangemonitor.controller.CustomRowFactory?>
+<?import com.tc.app.exchangemonitor.controller.TradeCreationDateCellValueFactory?>
+<?import com.tc.app.exchangemonitor.controller.TradeCreationDateCellFactory?>
+<?import com.tc.app.exchangemonitor.controller.TradeEntryDateCellValueFactory?>
+<?import com.tc.app.exchangemonitor.controller.TradeEntryDateCellFactory?>
+
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import com.tc.app.exchangemonitor.model.ExternalTrade?>
+
 <!--
 <?import javafx.collections.*?>
 <?import com.tc.app.exchangemonitor.model.ExternalMapping?>
@@ -223,14 +235,45 @@
 		<!--<TableView style="-fx-background-color: #9fa8a3;" BorderPane.alignment="CENTER"> -->
 		<!--<TableView fx:id="tableView" style="-fx-background-color: #173e43;" BorderPane.alignment="CENTER" tableMenuButtonVisible="true"> -->
 		<!--<TableView fx:id="exchangeTradesTableView" style="-fx-background-color: #173e43;" tableMenuButtonVisible="true" BorderPane.alignment="CENTER"> -->
-		<TableView fx:id="exchangeTradesTableView" cache="true" tableMenuButtonVisible="true" BorderPane.alignment="CENTER" VBox.vgrow="ALWAYS">
+		<TableView fx:id="externalTradesTableView" cache="true" tableMenuButtonVisible="true" BorderPane.alignment="CENTER" VBox.vgrow="ALWAYS">
+		<!--<rowFactory><CustomRowFactory /></rowFactory>-->
+		<rowFactory><CustomRowFactory>
+		<menuItems>
+			<FXCollections fx:factory="observableArrayList">
+				<MenuItem text="Reprocess This Trade" />
+				<MenuItem text="Reprocess All Failed Trades" />
+			</FXCollections>
+		</menuItems>
+		</CustomRowFactory></rowFactory>
 		<columns>
-			<TableColumn fx:id="externalTradeOidTableColumn" prefWidth="130.0" text="External Trade Oid" />
-			<TableColumn fx:id="tradeCreationDateTableColumn" prefWidth="150.0" text="Trade Creation Date" />
-			<TableColumn fx:id="tradeEntryDateTableColumn" prefWidth="150.0" text="Trade Entry Date" />
-			<TableColumn fx:id="tradeStateTableColumn" prefWidth="85.0" text="Trade State" />
-			<TableColumn fx:id="tradeStatusTableColumn" prefWidth="95.0" text="Trade Status" />
-			<TableColumn fx:id="exchangeTableColumn" prefWidth="85.0" text="Exchange" />
+			<TableColumn fx:id="externalTradeOidTableColumn" prefWidth="130.0" text="External Trade Oid">
+			<cellValueFactory><PropertyValueFactory property="oid"/></cellValueFactory>
+			</TableColumn>
+			
+			<TableColumn fx:id="tradeCreationDateTableColumn" prefWidth="150.0" text="Trade Creation Date">
+			<cellValueFactory><TradeCreationDateCellValueFactory /></cellValueFactory>
+			<cellFactory><TradeCreationDateCellFactory /></cellFactory>
+			</TableColumn>
+			
+			<TableColumn fx:id="tradeEntryDateTableColumn" prefWidth="150.0" text="Trade Entry Date">
+			<cellValueFactory><TradeEntryDateCellValueFactory /></cellValueFactory>
+			<cellFactory><TradeEntryDateCellFactory /></cellFactory>
+			</TableColumn>
+			
+			<TableColumn fx:id="tradeStateTableColumn" prefWidth="85.0" text="Trade State">
+			<!-- It will be awesome if the below works -->
+			<!-- <cellValueFactory><PropertyValueFactory property="externalTradeStateOid.externalTradeStateName"/></cellValueFactory> -->
+			<cellValueFactory><PropertyValueFactory property="externalTradeStateOid"/></cellValueFactory>
+			</TableColumn>
+			
+			<TableColumn fx:id="tradeStatusTableColumn" prefWidth="95.0" text="Trade Status">
+			<cellValueFactory><PropertyValueFactory property="externalTradeStatusOid"/></cellValueFactory>
+			</TableColumn>
+			
+			<TableColumn fx:id="exchangeTableColumn" prefWidth="85.0" text="Exchange">
+			<cellValueFactory><PropertyValueFactory property="externalTradeSourceOid"/></cellValueFactory>
+			</TableColumn>
+			
 			<TableColumn fx:id="commodityTableColumn" prefWidth="220.0" text="Commodity" />
 			<TableColumn fx:id="tradingPeriodTableColumn" prefWidth="110.0" text="Trading Period" />
 			<TableColumn fx:id="callPutTableColumn" prefWidth="75.0" text="Call Put" />
@@ -278,3 +321,14 @@
 	</BorderPane>
 </content>
 </Tab>
+
+<!--
+<fx:define>
+		<menuItems fx:id="mnuItems">
+			<FXCollections fx:factory="observableArrayList" fx:id="items">
+				<MenuItem text="Reprocess This Trade" />
+				<MenuItem text="Reprocess All Failed Trades" />
+			</FXCollections>
+		</menuItems>
+</fx:define>
+-->

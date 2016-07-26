@@ -11,6 +11,7 @@ import javafx.util.Callback;
 public class ExternalTradeSourceRadioButtonCellFactory implements Callback<ListView<ExternalTradeSource>, ListCell<ExternalTradeSource>>
 {
 	private static final ToggleGroup toggleGroup = new ToggleGroup();
+	
 	@Override
 	public ListCell<ExternalTradeSource> call(ListView<ExternalTradeSource> param)
 	{
@@ -30,6 +31,16 @@ public class ExternalTradeSourceRadioButtonCellFactory implements Callback<ListV
 					radioButton.setToggleGroup(toggleGroup);
 					this.setGraphic(radioButton);
 					//Add Listeners if any
+					/*toggleGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+						@Override
+						public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue)
+						{
+							if (toggleGroup.getSelectedToggle() != null)
+							{
+								System.out.println(toggleGroup.getSelectedToggle().getUserData());
+							}
+						}
+					});*/
 					//this.setText(item.getExternalTradeSrcName());
 				}
 			}

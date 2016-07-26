@@ -14,9 +14,9 @@ import javafx.util.Callback;
 public class TradeEntryDateCellValueFactory implements Callback<TableColumn.CellDataFeatures<ExternalTrade, ZonedDateTime>, ObservableValue<ZonedDateTime>>
 {
 	@Override
-	public ObservableValue<ZonedDateTime> call(CellDataFeatures<ExternalTrade, ZonedDateTime> param)
+	public ObservableValue<ZonedDateTime> call(CellDataFeatures<ExternalTrade, ZonedDateTime> cellData)
 	{
 		//return param.getValue().getCreationDate().toInstant().atZone(ZoneId.systemDefault());
-		return new ReadOnlyObjectWrapper<ZonedDateTime>(param.getValue().getEntryDate().toInstant().atZone(ZoneId.systemDefault()));
+		return new ReadOnlyObjectWrapper<ZonedDateTime>(cellData.getValue().getEntryDate().toInstant().atZone(ZoneId.systemDefault()));
 	}
 }

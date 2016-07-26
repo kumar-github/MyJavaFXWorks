@@ -33,7 +33,6 @@ import javafx.beans.Observable;
 import javafx.beans.property.ReadOnlyDoubleWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -141,7 +140,7 @@ public class MainApplicationMonitorTabController implements Initializable
 	private DatePicker endDateDatePicker;
 
 	@FXML
-	private TableView<ExternalTrade> exchangeTradesTableView;
+	private TableView<ExternalTrade> externalTradesTableView;
 
 	@FXML
 	private TableColumn<ExternalTrade, Number> externalTradeOidTableColumn;
@@ -317,6 +316,23 @@ public class MainApplicationMonitorTabController implements Initializable
 
 	private void doInitialDataBinding()
 	{
+		/*
+		Callback<ExternalTrade, List<MenuItem>> rowMenuItemFactory = new Callback<ExternalTrade, List<MenuItem>>() {
+			@Override
+			public List<MenuItem> call(ExternalTrade param) {
+				final MenuItem addMenuItem = new MenuItem("Add");
+				final MenuItem updateMenuItem = new MenuItem("Update");
+				final MenuItem deleteMenuItem = new MenuItem("Delete");
+				
+				//return Collections.singletonList(addMenuItem);
+				return Arrays.asList(addMenuItem, updateMenuItem, deleteMenuItem);
+			}
+		};
+		*/
+		
+		//externalTradesTableView.setRowFactory(new CustomRowFactory<ExternalTrade>(null));
+		//externalTradesTableView.setRowFactory(new CustomRowFactory<ExternalTrade>(rowMenuItemFactory));
+		
 		/* Since startDate and endDate are set as NULL initially, "null" is appearing in the startDateFilterText and endDateFilterText and bcoz of that the Text control is appearing in the UI. To get rid 
 		 * of that we are hiding the Text control if it contains text equals to "null"
 		 */
@@ -347,7 +363,7 @@ public class MainApplicationMonitorTabController implements Initializable
 		endDateFilterKeyText.managedProperty().bind(endDateFilterKeyText.visibleProperty());
 		endDateFilterValueText.managedProperty().bind(endDateFilterValueText.visibleProperty());
 
-		exchangeTradesTableView.setItems(externalTradesObservableList);
+		externalTradesTableView.setItems(externalTradesObservableList);
 		startDateFilterValueText.textProperty().bind(startDateDatePicker.valueProperty().asString());
 		endDateFilterValueText.textProperty().bind(endDateDatePicker.valueProperty().asString());
 
@@ -375,6 +391,8 @@ public class MainApplicationMonitorTabController implements Initializable
 		externalTradeStatesListView.setItems(externalTradeStateObservableList);
 		externalTradeStatusesListView.setItems(externalTradeStatusObservableList);
 		externalTradeAccountsListView.setItems(externalTradeAccountObservableList);
+		
+		externalTradesSortedList.comparatorProperty().bind(externalTradesTableView.comparatorProperty());
 	}
 
 	private void initializeGUI()
@@ -496,7 +514,8 @@ public class MainApplicationMonitorTabController implements Initializable
 		//ChangeListener or InvalidationListener? please think
 		externalTradeTableViewDataFilterTextField.textProperty().addListener((Observable observable) ->
 		{
-			handleExternalTradeTableViewFilterByKey();
+			//handleExternalTradeTableViewFilterByKey();
+			handleExternalTradeTableViewFilterByKeyTemp();
 		});
 	}
 
@@ -618,16 +637,16 @@ public class MainApplicationMonitorTabController implements Initializable
 		else
 			accountsFilterValueText.setText(null);
 	}
-
+	
 	public void handleExternalTradeTableViewFilterByKey()
 	{
 		if(externalTradeTableViewDataFilterTextField.textProperty().get().isEmpty())
 		{
-			exchangeTradesTableView.setItems(FXCollections.observableArrayList(externalTradesObservableList));
+			externalTradesTableView.setItems(FXCollections.observableArrayList(externalTradesObservableList));
 			return;
 		}
 		ObservableList<ExternalTrade> tableItems = FXCollections.observableArrayList();
-		ObservableList<TableColumn<ExternalTrade, ?>> allCoulmns = exchangeTradesTableView.getColumns();
+		ObservableList<TableColumn<ExternalTrade, ?>> allCoulmns = externalTradesTableView.getColumns();
 		for(int i=0; i<externalTradesObservableList.size(); i++)
 		{
 			for(int j=0; j<allCoulmns.size(); j++)
@@ -642,10 +661,37 @@ public class MainApplicationMonitorTabController implements Initializable
 				}
 			}
 		}
-		exchangeTradesTableView.setItems(tableItems);
+		externalTradesTableView.setItems(tableItems);
 	}
-
-	/*public ListChangeListener<String> accountsCheckBoxCheckedItemListener = new ListChangeListener<String>()
+	
+	public void handleExternalTradeTableViewFilterByKeyTemp()
+	{
+		externalTradesFilteredList.setPredicate((ExternalTrade anExternalTrade) -> {
+			if(externalTradeTableViewDataFilterTextField.textProperty().get().isEmpty())
+			{
+				return true;
+			}
+			ObservableList<ExternalTrade> tableItems = FXCollections.observableArrayList();
+			ObservableList<TableColumn<ExternalTrade, ?>> allCoulmns = externalTradesTableView.getColumns();
+			for(int i=0; i<externalTradesObservableList.size(); i++)
+			{
+				for(int j=0; j<allCoulmns.size(); j++)
+				{
+					TableColumn<ExternalTrade, ?> col = allCoulmns.get(j);
+					String cellValue = col.getCellData(externalTradesObservableList.get(i)).toString();
+					cellValue = cellValue.toLowerCase();
+					if(cellValue.contains(externalTradeTableViewDataFilterTextField.textProperty().get().toLowerCase()))
+					{
+						return true;
+					}
+				}
+			}
+			return false;
+		});
+	}
+	
+	/*
+	public ListChangeListener<String> accountsCheckBoxCheckedItemListener = new ListChangeListener<String>()
 	{
 		@Override
 		public void onChanged(javafx.collections.ListChangeListener.Change<? extends String> change)
@@ -671,21 +717,21 @@ public class MainApplicationMonitorTabController implements Initializable
 	/**
 	 * Here logic goes for filtering the table data
 	 */
-
+	
 	public InvalidationListener someLisetner = new InvalidationListener()
 	{
-		final ObservableList<ExternalTrade> initialData = exchangeTradesTableView != null ? exchangeTradesTableView.getItems() : null;
+		final ObservableList<ExternalTrade> initialData = externalTradesTableView != null ? externalTradesTableView.getItems() : null;
 
 		@Override
 		public void invalidated(Observable observable)
 		{
 			if(externalTradeTableViewDataFilterTextField.textProperty().get().isEmpty())
 			{
-				exchangeTradesTableView.setItems(initialData);
+				externalTradesTableView.setItems(initialData);
 				return;
 			}
 			ObservableList<ExternalTrade> tableItems = FXCollections.observableArrayList();
-			ObservableList<TableColumn<ExternalTrade, ?>> cols = exchangeTradesTableView.getColumns();
+			ObservableList<TableColumn<ExternalTrade, ?>> cols = externalTradesTableView.getColumns();
 			for(int i=0; i<initialData.size(); i++)
 			{
 				for(int j=0; j<cols.size(); j++)
@@ -700,19 +746,20 @@ public class MainApplicationMonitorTabController implements Initializable
 					}                        
 				}
 			}
-			exchangeTradesTableView.setItems(tableItems);	
+			externalTradesTableView.setItems(tableItems);	
 		}
-	}; 
-
-	/*filterTableDataTextField.textProperty().addListener(new InvalidationListener() {
+	};
+	
+	/*
+	filterTableDataTextField.textProperty().addListener(new InvalidationListener() {
 		@Override
 		public void invalidated(Observable o) {
 			if(filterTableDataTextField.textProperty().get().isEmpty()) {
-				exchangeTradesTableView.setItems(getDummyTableData());
+				externalTradesTableView.setItems(getDummyTableData());
 				return;
 			}
 			ObservableList<DummyExternalTrade> tableItems = FXCollections.observableArrayList();
-			ObservableList<TableColumn<DummyExternalTrade, ?>> cols = exchangeTradesTableView.getColumns();
+			ObservableList<TableColumn<DummyExternalTrade, ?>> cols = externalTradesTableView.getColumns();
 			for(int i=0; i<getDummyTableData().size(); i++) {
 
 				for(int j=0; j<cols.size(); j++) {
@@ -726,7 +773,7 @@ public class MainApplicationMonitorTabController implements Initializable
 				}
 
 			}
-			exchangeTradesTableView.setItems(tableItems);
+			externalTradesTableView.setItems(tableItems);
 		}
 	});*/
 
@@ -743,8 +790,8 @@ public class MainApplicationMonitorTabController implements Initializable
 
 	private void initializeExternalTradeTableView()
 	{
-		//exchangeTradesTableView.getSelectionModel().setCellSelectionEnabled(true);
-		//exchangeTradesTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		//externalTradesTableView.getSelectionModel().setCellSelectionEnabled(true);
+		//externalTradesTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
 		/*tradeOidTableColumn.setCellValueFactory(new PropertyValueFactory<>("oid"));*/
 		/*tradeOidTableColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DummyExternalTrade, Number>, ObservableValue<Number>>()
@@ -753,31 +800,22 @@ public class MainApplicationMonitorTabController implements Initializable
 			public ObservableValue<Number> call(CellDataFeatures<DummyExternalTrade, Number> param)
 			{
 				return new SimpleIntegerProperty(param.getValue().getOid().intValue());
-			}});/*
-
+			}});*/
+		
 		/* commenting the above code, bcoz the same can be implemented as below using java 8 Lambda*/
-		externalTradeOidTableColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getOid()));
-
+		//externalTradeOidTableColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getOid()));
 		//tradeCreationDateTableColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<Date>(cellData.getValue().getCreationDate()));
 		/*
 		 modified the above code as below. creationDate column in DB is Date or TimeStamp, so it is mandatory to define it as Date in the DummyExternalTrade bean class. 
 		 But to utilize the java 8 LocalDate concept, we declared the TableView's creation date column as LocalDate. The value returned by the DummyExternalTrade bean is Date but 
 		 the UI column is expecting a LocalDate. so we convert the date to LocalDate.    
 		 */
-		tradeCreationDateTableColumn.setCellValueFactory(new TradeCreationDateCellValueFactory());
-		tradeCreationDateTableColumn.setCellFactory(new TradeCreationDateCellFactory());
-
-		tradeEntryDateTableColumn.setCellValueFactory(new TradeEntryDateCellValueFactory());
-		tradeEntryDateTableColumn.setCellFactory(new TradeEntryDateCellFactory());
-
-		tradeStateTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExternalTradeStateOid().getExternalTradeStateName()));
-		//tradeStateTableColumn.setCellFactory(new ExternalTradeStateCellFactory());
-
-		tradeStatusTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExternalTradeStatusOid().getExternalTradeStatusName()));
-		//tradeStatusTableColumn.setCellFactory(new ExternalTradeStatusCellFactory());
-
-		exchangeTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExternalTradeSourceOid().getExternalTradeSrcName()));
-		//exchangeTableColumn.setCellFactory(new ExternalTradeExchangesCellFactory());
+		//tradeCreationDateTableColumn.setCellValueFactory(new TradeCreationDateCellValueFactory());
+		//tradeEntryDateTableColumn.setCellValueFactory(new TradeEntryDateCellValueFactory());
+		//tradeEntryDateTableColumn.setCellFactory(new TradeEntryDateCellFactory());
+		//tradeStateTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExternalTradeStateOid().getExternalTradeStateName()));
+		//tradeStatusTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExternalTradeStatusOid().getExternalTradeStatusName()));
+		//exchangeTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExternalTradeSourceOid().getExternalTradeSrcName()));
 
 		commodityTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExchToolsTrade().getCommodity()));
 		tradingPeriodTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExchToolsTrade().getTradingPeriod()));
@@ -826,15 +864,12 @@ public class MainApplicationMonitorTabController implements Initializable
 
 		ictsTradeNumTableColumn.setCellValueFactory(cellData -> {
 			if(cellData.getValue().getTradeNum() != null)
-				//return new ReadOnlyDoubleWrapper(cellData.getValue().getTradeNum().intValue());
-				//return new ReadOnlyIntegerWrapper(cellData.getValue().getTradeNum().intValue());
 				return new ReadOnlyStringWrapper(cellData.getValue().getTradeNum().toString());
 			return null;
 		});
 
 		ictsPortNumTableColumn.setCellValueFactory(cellData -> {
 			if(cellData.getValue().getPortNum() != null)
-				//return new ReadOnlyDoubleWrapper(cellData.getValue().getPortNum().intValue());
 				return new ReadOnlyStringWrapper(cellData.getValue().getPortNum().toString());
 			return null;
 		});
@@ -932,24 +967,14 @@ public class MainApplicationMonitorTabController implements Initializable
 		String selectedStartDate = DateTimeFormatter.ofPattern("dd-MMM-yyyy").format(startDateDatePicker.getValue());
 		String selectedEndDate = DateTimeFormatter.ofPattern("dd-MMM-yyyy").format(endDateDatePicker.getValue());
 		
-		//selectedExternalTradeSources.forEach(anExternalTradeSourceName -> externalTradeSources.add(externalTradeSourceTableMap.get(a)));
 		List<String> externalTradeSources = new ArrayList<String>();
-		for(ExternalTradeSource anExternalTradeSource : selectedExternalTradeSources)
-		{
-			externalTradeSources.add(anExternalTradeSource.getOid().toString());
-		}
+		selectedExternalTradeSources.forEach((ExternalTradeSource anExternalTradeSource) -> externalTradeSources.add(anExternalTradeSource.getOid().toString()));
 		
 		List<String> externalTradeStates = new ArrayList<String>();
-		for(ExternalTradeState anExternalTradeState : selectedExternalTradeStates)
-		{
-			externalTradeStates.add(anExternalTradeState.getOid().toString());
-		}
-
+		selectedExternalTradeStates.forEach((ExternalTradeState anExternalTradeState) -> externalTradeStates.add(anExternalTradeState.getOid().toString()));
+		
 		List<String> externalTradeStatuses= new ArrayList<String>();
-		for(ExternalTradeStatus anExternalTradeStatus : selectedExternalTradeStatuses)
-		{
-			externalTradeStatuses.add(anExternalTradeStatus.getOid().toString());
-		}
+		selectedExternalTradeStatuses.forEach((ExternalTradeStatus anExternalTradeStatus) -> externalTradeStatuses.add(anExternalTradeStatus.getOid().toString()));
 
 		Session session = HibernateUtil.beginTransaction();
 		List<String> externalTradeAccountsTemp = new ArrayList<String>();
@@ -960,10 +985,7 @@ public class MainApplicationMonitorTabController implements Initializable
 		}
 		else
 		{
-			for(ExternalMapping anExternalMapping : selectedExternalTradeAccounts)
-			{
-				externalTradeAccountsTemp.add(anExternalMapping.getExternalValue1());
-			}
+			selectedExternalTradeAccounts.forEach((ExternalMapping anExternalMapping) -> externalTradeAccountsTemp.add(anExternalMapping.getExternalValue1()));
 			sqlQueryToFetchExternalTrades = session.getNamedQuery("externalTradesWithBuyerAccount");
 			sqlQueryToFetchExternalTrades.setParameterList("buyerAccountsParam", externalTradeAccountsTemp);
 		}
@@ -977,68 +999,18 @@ public class MainApplicationMonitorTabController implements Initializable
 
 		/* This will fetch the data in FX thread which will freeze the UI.  This will run as a one time task but we need it to a recurring one. */
 		//dummyExternalTrades = sqlQueryToFetchData.list();
-
-		/* This will fetch the data in a background thread, so UI will not be freezed and user can interact with the UI. */
-		/*FetchExternalTradesTask fetchExternalTradesTask = new FetchExternalTradesTask(sqlQueryToFetchData);
-		ExecutorService executorService = Executors.newSingleThreadExecutor();
-		executorService.execute(fetchExternalTradesTask);
-
-		fetchExternalTradesTask.setOnSucceeded(new EventHandler<WorkerStateEvent>()
-		{
-			@Override
-			public void handle(WorkerStateEvent event)
-			{
-				//dummyExternalTrades = fetchExternalTradesTask.getValue();
-				//exchangeTradesTableView.setItems(dummyExternalTrades);
-
-				System.out.println("fetchExternalTradesTask.getProgress() : " + fetchExternalTradesTask.getProgress());
-				System.out.println("fetchExternalTradesTask.getMessage() : " + fetchExternalTradesTask.getMessage());
-
-				dummyExternalTrades.clear();
-				dummyExternalTrades.addAll(fetchExternalTradesTask.getValue());
-			}
-		});*/
-
-
-		/* This will fetch the data in a background thread, so UI will not be freezed and user can interact with the UI. Here a service will invoke the task but for only one time, but we need it to a recurring one.  */
-		/*fetchExternalTradesService = new FetchExternalTradesService(sqlQueryToFetchData);
-		applicationMainStatusBar.progressProperty().bind(fetchExternalTradesService.progressProperty());
-		applicationMainStatusBar.textProperty().bind(fetchExternalTradesService.messageProperty());
-
-		fetchExternalTradesService.restart();
-
-		fetchExternalTradesService.setOnSucceeded(new EventHandler<WorkerStateEvent>()
-		{
-			@Override
-			public void handle(WorkerStateEvent event)
-			{
-				dummyExternalTrades.clear();
-				dummyExternalTrades.addAll(fetchExternalTradesService.getValue());
-			}
-		});*/
-
-
+		
 		/* This will fetch the data in a background thread, so UI will not be freezed and user can interact with the UI. Here we use a scheduled service which will invoke the task recurringly. */
 		fetchExternalTradesScheduledService.setSQLQuery(sqlQueryToFetchExternalTrades);
 		fetchExternalTradesScheduledService.setDelay(Duration.seconds(1));
 		fetchExternalTradesScheduledService.setPeriod(Duration.seconds(10));
-
-		/*
-		fetchExternalTradesScheduledService.messageProperty().addListener((ObservableValue<? extends String> observableValue, String oldValue, String newValue) -> { statusMessagesProperty().set(newValue); });
-		fetchExternalTradesScheduledService.progressProperty().addListener((ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) -> { progressStatusesProperty().set(newValue.doubleValue()); });
-		 */
+		
 		/*
 		 *  modified the above 2 lines as below. previously statusMessagesProperty and progressStatusesProperty are available in the same class but now moved to a different controller.
 		 *  Eventually the below code has to be modified to access those properties from the respective controller class.
 		 *  Currently accessing the statusMessagesProperty and progressStatusesProperty through the controller whose reference is injected while loading. this may not be the perfect approach,
 		 *  need to find out a better way.
 		 */
-		//fetchExternalTradesScheduledService.messageProperty().addListener((ObservableValue<? extends String> observableValue, String oldValue, String newValue) -> { mainApplicationStatusBarViewController.statusMessagesProperty().set(newValue); });
-		//fetchExternalTradesScheduledService.progressProperty().addListener((ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) -> { mainApplicationStatusBarViewController.progressStatusesProperty().set(newValue.doubleValue()); });
-		
-		//fetchExternalTradesScheduledService.messageProperty().addListener((ObservableValue<? extends String> observableValue, String oldValue, String newValue) -> { ApplicationHelper.controllersMap.getInstance(MainApplicationStatusBarController.class).statusMessagesProperty().set(newValue); });
-		//fetchExternalTradesScheduledService.progressProperty().addListener((ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) -> { ApplicationHelper.controllersMap.getInstance(MainApplicationStatusBarController.class).progressStatusesProperty().set(newValue.doubleValue()); });
-		
 		fetchExternalTradesScheduledService.messageProperty().addListener((ObservableValue<? extends String> observableValue, String oldValue, String newValue) -> { ApplicationHelper.controllersMap.getInstance(MainWindowController.class).statusMessagesProperty().set(newValue); });
 		fetchExternalTradesScheduledService.progressProperty().addListener((ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) -> { ApplicationHelper.controllersMap.getInstance(MainWindowController.class).progressStatusesProperty().set(newValue.doubleValue()); });
 
@@ -1049,7 +1021,6 @@ public class MainApplicationMonitorTabController implements Initializable
 			@Override
 			public void handle(WorkerStateEvent event)
 			{
-				//statusMessagesProperty().set("");
 				externalTradesObservableList.clear();
 				externalTradesObservableList.addAll(fetchExternalTradesScheduledService.getValue());
 				//dummyExternalTrades.addAll(fetchExternalTradesScheduledService.getLastValue());
@@ -1117,12 +1088,12 @@ public class MainApplicationMonitorTabController implements Initializable
 			rotate.setInterpolator(Interpolator.LINEAR);*/
 			rotate.play();
 
-			RotateTransition r = new RotateTransition(Duration.seconds(2), exchangeTradesTableView);
+			RotateTransition r = new RotateTransition(Duration.seconds(2), externalTradesTableView);
 			r.setFromAngle(0);
 			r.setByAngle(360);
 			r.play();
 
-			FadeTransition ft = new FadeTransition(Duration.seconds(2), exchangeTradesTableView);
+			FadeTransition ft = new FadeTransition(Duration.seconds(2), externalTradesTableView);
 			ft.setFromValue(1.0);
 			ft.setToValue(0.0);
 			ft.setCycleCount(2);
