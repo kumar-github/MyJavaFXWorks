@@ -44,7 +44,7 @@ public class CustomCellFactory<S, T> implements Callback<TableColumn<S, T>, Tabl
 				@Override
 				protected void updateItem(T item, boolean empty)
 				{
-					super.updateItem(item, empty);
+					super.updateItem((T)item, empty);
 					if(empty || item == null)
 						setText(null);
 					else

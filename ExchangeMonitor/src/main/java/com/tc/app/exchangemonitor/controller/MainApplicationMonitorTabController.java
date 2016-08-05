@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.function.Predicate;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,10 +31,6 @@ import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import javafx.beans.property.ReadOnlyDoubleWrapper;
-import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener.Change;
@@ -41,11 +38,12 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.concurrent.WorkerStateEvent;
-import javafx.event.EventHandler;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -197,12 +195,9 @@ public class MainApplicationMonitorTabController implements Initializable
 	private TableColumn<ExternalTrade, String> accountTableColumn;
 
 	@FXML
-	//private TableColumn<ExternalTrade, Number> ictsTradeNumTableColumn;
-	//private TableColumn<ExternalTrade, Integer> ictsTradeNumTableColumn;
 	private TableColumn<ExternalTrade, String> ictsTradeNumTableColumn;
 
 	@FXML
-	//private TableColumn<ExternalTrade, Number> ictsPortNumTableColumn;
 	private TableColumn<ExternalTrade, String> ictsPortNumTableColumn;
 
 	@FXML
@@ -247,11 +242,9 @@ public class MainApplicationMonitorTabController implements Initializable
 	 * ============================================================================================================================================================================
 	 */
 
-	//private List<String> externalTradeAccounts;
 	//private Collection<ExternalMapping> externalTradeAccounts;
 	private List<ExternalMapping> externalTradeAccounts = new ArrayList<ExternalMapping>();
 	
-	//private List<String> checkedExternalTradeAccounts = new ArrayList<String>();
 	private List<ExternalMapping> checkedExternalTradeAccounts = new ArrayList<ExternalMapping>();
 	
 	private ObservableList<ExternalTradeSource> externalTradeSourceObservableList = FXCollections.observableArrayList();
@@ -363,7 +356,9 @@ public class MainApplicationMonitorTabController implements Initializable
 		endDateFilterKeyText.managedProperty().bind(endDateFilterKeyText.visibleProperty());
 		endDateFilterValueText.managedProperty().bind(endDateFilterValueText.visibleProperty());
 
-		externalTradesTableView.setItems(externalTradesObservableList);
+		//externalTradesTableView.setItems(externalTradesObservableList);
+		externalTradesTableView.setItems(externalTradesSortedList);
+		
 		startDateFilterValueText.textProperty().bind(startDateDatePicker.valueProperty().asString());
 		endDateFilterValueText.textProperty().bind(endDateDatePicker.valueProperty().asString());
 
@@ -371,9 +366,9 @@ public class MainApplicationMonitorTabController implements Initializable
 		pauseMonitorButton.disableProperty().bind(fetchExternalTradesScheduledService.runningProperty().not());
 		stopMonitorButton.disableProperty().bind(fetchExternalTradesScheduledService.runningProperty().not());
 
-		actionTitledPane.disableProperty().bind(fetchExternalTradesScheduledService.runningProperty());
-		queryFilterAccordion.disableProperty().bind(fetchExternalTradesScheduledService.runningProperty());
-		externalTradeTableViewDataFilterTextField.disableProperty().bind(fetchExternalTradesScheduledService.runningProperty());
+		//actionTitledPane.disableProperty().bind(fetchExternalTradesScheduledService.runningProperty());
+		//queryFilterAccordion.disableProperty().bind(fetchExternalTradesScheduledService.runningProperty());
+		//externalTradeTableViewDataFilterTextField.disableProperty().bind(fetchExternalTradesScheduledService.runningProperty());
 
 		//applicationMainWindowCurrentFilterToolBar.visibleProperty().bind(exchangesFilterText.textProperty().isNotEmpty().or(statesFilterText.textProperty().isNotEmpty()).or(typesFilterText.textProperty().isNotEmpty()).or(accountsFilterText.textProperty().isNotEmpty()).or(startDateFilterText.textProperty().isNotEqualTo("null")).or(endDateFilterText.textProperty().isNotEqualTo("null")));
 		/* We are hiding the entire toolbar if no text in any of the Text control. */
@@ -512,11 +507,29 @@ public class MainApplicationMonitorTabController implements Initializable
 
 		//filterTableDataTextField.textProperty().addListener(someLisetner);
 		//ChangeListener or InvalidationListener? please think
-		externalTradeTableViewDataFilterTextField.textProperty().addListener((Observable observable) ->
+		/*externalTradeTableViewDataFilterTextField.textProperty().addListener((Observable observable) ->
 		{
-			//handleExternalTradeTableViewFilterByKey();
-			handleExternalTradeTableViewFilterByKeyTemp();
-		});
+			handleExternalTradeTableViewFilterByKey();	
+		}*/
+		externalTradeTableViewDataFilterTextField.textProperty().addListener((obs) -> { 
+			//externalTradesFilteredList.setPredicate(somePredicate);
+			String filterText = externalTradeTableViewDataFilterTextField.getText().trim().toLowerCase();
+			
+			externalTradesFilteredList.setPredicate((ExternalTrade anExternalTrade) -> {
+				if(filterText == null || filterText.isEmpty() || filterText.equals(""))
+					return true;
+				if(anExternalTrade.getOid().toString().contains(filterText))
+					return true;
+				else if(anExternalTrade.getExternalTradeSourceOid().getExternalTradeSrcName().toLowerCase().contains(filterText))
+					return true;
+				else if(anExternalTrade.getExternalTradeStatusOid().getExternalTradeStatusName().toLowerCase().contains(filterText))
+					return true;
+				else if(anExternalTrade.getExternalTradeStateOid().getExternalTradeStateName().toLowerCase().contains(filterText))
+					return true;
+				
+				return false;
+			});
+			});
 	}
 
 	/**
@@ -647,47 +660,22 @@ public class MainApplicationMonitorTabController implements Initializable
 		}
 		ObservableList<ExternalTrade> tableItems = FXCollections.observableArrayList();
 		ObservableList<TableColumn<ExternalTrade, ?>> allCoulmns = externalTradesTableView.getColumns();
-		for(int i=0; i<externalTradesObservableList.size(); i++)
+		for(int rowNum=0; rowNum<externalTradesObservableList.size(); rowNum++)
 		{
-			for(int j=0; j<allCoulmns.size(); j++)
+			for(int colNum=0; colNum<allCoulmns.size(); colNum++)
 			{
-				TableColumn<ExternalTrade, ?> col = allCoulmns.get(j);
-				String cellValue = col.getCellData(externalTradesObservableList.get(i)).toString();
+				TableColumn<ExternalTrade, ?> aColumn = allCoulmns.get(colNum);
+				//String cellValue = aColumn.getCellData(externalTradesObservableList.get(rowNum)).toString();
+				String cellValue = aColumn.getCellData(externalTradesObservableList.get(rowNum)) != null ? aColumn.getCellData(externalTradesObservableList.get(rowNum)).toString() : "";
 				cellValue = cellValue.toLowerCase();
 				if(cellValue.contains(externalTradeTableViewDataFilterTextField.textProperty().get().toLowerCase()))
 				{
-					tableItems.add(externalTradesObservableList.get(i));
+					tableItems.add(externalTradesObservableList.get(rowNum));
 					break;
 				}
 			}
 		}
 		externalTradesTableView.setItems(tableItems);
-	}
-	
-	public void handleExternalTradeTableViewFilterByKeyTemp()
-	{
-		externalTradesFilteredList.setPredicate((ExternalTrade anExternalTrade) -> {
-			if(externalTradeTableViewDataFilterTextField.textProperty().get().isEmpty())
-			{
-				return true;
-			}
-			ObservableList<ExternalTrade> tableItems = FXCollections.observableArrayList();
-			ObservableList<TableColumn<ExternalTrade, ?>> allCoulmns = externalTradesTableView.getColumns();
-			for(int i=0; i<externalTradesObservableList.size(); i++)
-			{
-				for(int j=0; j<allCoulmns.size(); j++)
-				{
-					TableColumn<ExternalTrade, ?> col = allCoulmns.get(j);
-					String cellValue = col.getCellData(externalTradesObservableList.get(i)).toString();
-					cellValue = cellValue.toLowerCase();
-					if(cellValue.contains(externalTradeTableViewDataFilterTextField.textProperty().get().toLowerCase()))
-					{
-						return true;
-					}
-				}
-			}
-			return false;
-		});
 	}
 	
 	/*
@@ -792,105 +780,6 @@ public class MainApplicationMonitorTabController implements Initializable
 	{
 		//externalTradesTableView.getSelectionModel().setCellSelectionEnabled(true);
 		//externalTradesTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
-		/*tradeOidTableColumn.setCellValueFactory(new PropertyValueFactory<>("oid"));*/
-		/*tradeOidTableColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DummyExternalTrade, Number>, ObservableValue<Number>>()
-		{
-			@Override
-			public ObservableValue<Number> call(CellDataFeatures<DummyExternalTrade, Number> param)
-			{
-				return new SimpleIntegerProperty(param.getValue().getOid().intValue());
-			}});*/
-		
-		/* commenting the above code, bcoz the same can be implemented as below using java 8 Lambda*/
-		//externalTradeOidTableColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getOid()));
-		//tradeCreationDateTableColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<Date>(cellData.getValue().getCreationDate()));
-		/*
-		 modified the above code as below. creationDate column in DB is Date or TimeStamp, so it is mandatory to define it as Date in the DummyExternalTrade bean class. 
-		 But to utilize the java 8 LocalDate concept, we declared the TableView's creation date column as LocalDate. The value returned by the DummyExternalTrade bean is Date but 
-		 the UI column is expecting a LocalDate. so we convert the date to LocalDate.    
-		 */
-		//tradeCreationDateTableColumn.setCellValueFactory(new TradeCreationDateCellValueFactory());
-		//tradeEntryDateTableColumn.setCellValueFactory(new TradeEntryDateCellValueFactory());
-		//tradeEntryDateTableColumn.setCellFactory(new TradeEntryDateCellFactory());
-		//tradeStateTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExternalTradeStateOid().getExternalTradeStateName()));
-		//tradeStatusTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExternalTradeStatusOid().getExternalTradeStatusName()));
-		//exchangeTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExternalTradeSourceOid().getExternalTradeSrcName()));
-
-		commodityTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExchToolsTrade().getCommodity()));
-		tradingPeriodTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExchToolsTrade().getTradingPeriod()));
-		callPutTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExchToolsTrade().getCallPut()));
-
-		strikePriceTableColumn.setCellValueFactory(cellData -> {
-			if(cellData.getValue().getExchToolsTrade().getStrikePrice() != null)
-				return new ReadOnlyDoubleWrapper(cellData.getValue().getExchToolsTrade().getStrikePrice().doubleValue());
-			return null;
-		});	
-
-		quantityTableColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getExchToolsTrade().getQuantity()));
-		priceTableColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getExchToolsTrade().getPrice()));
-
-		buyingCompanyTableColumn.setCellValueFactory(cellData -> {
-			if(cellData.getValue().getExchToolsTrade().getInputAction().trim().equals("BUY"))
-			{
-				return new ReadOnlyStringWrapper(cellData.getValue().getExchToolsTrade().getInputCompany());
-			}
-			else
-			{
-				return new ReadOnlyStringWrapper(cellData.getValue().getExchToolsTrade().getAcceptedCompany());
-			}
-		});
-
-		buyingTraderTableColumn.setCellValueFactory(cellData -> {
-			if(cellData.getValue().getExchToolsTrade().getInputAction().trim().equals("BUY"))
-				return new ReadOnlyStringWrapper(cellData.getValue().getExchToolsTrade().getInputTrader());
-			return new ReadOnlyStringWrapper(cellData.getValue().getExchToolsTrade().getAcceptedTrader());
-		});
-
-		sellingCompanyTableColumn.setCellValueFactory(cellData -> {
-			if(cellData.getValue().getExchToolsTrade().getInputAction().trim().equals("BUY"))
-				return new ReadOnlyStringWrapper(cellData.getValue().getExchToolsTrade().getAcceptedCompany());
-			return new ReadOnlyStringWrapper(cellData.getValue().getExchToolsTrade().getInputCompany());
-		});
-
-		sellingTraderTableColumn.setCellValueFactory(cellData -> {
-			if(cellData.getValue().getExchToolsTrade().getInputAction().trim().equals("BUY"))
-				return new ReadOnlyStringWrapper(cellData.getValue().getExchToolsTrade().getAcceptedTrader());
-			return new ReadOnlyStringWrapper(cellData.getValue().getExchToolsTrade().getInputTrader());
-		});
-
-		exchangeTradeNumTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExchToolsTrade().getExchToolsTradeNum()));
-		accountTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExchToolsTrade().getBuyerAccount()));
-
-		ictsTradeNumTableColumn.setCellValueFactory(cellData -> {
-			if(cellData.getValue().getTradeNum() != null)
-				return new ReadOnlyStringWrapper(cellData.getValue().getTradeNum().toString());
-			return null;
-		});
-
-		ictsPortNumTableColumn.setCellValueFactory(cellData -> {
-			if(cellData.getValue().getPortNum() != null)
-				return new ReadOnlyStringWrapper(cellData.getValue().getPortNum().toString());
-			return null;
-		});
-
-		tradeTypeTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExchToolsTrade().getTradeType()));
-
-		inputBrokerTableColumn.setCellValueFactory(cellData -> {
-			if(cellData.getValue().getExchToolsTrade().getInputAction().trim().equals("BUY"))
-				return new ReadOnlyStringWrapper(cellData.getValue().getExchToolsTrade().getInputBroker());
-			return new ReadOnlyStringWrapper(cellData.getValue().getExchToolsTrade().getAcceptedBroker());
-		});
-
-		buyerClearingBrokerTableColumn.setCellValueFactory(cellData -> {
-			return new ReadOnlyStringWrapper(cellData.getValue().getExchToolsTrade().getBuyerClrngBroker());
-		});
-
-		sellerClearingBrokerTableColumn.setCellValueFactory(cellData -> {
-			return new ReadOnlyStringWrapper(cellData.getValue().getExchToolsTrade().getSellerClrngBroker());
-		});
-
-		commentTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExternalCommentOid() != null ? cellData.getValue().getExternalCommentOid().getCommentText() : null));
 	}
 
 
@@ -953,31 +842,55 @@ public class MainApplicationMonitorTabController implements Initializable
 	private void handleReEnterAllFailedTradesButtonClick()
 	{
 	}
-
+	
+	@FXML
+	private ContextMenu tableRowContextMenu;
+	
+	@FXML
+	private void handleReprocessThisTradeMenuItemClick(ActionEvent ae)
+	{
+		System.out.println(ae.getSource());
+		System.out.println(externalTradesTableView.getSelectionModel().getSelectedItem());
+		System.out.println(externalTradesTableView.getSelectionModel().getSelectedIndex());
+		
+		System.out.println(tableRowContextMenu);
+		System.out.println(tableRowContextMenu.getOwnerNode());
+		
+		/*
+		 TableRow aTableRow = (TableRow<T>)tableRowContextMenu.getOwnerNode();
+		 aTableRow.getItem();
+		 aTableRow.getTableView();
+		 */
+	}
+	
+	@FXML
+	private void handleReprocessAllFailedTradesMenuItemClick()
+	{
+	}
 	
 	public void fetchExternalTradesFromDBForTableView()
 	{
 		Query sqlQueryToFetchExternalTrades = null;
 
-		List<ExternalTradeSource> selectedExternalTradeSources = getExternalTradeSourcesSelectedByUserFromUI();
-		List<ExternalTradeState> selectedExternalTradeStates = getExternalTradeStatesSelectedByUserFromUI();
-		List<ExternalTradeStatus> selectedExternalTradeStatuses = getExternalTradeStatusesSelectedByUserFromUI();
-		List<ExternalMapping> selectedExternalTradeAccounts = getExternalTradeAccountsSelectedByUserFromUI();
+		List<ExternalTradeSource> externalTradeSourceObjectsSelectedByUserFromUI = getExternalTradeSourcesSelectedByUserFromUI();
+		List<ExternalTradeState> externalTradeStateObjectsSelectedByUserFromUI = getExternalTradeStatesSelectedByUserFromUI();
+		List<ExternalTradeStatus> externalTradeStatusObjectsSelectedByUserFromUI = getExternalTradeStatusesSelectedByUserFromUI();
+		List<ExternalMapping> externalTradeAccountObjectsSelectedByUserFromUI = getExternalTradeAccountsSelectedByUserFromUI();
 
 		String selectedStartDate = DateTimeFormatter.ofPattern("dd-MMM-yyyy").format(startDateDatePicker.getValue());
 		String selectedEndDate = DateTimeFormatter.ofPattern("dd-MMM-yyyy").format(endDateDatePicker.getValue());
 		
-		List<String> externalTradeSources = new ArrayList<String>();
-		selectedExternalTradeSources.forEach((ExternalTradeSource anExternalTradeSource) -> externalTradeSources.add(anExternalTradeSource.getOid().toString()));
+		List<String> selectedExternalTradeSourceNames = new ArrayList<String>();
+		externalTradeSourceObjectsSelectedByUserFromUI.forEach((ExternalTradeSource anExternalTradeSource) -> selectedExternalTradeSourceNames.add(anExternalTradeSource.getOid().toString()));
 		
-		List<String> externalTradeStates = new ArrayList<String>();
-		selectedExternalTradeStates.forEach((ExternalTradeState anExternalTradeState) -> externalTradeStates.add(anExternalTradeState.getOid().toString()));
+		List<String> selectedExternalTradeStateNames = new ArrayList<String>();
+		externalTradeStateObjectsSelectedByUserFromUI.forEach((ExternalTradeState anExternalTradeState) -> selectedExternalTradeStateNames.add(anExternalTradeState.getOid().toString()));
 		
-		List<String> externalTradeStatuses= new ArrayList<String>();
-		selectedExternalTradeStatuses.forEach((ExternalTradeStatus anExternalTradeStatus) -> externalTradeStatuses.add(anExternalTradeStatus.getOid().toString()));
+		List<String> selectedExternalTradeStatusNames = new ArrayList<String>();
+		externalTradeStatusObjectsSelectedByUserFromUI.forEach((ExternalTradeStatus anExternalTradeStatus) -> selectedExternalTradeStatusNames.add(anExternalTradeStatus.getOid().toString()));
 
 		Session session = HibernateUtil.beginTransaction();
-		List<String> externalTradeAccountsTemp = new ArrayList<String>();
+		List<String> selectedExternalTradeAccountNames = new ArrayList<String>();
 		if(externalTradeAccountsListView.getCheckModel().getCheckedIndices().contains(0))
 		{
 			sqlQueryToFetchExternalTrades = session.getNamedQuery("externalTradesWithoutBuyerAccount");
@@ -985,20 +898,15 @@ public class MainApplicationMonitorTabController implements Initializable
 		}
 		else
 		{
-			selectedExternalTradeAccounts.forEach((ExternalMapping anExternalMapping) -> externalTradeAccountsTemp.add(anExternalMapping.getExternalValue1()));
+			externalTradeAccountObjectsSelectedByUserFromUI.forEach((ExternalMapping anExternalMapping) -> selectedExternalTradeAccountNames.add(anExternalMapping.getExternalValue1()));
 			sqlQueryToFetchExternalTrades = session.getNamedQuery("externalTradesWithBuyerAccount");
-			sqlQueryToFetchExternalTrades.setParameterList("buyerAccountsParam", externalTradeAccountsTemp);
+			sqlQueryToFetchExternalTrades.setParameterList("buyerAccountsParam", selectedExternalTradeAccountNames);
 		}
-		sqlQueryToFetchExternalTrades.setParameterList("externalTradeSourcesParam", externalTradeSources);
-		sqlQueryToFetchExternalTrades.setParameterList("externalTradeStatusesParam", externalTradeStatuses);
-		sqlQueryToFetchExternalTrades.setParameterList("externalTradeStatesParam", externalTradeStates);
+		sqlQueryToFetchExternalTrades.setParameterList("externalTradeSourcesParam", selectedExternalTradeSourceNames);
+		sqlQueryToFetchExternalTrades.setParameterList("externalTradeStatusesParam", selectedExternalTradeStatusNames);
+		sqlQueryToFetchExternalTrades.setParameterList("externalTradeStatesParam", selectedExternalTradeStateNames);
 		sqlQueryToFetchExternalTrades.setParameter("startDate", selectedStartDate);
 		sqlQueryToFetchExternalTrades.setParameter("endDate", selectedEndDate);
-
-		//sqlQueryToFetchData.addEntity(ExternalTrade.class);
-
-		/* This will fetch the data in FX thread which will freeze the UI.  This will run as a one time task but we need it to a recurring one. */
-		//dummyExternalTrades = sqlQueryToFetchData.list();
 		
 		/* This will fetch the data in a background thread, so UI will not be freezed and user can interact with the UI. Here we use a scheduled service which will invoke the task recurringly. */
 		fetchExternalTradesScheduledService.setSQLQuery(sqlQueryToFetchExternalTrades);
@@ -1015,18 +923,8 @@ public class MainApplicationMonitorTabController implements Initializable
 		fetchExternalTradesScheduledService.progressProperty().addListener((ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) -> { ApplicationHelper.controllersMap.getInstance(MainWindowController.class).progressStatusesProperty().set(newValue.doubleValue()); });
 
 		fetchExternalTradesScheduledService.restart();
-
-		fetchExternalTradesScheduledService.setOnSucceeded(new EventHandler<WorkerStateEvent>()
-		{
-			@Override
-			public void handle(WorkerStateEvent event)
-			{
-				externalTradesObservableList.clear();
-				externalTradesObservableList.addAll(fetchExternalTradesScheduledService.getValue());
-				//dummyExternalTrades.addAll(fetchExternalTradesScheduledService.getLastValue());
-				//dummyExternalTrades.addAll(fetchExternalTradesScheduledService.getLastValue() != null ? fetchExternalTradesScheduledService.getLastValue() : fetchExternalTradesScheduledService.getValue());
-			}
-		});
+		
+		fetchExternalTradesScheduledService.setOnSucceeded((WorkerStateEvent workerStateEvent) -> { doThisIfFetchSucceeded(); });
 	}
 	
 	public ObservableList<ExternalTradeSource> getExternalTradeSourcesSelectedByUserFromUI()
@@ -1047,6 +945,18 @@ public class MainApplicationMonitorTabController implements Initializable
 	public List<ExternalMapping> getExternalTradeAccountsSelectedByUserFromUI()
 	{
 		return externalTradeAccountsListView.getCheckModel().getCheckedItems();
+	}
+	
+	private void doThisIfFetchSucceeded()
+	{
+		externalTradesObservableList.clear();
+		externalTradesObservableList.addAll(fetchExternalTradesScheduledService.getValue());
+		//dummyExternalTrades.addAll(fetchExternalTradesScheduledService.getLastValue());
+		//dummyExternalTrades.addAll(fetchExternalTradesScheduledService.getLastValue() != null ? fetchExternalTradesScheduledService.getLastValue() : fetchExternalTradesScheduledService.getValue());
+	}
+	
+	private void doThisIfFetchFailed()
+	{
 	}
 
 	/**
@@ -1112,4 +1022,128 @@ public class MainApplicationMonitorTabController implements Initializable
 	{
 		return false;
 	}
+	
+	private Predicate<ExternalTrade> somePredicate = (ExternalTrade anExternalTrade) -> {
+		String filterText = externalTradeTableViewDataFilterTextField.getText().trim().toLowerCase();
+		
+		if(filterText.isEmpty() || filterText == null || filterText.equals(""))
+			return true;
+		
+		if(anExternalTrade.getOid().toString().contains(filterText))
+			return true;
+		else if(anExternalTrade.getExternalTradeSourceOid().getExternalTradeSrcName().toLowerCase().contains(filterText))
+			return true;
+		else if(anExternalTrade.getExternalTradeStatusOid().getExternalTradeStatusName().toLowerCase().contains(filterText))
+			return true;
+		else if(anExternalTrade.getExternalTradeStateOid().getExternalTradeStateName().toLowerCase().contains(filterText))
+			return true;
+		
+		return false;
+	};
 }
+	
+	/**
+	 * ============================================================================================================================================================================
+	 * 																																							All temporarily commented logic.
+	 * ============================================================================================================================================================================
+	 */
+	
+	/*
+	private void initializeExternalTradeTableView()
+	{
+		tradeOidTableColumn.setCellValueFactory(new PropertyValueFactory<>("oid"));
+		tradeOidTableColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DummyExternalTrade, Number>, ObservableValue<Number>>()
+		{
+			@Override
+			public ObservableValue<Number> call(CellDataFeatures<DummyExternalTrade, Number> param)
+			{
+				return new SimpleIntegerProperty(param.getValue().getOid().intValue());
+			}});
+		
+		 //commenting the above code, bcoz the same can be implemented as below using java 8 Lambda
+		externalTradeOidTableColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getOid()));
+		tradeCreationDateTableColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<Date>(cellData.getValue().getCreationDate()));
+		
+		//modified the above code as below. creationDate column in DB is Date or TimeStamp, so it is mandatory to define it as Date in the DummyExternalTrade bean class. 
+		 //But to utilize the java 8 LocalDate concept, we declared the TableView's creation date column as LocalDate. The value returned by the DummyExternalTrade bean is Date but 
+		 //the UI column is expecting a LocalDate. so we convert the date to LocalDate.    
+		tradeCreationDateTableColumn.setCellValueFactory(new TradeCreationDateCellValueFactory());
+		tradeEntryDateTableColumn.setCellValueFactory(new TradeEntryDateCellValueFactory());
+		tradeEntryDateTableColumn.setCellFactory(new TradeEntryDateCellFactory());
+		tradeStateTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExternalTradeStateOid().getExternalTradeStateName()));
+		tradeStatusTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExternalTradeStatusOid().getExternalTradeStatusName()));
+		exchangeTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExternalTradeSourceOid().getExternalTradeSrcName()));
+		commodityTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExchToolsTrade().getCommodity()));
+		tradingPeriodTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExchToolsTrade().getTradingPeriod()));
+		callPutTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExchToolsTrade().getCallPut()));
+
+		strikePriceTableColumn.setCellValueFactory(cellData -> {
+			if(cellData.getValue().getExchToolsTrade().getStrikePrice() != null)
+				return new ReadOnlyDoubleWrapper(cellData.getValue().getExchToolsTrade().getStrikePrice().doubleValue());
+			return null;
+		});	
+		quantityTableColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getExchToolsTrade().getQuantity()));
+		priceTableColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getExchToolsTrade().getPrice()));
+
+		buyingCompanyTableColumn.setCellValueFactory(cellData -> {
+			if(cellData.getValue().getExchToolsTrade().getInputAction().trim().equals("BUY"))
+			{
+				return new ReadOnlyStringWrapper(cellData.getValue().getExchToolsTrade().getInputCompany());
+			}
+			else
+			{
+				return new ReadOnlyStringWrapper(cellData.getValue().getExchToolsTrade().getAcceptedCompany());
+			}
+		});
+
+		buyingTraderTableColumn.setCellValueFactory(cellData -> {
+			if(cellData.getValue().getExchToolsTrade().getInputAction().trim().equals("BUY"))
+				return new ReadOnlyStringWrapper(cellData.getValue().getExchToolsTrade().getInputTrader());
+			return new ReadOnlyStringWrapper(cellData.getValue().getExchToolsTrade().getAcceptedTrader());
+		});
+		
+		sellingCompanyTableColumn.setCellValueFactory(cellData -> {
+			if(cellData.getValue().getExchToolsTrade().getInputAction().trim().equals("BUY"))
+				return new ReadOnlyStringWrapper(cellData.getValue().getExchToolsTrade().getAcceptedCompany());
+			return new ReadOnlyStringWrapper(cellData.getValue().getExchToolsTrade().getInputCompany());
+		});
+		
+		sellingTraderTableColumn.setCellValueFactory(cellData -> {
+			if(cellData.getValue().getExchToolsTrade().getInputAction().trim().equals("BUY"))
+				return new ReadOnlyStringWrapper(cellData.getValue().getExchToolsTrade().getAcceptedTrader());
+			return new ReadOnlyStringWrapper(cellData.getValue().getExchToolsTrade().getInputTrader());
+		});
+
+		exchangeTradeNumTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExchToolsTrade().getExchToolsTradeNum()));
+		accountTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExchToolsTrade().getBuyerAccount()));
+
+		ictsTradeNumTableColumn.setCellValueFactory(cellData -> {
+			if(cellData.getValue().getTradeNum() != null)
+				return new ReadOnlyStringWrapper(cellData.getValue().getTradeNum().toString());
+			return null;
+		});
+
+		ictsPortNumTableColumn.setCellValueFactory(cellData -> {
+			if(cellData.getValue().getPortNum() != null)
+				return new ReadOnlyStringWrapper(cellData.getValue().getPortNum().toString());
+			return null;
+		});
+
+		tradeTypeTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExchToolsTrade().getTradeType()));
+
+		inputBrokerTableColumn.setCellValueFactory(cellData -> {
+			if(cellData.getValue().getExchToolsTrade().getInputAction().trim().equals("BUY"))
+				return new ReadOnlyStringWrapper(cellData.getValue().getExchToolsTrade().getInputBroker());
+			return new ReadOnlyStringWrapper(cellData.getValue().getExchToolsTrade().getAcceptedBroker());
+		});
+
+		buyerClearingBrokerTableColumn.setCellValueFactory(cellData -> {
+			return new ReadOnlyStringWrapper(cellData.getValue().getExchToolsTrade().getBuyerClrngBroker());
+		});
+
+		sellerClearingBrokerTableColumn.setCellValueFactory(cellData -> {
+			return new ReadOnlyStringWrapper(cellData.getValue().getExchToolsTrade().getSellerClrngBroker());
+		});
+
+		commentTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExternalCommentOid() != null ? cellData.getValue().getExternalCommentOid().getCommentText() : null));
+	}*/

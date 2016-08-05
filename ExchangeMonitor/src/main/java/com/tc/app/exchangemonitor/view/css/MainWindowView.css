@@ -199,12 +199,14 @@
 {
     -fx-background-color: blanchedalmond;
 }
- 
+*/ 
+
 .table-row-cell:selected
 {
     -fx-background-color: chocolate;
+    /* the below style will remove the border lines of the selected row */
+    -fx-table-cell-border-color: transparent;
 }
-*/
 
 .table-row-cell:pending 
 {
