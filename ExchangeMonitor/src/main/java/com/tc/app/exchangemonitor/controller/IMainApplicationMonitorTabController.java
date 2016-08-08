@@ -60,7 +60,6 @@ public interface IMainApplicationMonitorTabController extends IGenericController
 		return false;
 	};
 
-	//default public Predicate<ExternalTrade> externalTradesTableViewFilterPredicateTemp()
 	default public Predicate<ExternalTrade> externalTradesTableViewFilterPredicateTemp(String filterText)
 	{
 		return (ExternalTrade anExternalTrade) ->
@@ -82,7 +81,6 @@ public interface IMainApplicationMonitorTabController extends IGenericController
 		};
 	}
 
-	//default public Predicate<ExternalTrade> externalTradesTableViewFilterPredicate()
 	default public Predicate<ExternalTrade> externalTradesTableViewFilterPredicate(String filterText)
 	{
 		return (ExternalTrade anExternalTrade) ->
@@ -91,4 +89,33 @@ public interface IMainApplicationMonitorTabController extends IGenericController
 			return filterText.isEmpty() || filterText == null || filterText.equals("") || externalTradeSearchablePropertiesList.stream().anyMatch((aFunction) -> aFunction.apply(anExternalTrade).contains(filterText));
 		};
 	}
+	
+	/*	
+	public default void handleExternalTradeTableViewFilterByKey()
+	{
+		if(externalTradeTableViewDataFilterTextField.textProperty().get().isEmpty())
+		{
+			externalTradesTableView.setItems(FXCollections.observableArrayList(externalTradesObservableList));
+			return;
+		}
+		ObservableList<ExternalTrade> tableItems = FXCollections.observableArrayList();
+		ObservableList<TableColumn<ExternalTrade, ?>> allCoulmns = externalTradesTableView.getColumns();
+		for(int rowNum=0; rowNum<externalTradesObservableList.size(); rowNum++)
+		{
+			for(int colNum=0; colNum<allCoulmns.size(); colNum++)
+			{
+				TableColumn<ExternalTrade, ?> aColumn = allCoulmns.get(colNum);
+				//String cellValue = aColumn.getCellData(externalTradesObservableList.get(rowNum)).toString();
+				String cellValue = aColumn.getCellData(externalTradesObservableList.get(rowNum)) != null ? aColumn.getCellData(externalTradesObservableList.get(rowNum)).toString() : "";
+				cellValue = cellValue.toLowerCase();
+				if(cellValue.contains(externalTradeTableViewDataFilterTextField.textProperty().get().toLowerCase()))
+				{
+					tableItems.add(externalTradesObservableList.get(rowNum));
+					break;
+				}
+			}
+		}
+		externalTradesTableView.setItems(tableItems);
+	}
+	*/
 }

@@ -108,7 +108,8 @@ public class ExternalTrade implements Serializable
     @ManyToOne(optional = false)
     private ExternalTradeSystem externalTradeSystemOid;
 
-    public ExternalTrade() {
+    public ExternalTrade()
+    {
     }
 
     public ExternalTrade(Integer oid) {

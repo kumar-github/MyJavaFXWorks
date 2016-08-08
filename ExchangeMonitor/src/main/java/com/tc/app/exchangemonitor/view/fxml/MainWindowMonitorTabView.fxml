@@ -233,7 +233,7 @@
 				<VBox prefHeight="500.0" prefWidth="138.0" spacing="1.0">
 				<padding><Insets top="1.0" /></padding>
 				<children>
-					<TextField fx:id="externalTradeAccountsSearchTextField" promptText="Type To Filter">
+					<TextField fx:id="externalTradeAccountsFilterTextField" promptText="Type To Filter">
 					<!-- below line commented. dont know what's the use. Let's check if there is any problem in alignment -->
 					<!--<VBox.margin><Insets /></VBox.margin> -->
 					</TextField>
