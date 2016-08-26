@@ -3,6 +3,7 @@ package com.tc.app.exchangemonitor.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.tc.app.exchangemonitor.entitybase.IExternalMappingEntity;
 import com.tc.app.exchangemonitor.model.ExternalMapping;
 import com.tc.app.exchangemonitor.model.predicates.ExternalMappingPredicates;
 import com.tc.app.exchangemonitor.util.ReferenceDataCache;
@@ -19,24 +20,30 @@ import javafx.scene.control.TableView;
 
 public class ExternalMappingPortfoliosController implements Initializable
 {
+	/*
 	private ObservableList<ExternalMapping> externalMappingPortfoliosObservableList = FXCollections.observableArrayList();
 	private FilteredList<ExternalMapping> externalMappingPortfoliosFilteredList = new FilteredList<ExternalMapping>(externalMappingPortfoliosObservableList, ExternalMappingPredicates.applyNymexPortfoliosPredicate);
 	private SortedList<ExternalMapping> externalMappingPortfoliosSortedList = new SortedList<ExternalMapping>(externalMappingPortfoliosFilteredList);
+	*/
+	
+	private ObservableList<IExternalMappingEntity> externalMappingPortfoliosObservableList = FXCollections.observableArrayList();
+	private FilteredList<IExternalMappingEntity> externalMappingPortfoliosFilteredList = new FilteredList<IExternalMappingEntity>(externalMappingPortfoliosObservableList, ExternalMappingPredicates.applyNymexPortfoliosPredicate);
+	private SortedList<IExternalMappingEntity> externalMappingPortfoliosSortedList = new SortedList<IExternalMappingEntity>(externalMappingPortfoliosFilteredList);
 
 	@FXML
-	private TableView<ExternalMapping> externalMappingPortfoliosTableView;
+	private TableView<IExternalMappingEntity> externalMappingPortfoliosTableView;
 
 	@FXML
-	private TableColumn<ExternalMapping, String> externalSourceCommodityTableColumn;
+	private TableColumn<IExternalMappingEntity, String> externalSourceCommodityTableColumn;
 	
 	@FXML
-	private TableColumn<ExternalMapping, String> externalSourceTraderTableColumn;
+	private TableColumn<IExternalMappingEntity, String> externalSourceTraderTableColumn;
 
 	@FXML
-	private TableColumn<ExternalMapping, String> externalSourceTradingPeriodTableColumn;
+	private TableColumn<IExternalMappingEntity, String> externalSourceTradingPeriodTableColumn;
 
 	@FXML
-	private TableColumn<ExternalMapping, String> externalSourceAccountTableColumn;
+	private TableColumn<IExternalMappingEntity, String> externalSourceAccountTableColumn;
 
 	@FXML
 	private TableColumn<ExternalMapping, String> ictsPortfolioTableColumn;

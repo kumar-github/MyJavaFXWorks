@@ -16,7 +16,7 @@
    
    <!-- jtds connection string -->
    <!-- jdbc:jtds:<server_type>://<server>[:<port>][/<database>][;<property>=<value>[;...]]-->
-   <property name="connection.url">jdbc:jtds:sqlserver://HYDDB06:1460;databaseName=QA_30_trade</property>
+   <property name="connection.url">jdbc:jtds:sqlserver://HYDDB07:1460;databaseName=QA_30_trade_Aug22</property>
    
    <property name="connection.username">ictspass</property>
    <property name="connection.password">ictspass</property>
@@ -96,6 +96,17 @@
    <mapping class="com.tc.app.exchangemonitor.model.IctsProduct" />
    <mapping class="com.tc.app.exchangemonitor.model.PortfolioAlias" />
    -->
+   <!--
+   <mapping class="com.tc.app.exchangemonitor.entity.ExternalTradeEntity" />
+   <mapping class="com.tc.app.exchangemonitor.entity.ExternalTradeSourceEntity" />
+   <mapping class="com.tc.app.exchangemonitor.entity.ExternalTradeStateEntity" />
+   <mapping class="com.tc.app.exchangemonitor.entity.ExternalTradeStatusEntity" />
+   <mapping class="com.tc.app.exchangemonitor.entity.ExternalTradeSystemEntity" />
+   <mapping class="com.tc.app.exchangemonitor.entity.ExchToolsTradeEntity" />
+   <mapping class="com.tc.app.exchangemonitor.entity.ExternalTradeTypeEntity" />
+   <mapping class="com.tc.app.exchangemonitor.entity.ExternalCommentEntity" />
+   <mapping class="com.tc.app.exchangemonitormodel.ExternalMappingEntity" />
+   -->
    
    <mapping class="com.tc.app.exchangemonitor.model.ExternalTrade" />
    <mapping class="com.tc.app.exchangemonitor.model.ExternalTradeSource" />
@@ -107,5 +118,6 @@
    <mapping class="com.tc.app.exchangemonitor.model.ExternalComment" />
    <mapping class="com.tc.app.exchangemonitor.model.ExternalMapping" />
    <mapping resource="/hibernate/NamedQueries.xml"/>
+   
    </session-factory>
 </hibernate-configuration>

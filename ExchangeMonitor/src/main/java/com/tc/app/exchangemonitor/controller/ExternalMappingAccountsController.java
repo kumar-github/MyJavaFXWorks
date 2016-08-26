@@ -3,7 +3,7 @@ package com.tc.app.exchangemonitor.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import com.tc.app.exchangemonitor.model.ExternalMapping;
+import com.tc.app.exchangemonitor.entitybase.IExternalMappingEntity;
 import com.tc.app.exchangemonitor.model.predicates.ExternalMappingPredicates;
 import com.tc.app.exchangemonitor.util.ReferenceDataCache;
 
@@ -20,13 +20,19 @@ import javafx.scene.control.TableView;
 public class ExternalMappingAccountsController implements Initializable
 {
 	@FXML
-	private TableView<ExternalMapping> externalMappingAccountsTableView;
-	@FXML
-	private TableColumn<ExternalMapping, String> externalSourceAccountTableColumn;
+	//private TableView<ExternalMapping> externalMappingAccountsTableView;
+	private TableView<IExternalMappingEntity> externalMappingAccountsTableView;
 	
-	private ObservableList<ExternalMapping> externalMappingAccountsObservableList = FXCollections.observableArrayList();
-	private FilteredList<ExternalMapping> externalMappingAccountsFilteredList = new FilteredList<ExternalMapping>(externalMappingAccountsObservableList, ExternalMappingPredicates.applyNymexAccountsPredicate);
-	private SortedList<ExternalMapping> externalMappingAccountsSortedList = new SortedList<ExternalMapping>(externalMappingAccountsFilteredList);
+	@FXML
+	//private TableColumn<ExternalMapping, String> externalSourceAccountTableColumn;
+	private TableColumn<IExternalMappingEntity, String> externalSourceAccountTableColumn;
+	
+	//private ObservableList<ExternalMapping> externalMappingAccountsObservableList = FXCollections.observableArrayList();
+	private ObservableList<IExternalMappingEntity> externalMappingAccountsObservableList = FXCollections.observableArrayList();
+	//private FilteredList<ExternalMapping> externalMappingAccountsFilteredList = new FilteredList<ExternalMapping>(externalMappingAccountsObservableList, ExternalMappingPredicates.applyNymexAccountsPredicate);
+	private FilteredList<IExternalMappingEntity> externalMappingAccountsFilteredList = new FilteredList<IExternalMappingEntity>(externalMappingAccountsObservableList, ExternalMappingPredicates.applyNymexAccountsPredicate);
+	//private SortedList<ExternalMapping> externalMappingAccountsSortedList = new SortedList<ExternalMapping>(externalMappingAccountsFilteredList);
+	private SortedList<IExternalMappingEntity> externalMappingAccountsSortedList = new SortedList<IExternalMappingEntity>(externalMappingAccountsFilteredList);
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources)

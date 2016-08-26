@@ -4,13 +4,13 @@ import java.util.List;
 
 import org.hibernate.Query;
 
-import com.tc.app.exchangemonitor.model.ExternalTrade;
+import com.tc.app.exchangemonitor.entitybase.IExternalTradeEntity;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 
-public class FetchExternalTradesTask extends Task<ObservableList<ExternalTrade>>
+public class FetchExternalTradesTask extends Task<ObservableList<IExternalTradeEntity>>
 {
 	private final Query sqlQuery;
 	
@@ -29,7 +29,7 @@ public class FetchExternalTradesTask extends Task<ObservableList<ExternalTrade>>
 	}
 	
 	@Override
-	protected ObservableList<ExternalTrade> call() throws Exception
+	protected ObservableList<IExternalTradeEntity> call() throws Exception
 	{
 		try
 		{
@@ -41,9 +41,9 @@ public class FetchExternalTradesTask extends Task<ObservableList<ExternalTrade>>
 		}
 	}
 
-	private List<ExternalTrade> fetchExternalTradesForQuery(Query sqlQuery)
+	private List<IExternalTradeEntity> fetchExternalTradesForQuery(Query sqlQuery)
 	{
-		List<ExternalTrade> externalTrades = null;
+		List<IExternalTradeEntity> externalTrades = null;
 		
 		try
 		{

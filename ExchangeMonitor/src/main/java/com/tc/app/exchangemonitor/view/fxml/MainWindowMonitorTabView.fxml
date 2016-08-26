@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?language javascript?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
@@ -34,27 +35,8 @@
 <?import com.tc.app.exchangemonitor.controller.TradeCreationDateCellFactory?>
 <?import com.tc.app.exchangemonitor.controller.TradeEntryDateCellValueFactory?>
 <?import com.tc.app.exchangemonitor.controller.TradeEntryDateCellFactory?>
-<?import com.tc.app.exchangemonitor.controller.CommodityCellValueFactory?>
-<?import com.tc.app.exchangemonitor.controller.TradingPeriodCellValueFactory?>
-<?import com.tc.app.exchangemonitor.controller.CallPutCellValueFactory?>
-<?import com.tc.app.exchangemonitor.controller.StrikePriceCellValueFactory?>
-<?import com.tc.app.exchangemonitor.controller.QuantityCellValueFactory?>
-<?import com.tc.app.exchangemonitor.controller.PriceCellValueFactory?>
-<?import com.tc.app.exchangemonitor.controller.BuyingCompanyCellValueFactory?>
-<?import com.tc.app.exchangemonitor.controller.SellingCompanyCellValueFactory?>
-<?import com.tc.app.exchangemonitor.controller.BuyingTraderCellValueFactory?>
-<?import com.tc.app.exchangemonitor.controller.SellingTraderCellValueFactory?>
-<?import com.tc.app.exchangemonitor.controller.ExchangeTradeNumCellValueFactory?>
-<?import com.tc.app.exchangemonitor.controller.AccountCellValueFactory?>
-<?import com.tc.app.exchangemonitor.controller.ICTSTradeNumCellValueFactory?>
-<?import com.tc.app.exchangemonitor.controller.ICTSPortNumCellValueFactory?>
-<?import com.tc.app.exchangemonitor.controller.TradeTypeCellValueFactory?>
-<?import com.tc.app.exchangemonitor.controller.InputBrokerCellValueFactory?>
-<?import com.tc.app.exchangemonitor.controller.BuyerClearingBrokerCellValueFactory?>
-<?import com.tc.app.exchangemonitor.controller.SellerClearingBrokerCellValueFactory?>
-<?import com.tc.app.exchangemonitor.controller.CommentCellValueFactory?>
 
-<?import com.tc.app.exchangemonitor.model.ExternalTrade?>
+<!-- <?import com.tc.app.exchangemonitor.model.ExternalTrade?> -->
 <?import java.lang.String?>
 
 
@@ -268,7 +250,7 @@
 		</panes>
 		</Accordion>
 		
-		<TextField fx:id="externalTradeTableViewDataFilterTextField" promptText="Type To Filter Table Data" />
+		<TextField fx:id="externalTradeTableViewDataFilterTextField" styleClass="externalTradeTableViewDataFilterTextFieldStyle" promptText="Type To Filter Table Data" />
 		<Label labelFor="$externalTradeTableViewDataFilterTextField" mnemonicParsing="true" text="_F" visible="false" />
 	</children>
 	</VBox>
@@ -280,6 +262,7 @@
 	<padding><Insets bottom="2.0" left="2.0" right="2.0" top="1.0" /></padding>
 	<children>
 		<TableView fx:id="externalTradesTableView" cache="true" tableMenuButtonVisible="true" BorderPane.alignment="CENTER" VBox.vgrow="ALWAYS">
+		<fx:script>externalTradesTableView.getSelectionModel().setSelectionMode(javafx.scene.control.SelectionMode.MULTIPLE);</fx:script>
 		<!--<rowFactory><CustomRowFactory /></rowFactory>-->
 		<rowFactory>
 		<CustomRowFactory>
@@ -316,109 +299,115 @@
 		</rowFactory>
 		
 		<columns>
-			<TableColumn fx:id="externalTradeOidTableColumn" prefWidth="130.0" text="External Trade Oid">
+			<TableColumn prefWidth="130.0" text="External Trade Oid">
 			<cellValueFactory><PropertyValueFactory property="oid"/></cellValueFactory>
 			</TableColumn>
 			
-			<TableColumn fx:id="tradeCreationDateTableColumn" prefWidth="150.0" text="Trade Creation Date">
+			<TableColumn prefWidth="150.0" text="Trade Creation Date">
 			<cellValueFactory><TradeCreationDateCellValueFactory /></cellValueFactory>
 			<cellFactory><TradeCreationDateCellFactory /></cellFactory>
 			</TableColumn>
 			
-			<TableColumn fx:id="tradeEntryDateTableColumn" prefWidth="150.0" text="Trade Entry Date">
+			<TableColumn prefWidth="150.0" text="Trade Entry Date">
 			<cellValueFactory><TradeEntryDateCellValueFactory /></cellValueFactory>
 			<cellFactory><TradeEntryDateCellFactory /></cellFactory>
 			</TableColumn>
 			
-			<TableColumn fx:id="tradeStateTableColumn" prefWidth="85.0" text="Trade State">
+			<TableColumn prefWidth="85.0" text="Trade State">
 			<!-- It will be awesome if the below works -->
 			<!-- <cellValueFactory><PropertyValueFactory property="externalTradeStateOid.externalTradeStateName"/></cellValueFactory> -->
 			<cellValueFactory><PropertyValueFactory property="externalTradeStateOid"/></cellValueFactory>
 			</TableColumn>
 			
-			<TableColumn fx:id="tradeStatusTableColumn" prefWidth="95.0" text="Trade Status">
+			<TableColumn prefWidth="95.0" text="Trade Status">
 			<cellValueFactory><PropertyValueFactory property="externalTradeStatusOid"/></cellValueFactory>
 			</TableColumn>
 			
-			<TableColumn fx:id="exchangeTableColumn" prefWidth="85.0" text="Exchange">
+			<TableColumn prefWidth="85.0" text="Exchange">
 			<cellValueFactory><PropertyValueFactory property="externalTradeSourceOid"/></cellValueFactory>
 			</TableColumn>
 			
-			<TableColumn fx:id="commodityTableColumn" prefWidth="220.0" text="Commodity">
-			<cellValueFactory><CommodityCellValueFactory /></cellValueFactory>
+			<TableColumn prefWidth="220.0" text="Commodity">
+			<!-- <cellValueFactory><CommodityCellValueFactory /></cellValueFactory> -->
+			<cellValueFactory><PropertyValueFactory property="commodity"/></cellValueFactory>
 			</TableColumn>
 			
-			<TableColumn fx:id="tradingPeriodTableColumn" prefWidth="110.0" text="Trading Period">
-			<cellValueFactory><TradingPeriodCellValueFactory /></cellValueFactory>
+			<TableColumn prefWidth="110.0" text="Trading Period">
+			<!-- <cellValueFactory><TradingPeriodCellValueFactory /></cellValueFactory> -->
+			<cellValueFactory><PropertyValueFactory property="_tradingPeriod" /></cellValueFactory>
 			</TableColumn>
 			
-			<TableColumn fx:id="callPutTableColumn" prefWidth="75.0" text="Call Put">
-			<cellValueFactory><CallPutCellValueFactory /></cellValueFactory>
+			<TableColumn prefWidth="75.0" text="Call Put">
+			<!-- <cellValueFactory><CallPutCellValueFactory /></cellValueFactory> -->
+			<cellValueFactory><PropertyValueFactory property="_callPut" /></cellValueFactory>
 			</TableColumn>
 			
-			<TableColumn fx:id="strikePriceTableColumn" prefWidth="80.0" text="Strike Price">
-			<cellValueFactory><StrikePriceCellValueFactory /></cellValueFactory>
+			<TableColumn prefWidth="80.0" text="Strike Price">
+			<!-- <cellValueFactory><StrikePriceCellValueFactory /></cellValueFactory> -->
+			<cellValueFactory><PropertyValueFactory property="_strikePrice" /></cellValueFactory>
 			</TableColumn>
 			
-			<TableColumn fx:id="quantityTableColumn" prefWidth="75.0" text="Quantity">
-			<cellValueFactory><QuantityCellValueFactory /></cellValueFactory>
+			<TableColumn prefWidth="75.0" text="Quantity">
+			<!-- <cellValueFactory><QuantityCellValueFactory /></cellValueFactory> -->
+			<cellValueFactory><PropertyValueFactory property="_quantity" /></cellValueFactory>
 			</TableColumn>
 			
-			<TableColumn fx:id="priceTableColumn" prefWidth="75.0" text="Price">
-			<cellValueFactory><PriceCellValueFactory /></cellValueFactory>
+			<TableColumn prefWidth="75.0" text="Price">
+			<cellValueFactory><PropertyValueFactory property="_price" /></cellValueFactory>
 			</TableColumn>
 			
-			<TableColumn fx:id="exchangeTradeNumTableColumn" prefWidth="220.0" text="Exchange Trade#">
-			<cellValueFactory><ExchangeTradeNumCellValueFactory /></cellValueFactory>
+			<TableColumn prefWidth="220.0" text="Exchange Trade#">
+			<cellValueFactory><PropertyValueFactory property="_exchToolsTradeNum" /></cellValueFactory>
 			</TableColumn>
 			
-			<TableColumn fx:id="ictsTradeNumTableColumn" prefWidth="80.0" text="ICTS Trade#">
-			<cellValueFactory><ICTSTradeNumCellValueFactory /></cellValueFactory>
+			<TableColumn prefWidth="80.0" text="ICTS Trade#">
+			<cellValueFactory><PropertyValueFactory property="_ictsTradeNum" /></cellValueFactory>
 			</TableColumn>
 			
-			<TableColumn fx:id="ictsPortNumTableColumn" prefWidth="80.0" text="ICTS Port#">
-			<cellValueFactory><ICTSPortNumCellValueFactory /></cellValueFactory>
+			<TableColumn prefWidth="80.0" text="ICTS Port#">
+			<cellValueFactory><PropertyValueFactory property="_ictsPortNum" /></cellValueFactory>
 			</TableColumn>
 			
-			<TableColumn fx:id="buyingCompanyTableColumn" prefWidth="120.0" text="Buying Company">
-			<cellValueFactory><BuyingCompanyCellValueFactory /></cellValueFactory>
+			<TableColumn prefWidth="120.0" text="Buying Company">
+			<cellValueFactory><PropertyValueFactory property="_buyingCompany" /></cellValueFactory>
 			</TableColumn>
 			
-			<TableColumn fx:id="sellingCompanyTableColumn" prefWidth="120.0" text="Selling Company">
-			<cellValueFactory><SellingCompanyCellValueFactory /></cellValueFactory>
+			<TableColumn prefWidth="120.0" text="Selling Company">
+			<cellValueFactory><PropertyValueFactory property="_sellingCompany" /></cellValueFactory>
 			</TableColumn>
 			
-			<TableColumn fx:id="buyingTraderTableColumn" prefWidth="120.0" text="Buying Trader">
-			<cellValueFactory><BuyingTraderCellValueFactory /></cellValueFactory>
+			<TableColumn prefWidth="120.0" text="Buying Trader">
+			<cellValueFactory><PropertyValueFactory property="_buyingTrader" /></cellValueFactory>
 			</TableColumn>
 			
-			<TableColumn fx:id="sellingTraderTableColumn" prefWidth="120.0" text="Selling Trader">
-			<cellValueFactory><SellingTraderCellValueFactory /></cellValueFactory>
+			<TableColumn prefWidth="120.0" text="Selling Trader">
+			<cellValueFactory><PropertyValueFactory property="_sellingTrader" /></cellValueFactory>
 			</TableColumn>
 			
-			<TableColumn fx:id="inputBrokerTableColumn" prefWidth="140.0" text="Input Broker">
-			<cellValueFactory><InputBrokerCellValueFactory /></cellValueFactory>
+			<TableColumn prefWidth="140.0" text="Input Broker">
+			<cellValueFactory><PropertyValueFactory property="_inputBroker" /></cellValueFactory>
 			</TableColumn>
 			
-			<TableColumn fx:id="buyerClearingBrokerTableColumn" prefWidth="150.0" text="Buyer Clearing Broker">
-			<cellValueFactory><BuyerClearingBrokerCellValueFactory /></cellValueFactory>
+			<TableColumn prefWidth="150.0" text="Buyer Clearing Broker">
+			<cellValueFactory><PropertyValueFactory property="_buyerClearingBroker" /></cellValueFactory>
 			</TableColumn>
 			
-			<TableColumn fx:id="sellerClearingBrokerTableColumn" prefWidth="150.0" text="Seller Clearing Broker">
-			<cellValueFactory><SellerClearingBrokerCellValueFactory /></cellValueFactory>
+			<TableColumn prefWidth="150.0" text="Seller Clearing Broker">
+			<cellValueFactory><PropertyValueFactory property="_sellerClearingBroker" /></cellValueFactory>
 			</TableColumn>
 			
-			<TableColumn fx:id="accountTableColumn" prefWidth="75.0" text="Account">
-			<cellValueFactory><AccountCellValueFactory /></cellValueFactory>
+			<TableColumn prefWidth="75.0" text="Account">
+			<cellValueFactory><PropertyValueFactory property="_buyerAccount" /></cellValueFactory>
 			</TableColumn>
 			
-			<TableColumn fx:id="tradeTypeTableColumn" prefWidth="75.0" text="Trade Type">
-			<cellValueFactory><TradeTypeCellValueFactory /></cellValueFactory>
+			<TableColumn prefWidth="75.0" text="Trade Type">
+			<cellValueFactory><PropertyValueFactory property="_tradeType" /></cellValueFactory>
 			</TableColumn>
 			
-			<TableColumn fx:id="commentTableColumn" prefWidth="250.0" text="Comment">
-			<cellValueFactory><CommentCellValueFactory /></cellValueFactory>
+			<TableColumn prefWidth="250.0" text="Comment">
+			<cellValueFactory><PropertyValueFactory property="_comment" /></cellValueFactory>
 			</TableColumn>
+		
 		</columns>
 		<BorderPane.margin><Insets bottom="10.0" left="5.0" right="10.0" top="5.0" /></BorderPane.margin>
 		<!--<columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY" /></columnResizePolicy>-->

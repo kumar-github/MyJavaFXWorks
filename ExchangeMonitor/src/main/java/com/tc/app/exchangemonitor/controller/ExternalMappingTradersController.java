@@ -3,7 +3,7 @@ package com.tc.app.exchangemonitor.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import com.tc.app.exchangemonitor.model.ExternalMapping;
+import com.tc.app.exchangemonitor.entitybase.IExternalMappingEntity;
 import com.tc.app.exchangemonitor.model.predicates.ExternalMappingPredicates;
 import com.tc.app.exchangemonitor.util.ReferenceDataCache;
 
@@ -20,17 +20,17 @@ import javafx.scene.control.TableView;
 public class ExternalMappingTradersController implements Initializable
 {
 	@FXML
-	private TableView<ExternalMapping> externalMappingTradersTableView;
+	private TableView<IExternalMappingEntity> externalMappingTradersTableView;
 	
 	@FXML
-	private TableColumn<ExternalMapping, String> externalSourceTraderTableColumn;
+	private TableColumn<IExternalMappingEntity, String> externalSourceTraderTableColumn;
 	
 	@FXML
-	private TableColumn<ExternalMapping, String> ictsTraderTableColumn;
+	private TableColumn<IExternalMappingEntity, String> ictsTraderTableColumn;
 	
-	private ObservableList<ExternalMapping> externalMappingTradersObservableList = FXCollections.observableArrayList();
-	private FilteredList<ExternalMapping> externalMappingTradersFilteredList = new FilteredList<ExternalMapping>(externalMappingTradersObservableList, ExternalMappingPredicates.applyNymexTradersPredicate);
-	private SortedList<ExternalMapping> externalMappingTradersSortedList = new SortedList<ExternalMapping>(externalMappingTradersFilteredList);
+	private ObservableList<IExternalMappingEntity> externalMappingTradersObservableList = FXCollections.observableArrayList();
+	private FilteredList<IExternalMappingEntity> externalMappingTradersFilteredList = new FilteredList<IExternalMappingEntity>(externalMappingTradersObservableList, ExternalMappingPredicates.applyNymexTradersPredicate);
+	private SortedList<IExternalMappingEntity> externalMappingTradersSortedList = new SortedList<IExternalMappingEntity>(externalMappingTradersFilteredList);
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources)

@@ -3,6 +3,7 @@ package com.tc.app.exchangemonitor.controller;
 import java.util.List;
 import java.util.StringJoiner;
 
+import com.tc.app.exchangemonitor.entitybase.IExternalTradeEntity;
 import com.tc.app.exchangemonitor.model.ExternalTrade;
 
 import javafx.beans.value.ObservableValue;
@@ -191,9 +192,9 @@ public class CustomRowFactory<T> implements Callback<TableView<T>, TableRow<T>>
 		}
 		else
 		{
-			if(newValue instanceof ExternalTrade)
+			if(newValue instanceof IExternalTradeEntity)
 			{
-				ExternalTrade anExternalTrade = (ExternalTrade)newValue;
+				IExternalTradeEntity anExternalTrade = (IExternalTradeEntity)newValue;
 				theRow.pseudoClassStateChanged(pendingStyle, anExternalTrade.getExternalTradeStatusOid().getExternalTradeStatusName().equals("Pending"));
 				theRow.pseudoClassStateChanged(completedStyle, anExternalTrade.getExternalTradeStatusOid().getExternalTradeStatusName().equals("Completed"));
 				theRow.pseudoClassStateChanged(failedStyle, anExternalTrade.getExternalTradeStatusOid().getExternalTradeStatusName().equals("Failed"));
@@ -208,7 +209,7 @@ public class CustomRowFactory<T> implements Callback<TableView<T>, TableRow<T>>
 			theRow.setTooltip(null);
 		else
 		{
-			if(newValue instanceof ExternalTrade)
+			if(newValue instanceof IExternalTradeEntity)
 			{
 				//theRow.setTooltip(new Tooltip(((ExternalTrade)newValue).getOid().toString()));
 				theRow.setTooltip(new Tooltip(getToolTipString(newValue)));
@@ -227,7 +228,7 @@ public class CustomRowFactory<T> implements Callback<TableView<T>, TableRow<T>>
 	
 	private String getToolTipString(T newValue)
 	{
-		ExternalTrade anExternalTrade = (ExternalTrade)newValue;
+		IExternalTradeEntity anExternalTrade = (IExternalTradeEntity)newValue;
 		
 		//1st Method
 		//return String.format("External Trade: %s\nStatus: %s\nState: %s", anExternalTrade.getOid(), anExternalTrade.getExternalTradeStatusOid().getExternalTradeStatusName(), anExternalTrade.getExternalTradeStateOid().getExternalTradeStateName());

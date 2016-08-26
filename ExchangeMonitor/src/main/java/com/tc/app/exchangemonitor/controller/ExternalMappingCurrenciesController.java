@@ -3,6 +3,7 @@ package com.tc.app.exchangemonitor.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.tc.app.exchangemonitor.entitybase.IExternalMappingEntity;
 import com.tc.app.exchangemonitor.model.ExternalMapping;
 import com.tc.app.exchangemonitor.model.predicates.ExternalMappingPredicates;
 import com.tc.app.exchangemonitor.util.ReferenceDataCache;
@@ -19,16 +20,22 @@ import javafx.scene.control.TableView;
 
 public class ExternalMappingCurrenciesController implements Initializable
 {
+	/*
 	private ObservableList<ExternalMapping> externalMappingCurrenciesObservableList = FXCollections.observableArrayList();
 	private FilteredList<ExternalMapping> externalMappingCurrenciesFilteredList = new FilteredList<ExternalMapping>(externalMappingCurrenciesObservableList, ExternalMappingPredicates.applyNymexCurrenciesPredicate);
 	private SortedList<ExternalMapping> externalMappingCurrenciesSortedList = new SortedList<ExternalMapping>(externalMappingCurrenciesFilteredList);
+	*/
+	
+	private ObservableList<IExternalMappingEntity> externalMappingCurrenciesObservableList = FXCollections.observableArrayList();
+	private FilteredList<IExternalMappingEntity> externalMappingCurrenciesFilteredList = new FilteredList<IExternalMappingEntity>(externalMappingCurrenciesObservableList, ExternalMappingPredicates.applyNymexCurrenciesPredicate);
+	private SortedList<IExternalMappingEntity> externalMappingCurrenciesSortedList = new SortedList<IExternalMappingEntity>(externalMappingCurrenciesFilteredList);
 	
 	@FXML
-	private TableView<ExternalMapping> externalMappingCurrenciesTableView;
+	private TableView<IExternalMappingEntity> externalMappingCurrenciesTableView;
 	@FXML
-	private TableColumn<ExternalMapping, String> externalSourceCurrencyTableColumn;
+	private TableColumn<IExternalMappingEntity, String> externalSourceCurrencyTableColumn;
 	@FXML
-	private TableColumn<ExternalMapping, String> ictsCurrencyTableColumn;
+	private TableColumn<IExternalMappingEntity, String> ictsCurrencyTableColumn;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources)

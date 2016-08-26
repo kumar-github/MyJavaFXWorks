@@ -3,7 +3,7 @@ package com.tc.app.exchangemonitor.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import com.tc.app.exchangemonitor.model.ExternalMapping;
+import com.tc.app.exchangemonitor.entitybase.IExternalMappingEntity;
 import com.tc.app.exchangemonitor.model.predicates.ExternalMappingPredicates;
 import com.tc.app.exchangemonitor.util.ReferenceDataCache;
 
@@ -19,16 +19,16 @@ import javafx.scene.control.TableView;
 
 public class ExternalMappingTradingPeriodsController implements Initializable
 {
-	private ObservableList<ExternalMapping> externalMappingTradingPeriodsObservableList = FXCollections.observableArrayList();
-	private FilteredList<ExternalMapping> externalMappingTradingPeriodsFilteredList = new FilteredList<ExternalMapping>(externalMappingTradingPeriodsObservableList, ExternalMappingPredicates.applyNymexTradingPeriodsPredicate);
-	private SortedList<ExternalMapping> externalMappingTradingPeriodsSortedList = new SortedList<ExternalMapping>(externalMappingTradingPeriodsFilteredList);
+	private ObservableList<IExternalMappingEntity> externalMappingTradingPeriodsObservableList = FXCollections.observableArrayList();
+	private FilteredList<IExternalMappingEntity> externalMappingTradingPeriodsFilteredList = new FilteredList<IExternalMappingEntity>(externalMappingTradingPeriodsObservableList, ExternalMappingPredicates.applyNymexTradingPeriodsPredicate);
+	private SortedList<IExternalMappingEntity> externalMappingTradingPeriodsSortedList = new SortedList<IExternalMappingEntity>(externalMappingTradingPeriodsFilteredList);
 	
 	@FXML
-	private TableView<ExternalMapping> externalMappingTradingPeriodsTableView;
+	private TableView<IExternalMappingEntity> externalMappingTradingPeriodsTableView;
 	@FXML
-	private TableColumn<ExternalMapping, String> externalSourceCommodityTableColumn;
+	private TableColumn<IExternalMappingEntity, String> externalSourceCommodityTableColumn;
 	@FXML
-	private TableColumn<ExternalMapping, String> tradingPeriodOffsetMonthTableColumn;
+	private TableColumn<IExternalMappingEntity, String> tradingPeriodOffsetMonthTableColumn;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources)

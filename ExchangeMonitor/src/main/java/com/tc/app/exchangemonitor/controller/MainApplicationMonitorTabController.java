@@ -12,11 +12,12 @@ import org.controlsfx.control.CheckListView;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import com.tc.app.exchangemonitor.entitybase.IExternalMappingEntity;
+import com.tc.app.exchangemonitor.entitybase.IExternalTradeEntity;
+import com.tc.app.exchangemonitor.entitybase.IExternalTradeSourceEntity;
+import com.tc.app.exchangemonitor.entitybase.IExternalTradeStateEntity;
+import com.tc.app.exchangemonitor.entitybase.IExternalTradeStatusEntity;
 import com.tc.app.exchangemonitor.model.ExternalMapping;
-import com.tc.app.exchangemonitor.model.ExternalTrade;
-import com.tc.app.exchangemonitor.model.ExternalTradeSource;
-import com.tc.app.exchangemonitor.model.ExternalTradeState;
-import com.tc.app.exchangemonitor.model.ExternalTradeStatus;
 import com.tc.app.exchangemonitor.util.ApplicationHelper;
 import com.tc.app.exchangemonitor.util.DatePickerConverter;
 import com.tc.app.exchangemonitor.util.HibernateUtil;
@@ -28,7 +29,6 @@ import javafx.animation.KeyValue;
 import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
 import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -38,7 +38,6 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.concurrent.WorkerStateEvent;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
@@ -103,16 +102,16 @@ public class MainApplicationMonitorTabController implements IMainApplicationMoni
 	private Accordion queryFilterAccordion;
 
 	@FXML
-	private CheckListView<ExternalTradeSource> externalTradeSourcesListView;
+	private CheckListView<IExternalTradeSourceEntity> externalTradeSourcesListView;
 
 	@FXML
-	private CheckListView<ExternalTradeState> externalTradeStatesListView;
+	private CheckListView<IExternalTradeStateEntity> externalTradeStatesListView;
 
 	@FXML
-	private CheckListView<ExternalTradeStatus> externalTradeStatusesListView;
+	private CheckListView<IExternalTradeStatusEntity> externalTradeStatusesListView;
 
 	@FXML
-	private CheckListView<ExternalMapping> externalTradeAccountsListView;
+	private CheckListView<IExternalMappingEntity> externalTradeAccountsListView;
 
 	@FXML
 	private TextField externalTradeAccountsFilterTextField;
@@ -136,7 +135,7 @@ public class MainApplicationMonitorTabController implements IMainApplicationMoni
 	private DatePicker endDateDatePicker;
 
 	@FXML
-	private TableView<ExternalTrade> externalTradesTableView;
+	private TableView<IExternalTradeEntity> externalTradesTableView;
 
 	@FXML
 	private TextField externalTradeTableViewDataFilterTextField;
@@ -165,25 +164,28 @@ public class MainApplicationMonitorTabController implements IMainApplicationMoni
 	 * ============================================================================================================================================================================
 	 */
 
-	private ListChangeListener<ExternalTradeSource> externalTradeSourcesCheckBoxClickListener = null;
-	private ListChangeListener<ExternalTradeState> externalTradeStatesCheckBoxClickListener = null;
-	private ListChangeListener<ExternalTradeStatus> externalTradeStatusesCheckBoxClickListener = null;
-	private ListChangeListener<ExternalMapping> externalTradeAccountsCheckBoxClickListener = null;
+	private ListChangeListener<IExternalTradeSourceEntity> externalTradeSourcesCheckBoxClickListener = null;
+	private ListChangeListener<IExternalTradeStateEntity> externalTradeStatesCheckBoxClickListener = null;
+	private ListChangeListener<IExternalTradeStatusEntity> externalTradeStatusesCheckBoxClickListener = null;
+	private ListChangeListener<IExternalMappingEntity> externalTradeAccountsCheckBoxClickListener = null;
 	private ChangeListener<String> externalTradeAccountsFilterTextFieldKeyListener = null;
 	private InvalidationListener externalTradeTableViewDataFilterTextFieldKeyListener = null;
 
-	private List<ExternalMapping> externalTradeAccounts = new ArrayList<ExternalMapping>();
+	private List<IExternalMappingEntity> externalTradeAccounts = new ArrayList<IExternalMappingEntity>();
 
-	private List<ExternalMapping> checkedExternalTradeAccounts = new ArrayList<ExternalMapping>();
+	private List<IExternalMappingEntity> checkedExternalTradeAccounts = new ArrayList<IExternalMappingEntity>();
 
-	private ObservableList<ExternalTradeSource> externalTradeSourceObservableList = FXCollections.observableArrayList();
-	private ObservableList<ExternalTradeState> externalTradeStateObservableList = FXCollections.observableArrayList();
-	private ObservableList<ExternalTradeStatus> externalTradeStatusObservableList = FXCollections.observableArrayList();
-	private ObservableList<ExternalMapping> externalTradeAccountObservableList = FXCollections.observableArrayList();
-
-	private ObservableList<ExternalTrade> externalTradesObservableList = FXCollections.observableArrayList();
-	private FilteredList<ExternalTrade> externalTradesFilteredList = new FilteredList<>(externalTradesObservableList, p->true);
-	private SortedList<ExternalTrade> externalTradesSortedList = new SortedList<>(externalTradesFilteredList);
+	private ObservableList<IExternalTradeSourceEntity> externalTradeSourceObservableList = FXCollections.observableArrayList();
+	
+	private ObservableList<IExternalTradeStateEntity> externalTradeStateObservableList = FXCollections.observableArrayList();
+	
+	private ObservableList<IExternalTradeStatusEntity> externalTradeStatusObservableList = FXCollections.observableArrayList();
+	
+	private ObservableList<IExternalMappingEntity> externalTradeAccountObservableList = FXCollections.observableArrayList();
+	
+	private ObservableList<IExternalTradeEntity> externalTradesObservableList = FXCollections.observableArrayList();
+	private FilteredList<IExternalTradeEntity> externalTradesFilteredList = new FilteredList<IExternalTradeEntity>(externalTradesObservableList, p->true);
+	private SortedList<IExternalTradeEntity> externalTradesSortedList = new SortedList<IExternalTradeEntity>(externalTradesFilteredList);
 
 	private FetchExternalTradesScheduledService fetchExternalTradesScheduledService = new FetchExternalTradesScheduledService();
 
@@ -284,7 +286,6 @@ public class MainApplicationMonitorTabController implements IMainApplicationMoni
 		endDateFilterKeyText.managedProperty().bind(endDateFilterKeyText.visibleProperty());
 		endDateFilterValueText.managedProperty().bind(endDateFilterValueText.visibleProperty());
 
-		//externalTradesTableView.setItems(externalTradesObservableList);
 		externalTradesTableView.setItems(externalTradesSortedList);
 
 		startDateFilterValueText.textProperty().bind(startDateDatePicker.valueProperty().asString());
@@ -425,7 +426,6 @@ public class MainApplicationMonitorTabController implements IMainApplicationMoni
 		externalTradeStatesListView.getCheckModel().getCheckedItems().addListener(externalTradeStatesCheckBoxClickListener);
 		externalTradeStatusesListView.getCheckModel().getCheckedItems().addListener(externalTradeStatusesCheckBoxClickListener);
 		externalTradeAccountsListView.getCheckModel().getCheckedItems().addListener(externalTradeAccountsCheckBoxClickListener);
-2
 		externalTradeAccountsFilterTextField.textProperty().addListener(externalTradeAccountsFilterTextFieldKeyListener);
 		/*externalTradeAccountsFilterTextField.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) ->
 		{
@@ -464,9 +464,9 @@ public class MainApplicationMonitorTabController implements IMainApplicationMoni
 		newValue = newValue.toUpperCase();
 
 		// Filter out the entries that don't contain the entered text
-		ObservableList<ExternalMapping> subentries = FXCollections.observableArrayList();
+		ObservableList<IExternalMappingEntity> subentries = FXCollections.observableArrayList();
 
-		for (ExternalMapping entry: externalTradeAccountsListView.getItems() )
+		for (IExternalMappingEntity entry: externalTradeAccountsListView.getItems() )
 		{
 			if(entry.getExternalValue1().toUpperCase().contains(newValue))
 			{
@@ -475,7 +475,7 @@ public class MainApplicationMonitorTabController implements IMainApplicationMoni
 		}
 		externalTradeAccountsListView.setItems(subentries);
 
-		for(ExternalMapping string : checkedExternalTradeAccounts)
+		for(IExternalMappingEntity string : checkedExternalTradeAccounts)
 		{
 			if(subentries.contains(string))
 			{
@@ -489,7 +489,7 @@ public class MainApplicationMonitorTabController implements IMainApplicationMoni
 		externalTradeAccountsListView.getCheckModel().getCheckedItems().addListener(externalTradeAccountsCheckBoxClickListener);
 	};
 
-	private void handleExternalTradeSourcesCheckBoxClick(Change<? extends ExternalTradeSource> change)
+	private void handleExternalTradeSourcesCheckBoxClick(Change<? extends IExternalTradeSourceEntity> change)
 	{
 		if(externalTradeSourcesListView.getCheckModel().getCheckedItems().size() == 0)
 			externalTradeSourcesTitledPane.setText(ApplicationConstants.EXTERNAL_TRADE_SOURCES_TITLEDPANE_TEXT);
@@ -502,7 +502,7 @@ public class MainApplicationMonitorTabController implements IMainApplicationMoni
 			exchangesFilterValueText.setText(null);
 	}
 
-	private void handleExternalTradeStatesCheckBoxClick(Change<? extends ExternalTradeState> change)
+	private void handleExternalTradeStatesCheckBoxClick(Change<? extends IExternalTradeStateEntity> change)
 	{
 		if(externalTradeStatesListView.getCheckModel().getCheckedItems().size() == 0)
 			externalTradeStatesTitledPane.setText(ApplicationConstants.EXTERNAL_TRADE_STATES_TITLEDPANE_TEXT);
@@ -515,7 +515,7 @@ public class MainApplicationMonitorTabController implements IMainApplicationMoni
 			statesFilterValueText.setText(null);
 	};
 
-	private void handleExternalTradeStatusesCheckBoxClick(Change<? extends ExternalTradeStatus> change)
+	private void handleExternalTradeStatusesCheckBoxClick(Change<? extends IExternalTradeStatusEntity> change)
 	{
 		if(externalTradeStatusesListView.getCheckModel().getCheckedItems().size() == 0)
 			externalTradeStatusesTitledPane.setText(ApplicationConstants.EXTERNAL_TRADE_STATUSES_TITLEDPANE_TEXT);
@@ -528,7 +528,7 @@ public class MainApplicationMonitorTabController implements IMainApplicationMoni
 			typesFilterValueText.setText(null);
 	};
 
-	private void handleExternalTradeAccountsCheckBoxClick(Change<? extends ExternalMapping> change)
+	private void handleExternalTradeAccountsCheckBoxClick(Change<? extends IExternalMappingEntity> change)
 	{
 		change.next();
 		//System.out.println(change.getAddedSubList().get(0));
@@ -638,15 +638,9 @@ public class MainApplicationMonitorTabController implements IMainApplicationMoni
 	private ContextMenu tableRowContextMenu;
 
 	@FXML
-	private void handleReprocessThisTradeMenuItemClick(ActionEvent ae)
+	private void handleReprocessThisTradeMenuItemClick()
 	{
-		System.out.println(ae.getSource());
-		System.out.println(externalTradesTableView.getSelectionModel().getSelectedItem());
-		System.out.println(externalTradesTableView.getSelectionModel().getSelectedIndex());
-
-		System.out.println(tableRowContextMenu);
-		System.out.println(tableRowContextMenu.getOwnerNode());
-
+		System.out.println(externalTradesTableView.getSelectionModel().getSelectedItems());
 		/*
 		 TableRow aTableRow = (TableRow<T>)tableRowContextMenu.getOwnerNode();
 		 aTableRow.getItem();
@@ -665,10 +659,10 @@ public class MainApplicationMonitorTabController implements IMainApplicationMoni
 		String selectedStartDate = null;
 		String selectedEndDate = null;
 
-		List<ExternalTradeSource> externalTradeSourceObjectsSelectedByUserFromUI = getExternalTradeSourcesSelectedByUserFromUI();
-		List<ExternalTradeState> externalTradeStateObjectsSelectedByUserFromUI = getExternalTradeStatesSelectedByUserFromUI();
-		List<ExternalTradeStatus> externalTradeStatusObjectsSelectedByUserFromUI = getExternalTradeStatusesSelectedByUserFromUI();
-		List<ExternalMapping> externalTradeAccountObjectsSelectedByUserFromUI = getExternalTradeAccountsSelectedByUserFromUI();
+		List<IExternalTradeSourceEntity> externalTradeSourceObjectsSelectedByUserFromUI = getExternalTradeSourcesSelectedByUserFromUI();
+		List<IExternalTradeStateEntity> externalTradeStateObjectsSelectedByUserFromUI = getExternalTradeStatesSelectedByUserFromUI();
+		List<IExternalTradeStatusEntity> externalTradeStatusObjectsSelectedByUserFromUI = getExternalTradeStatusesSelectedByUserFromUI();
+		List<IExternalMappingEntity> externalTradeAccountObjectsSelectedByUserFromUI = getExternalTradeAccountsSelectedByUserFromUI();
 
 		if(startDateDatePicker.getValue() != null)
 			selectedStartDate = DateTimeFormatter.ofPattern("dd-MMM-yyyy").format(startDateDatePicker.getValue());
@@ -676,13 +670,13 @@ public class MainApplicationMonitorTabController implements IMainApplicationMoni
 			selectedEndDate = DateTimeFormatter.ofPattern("dd-MMM-yyyy").format(endDateDatePicker.getValue());
 
 		List<String> selectedExternalTradeSourceNames = new ArrayList<String>();
-		externalTradeSourceObjectsSelectedByUserFromUI.forEach((ExternalTradeSource anExternalTradeSource) -> selectedExternalTradeSourceNames.add(anExternalTradeSource.getOid().toString()));
+		externalTradeSourceObjectsSelectedByUserFromUI.forEach((anExternalTradeSourceEntity) -> selectedExternalTradeSourceNames.add(anExternalTradeSourceEntity.getOid().toString()));
 
 		List<String> selectedExternalTradeStateNames = new ArrayList<String>();
-		externalTradeStateObjectsSelectedByUserFromUI.forEach((ExternalTradeState anExternalTradeState) -> selectedExternalTradeStateNames.add(anExternalTradeState.getOid().toString()));
+		externalTradeStateObjectsSelectedByUserFromUI.forEach((anExternalTradeState) -> selectedExternalTradeStateNames.add(anExternalTradeState.getOid().toString()));
 
 		List<String> selectedExternalTradeStatusNames = new ArrayList<String>();
-		externalTradeStatusObjectsSelectedByUserFromUI.forEach((ExternalTradeStatus anExternalTradeStatus) -> selectedExternalTradeStatusNames.add(anExternalTradeStatus.getOid().toString()));
+		externalTradeStatusObjectsSelectedByUserFromUI.forEach((anExternalTradeStatus) -> selectedExternalTradeStatusNames.add(anExternalTradeStatus.getOid().toString()));
 
 		Session session = HibernateUtil.beginTransaction();
 		List<String> selectedExternalTradeAccountNames = new ArrayList<String>();
@@ -693,7 +687,7 @@ public class MainApplicationMonitorTabController implements IMainApplicationMoni
 		}
 		else
 		{
-			externalTradeAccountObjectsSelectedByUserFromUI.forEach((ExternalMapping anExternalMapping) -> selectedExternalTradeAccountNames.add(anExternalMapping.getExternalValue1()));
+			externalTradeAccountObjectsSelectedByUserFromUI.forEach((anExternalMapping) -> selectedExternalTradeAccountNames.add(anExternalMapping.getExternalValue1()));
 			sqlQueryToFetchExternalTrades = session.getNamedQuery("externalTradesWithBuyerAccount");
 			sqlQueryToFetchExternalTrades.setParameterList("buyerAccountsParam", selectedExternalTradeAccountNames);
 		}
@@ -735,22 +729,22 @@ public class MainApplicationMonitorTabController implements IMainApplicationMoni
 		fetchExternalTradesScheduledService.setOnSucceeded((WorkerStateEvent workerStateEvent) -> { doThisIfFetchSucceeded(); });
 	}
 
-	public ObservableList<ExternalTradeSource> getExternalTradeSourcesSelectedByUserFromUI()
+	public ObservableList<IExternalTradeSourceEntity> getExternalTradeSourcesSelectedByUserFromUI()
 	{
 		return externalTradeSourcesListView.getCheckModel().getCheckedItems();
 	}
 
-	public List<ExternalTradeState> getExternalTradeStatesSelectedByUserFromUI()
+	public List<IExternalTradeStateEntity> getExternalTradeStatesSelectedByUserFromUI()
 	{
 		return externalTradeStatesListView.getCheckModel().getCheckedItems();
 	}
 
-	public List<ExternalTradeStatus> getExternalTradeStatusesSelectedByUserFromUI()
+	public List<IExternalTradeStatusEntity> getExternalTradeStatusesSelectedByUserFromUI()
 	{
 		return externalTradeStatusesListView.getCheckModel().getCheckedItems();
 	}
 
-	public List<ExternalMapping> getExternalTradeAccountsSelectedByUserFromUI()
+	public List<IExternalMappingEntity> getExternalTradeAccountsSelectedByUserFromUI()
 	{
 		return externalTradeAccountsListView.getCheckModel().getCheckedItems();
 	}

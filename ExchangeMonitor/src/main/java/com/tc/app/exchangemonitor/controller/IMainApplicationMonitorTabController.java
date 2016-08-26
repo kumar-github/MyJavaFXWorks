@@ -5,34 +5,34 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import com.tc.app.exchangemonitor.model.ExternalTrade;
+import com.tc.app.exchangemonitor.entitybase.IExternalTradeEntity;
 
 public interface IMainApplicationMonitorTabController extends IGenericController
 {
 	/* A function which returns the ExternalTradeSourceName for the given ExternalTrade  when called. */
-	public final Function<ExternalTrade, String> externalTradeSourceFunction = (ExternalTrade anExternalTrade) ->
+	public final Function<IExternalTradeEntity, String> externalTradeSourceFunction = (anExternalTrade) ->
 	{
 		return anExternalTrade.getExternalTradeSourceOid().getExternalTradeSrcName().toLowerCase();
 	};
 
 	/* A function which returns the ExternalTradeStateName for the given ExternalTrade  when called. */
-	public final Function<ExternalTrade, String> externalTradeStateFunction = (ExternalTrade anExternalTrade) ->
+	public final Function<IExternalTradeEntity, String> externalTradeStateFunction = (anExternalTrade) ->
 	{
 		return anExternalTrade.getExternalTradeStateOid().getExternalTradeStateName().toLowerCase();
 	};
 
-	public final Function<ExternalTrade, String> externalTradeStatusFunction = (ExternalTrade anExternalTrade) ->
+	public final Function<IExternalTradeEntity, String> externalTradeStatusFunction = (anExternalTrade) ->
 	{
 		return anExternalTrade.getExternalTradeStatusOid().getExternalTradeStatusName().toLowerCase();
 	};
 	
-	public final Function<ExternalTrade, String> externalTradeCommodityFunction = (ExternalTrade anExternalTrade) ->
+	public final Function<IExternalTradeEntity, String> externalTradeCommodityFunction = (anExternalTrade) ->
 	{
 		return anExternalTrade.getExchToolsTrade().getCommodity().toLowerCase();
 	};
 
-	public final List<Function<ExternalTrade, String>> externalTradeSearchablePropertiesList = Arrays.asList(
-			(ExternalTrade anExternalTrade) -> anExternalTrade.getOid().toString(),
+	public final List<Function<IExternalTradeEntity, String>> externalTradeSearchablePropertiesList = Arrays.asList(
+			(anExternalTrade) -> anExternalTrade.getOid().toString(),
 			externalTradeSourceFunction,
 			externalTradeStateFunction,
 			externalTradeStatusFunction,
@@ -40,7 +40,7 @@ public interface IMainApplicationMonitorTabController extends IGenericController
 			);
 
 	//This is not working since we are giving the same predicate reference every time and the FilteredList is thinking that the predicate is not changed not apply it.  
-	public  Predicate<ExternalTrade> somePredicate = (ExternalTrade anExternalTrade) ->
+	public  Predicate<IExternalTradeEntity> somePredicate = (anExternalTrade) ->
 	{
 		//String filterText = externalTradeTableViewDataFilterTextField.getText().trim().toLowerCase();
 		String filterText = null;
@@ -60,9 +60,9 @@ public interface IMainApplicationMonitorTabController extends IGenericController
 		return false;
 	};
 
-	default public Predicate<ExternalTrade> externalTradesTableViewFilterPredicateTemp(String filterText)
+	default public Predicate<IExternalTradeEntity> externalTradesTableViewFilterPredicateTemp(String filterText)
 	{
-		return (ExternalTrade anExternalTrade) ->
+		return (anExternalTrade) ->
 		{
 			//String filterText = externalTradeTableViewDataFilterTextField.getText().trim().toLowerCase();
 
@@ -81,9 +81,9 @@ public interface IMainApplicationMonitorTabController extends IGenericController
 		};
 	}
 
-	default public Predicate<ExternalTrade> externalTradesTableViewFilterPredicate(String filterText)
+	default public Predicate<IExternalTradeEntity> externalTradesTableViewFilterPredicate(String filterText)
 	{
-		return (ExternalTrade anExternalTrade) ->
+		return (anExternalTrade) ->
 		{
 			//String filterText = externalTradeTableViewDataFilterTextField.getText().trim().toLowerCase();
 			return filterText.isEmpty() || filterText == null || filterText.equals("") || externalTradeSearchablePropertiesList.stream().anyMatch((aFunction) -> aFunction.apply(anExternalTrade).contains(filterText));

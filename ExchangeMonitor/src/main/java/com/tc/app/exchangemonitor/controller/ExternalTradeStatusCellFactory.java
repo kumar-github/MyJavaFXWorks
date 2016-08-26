@@ -1,12 +1,12 @@
 package com.tc.app.exchangemonitor.controller;
 
-import com.tc.app.exchangemonitor.model.ExternalTrade;
+import com.tc.app.exchangemonitor.entitybase.IExternalTradeEntity;
 
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.util.Callback;
 
-public class ExternalTradeStatusCellFactory implements Callback<TableColumn<ExternalTrade, String>, TableCell<ExternalTrade, String>>
+public class ExternalTradeStatusCellFactory implements Callback<TableColumn<IExternalTradeEntity, String>, TableCell<IExternalTradeEntity, String>>
 {
 	/*
 	// 1st way of implementing
@@ -33,9 +33,9 @@ public class ExternalTradeStatusCellFactory implements Callback<TableColumn<Exte
 	
 	//2nd way of implementing
 	@Override
-	public TableCell<ExternalTrade, String> call(TableColumn<ExternalTrade, String> param)
+	public TableCell<IExternalTradeEntity, String> call(TableColumn<IExternalTradeEntity, String> param)
 	{
-		final TableCell<ExternalTrade, String> aTableCell = new TableCell<ExternalTrade, String>(){
+		final TableCell<IExternalTradeEntity, String> aTableCell = new TableCell<IExternalTradeEntity, String>(){
 			@Override
 			protected void updateItem(String item, boolean empty)
 			{

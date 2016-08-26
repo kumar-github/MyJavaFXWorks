@@ -3,7 +3,7 @@ package com.tc.app.exchangemonitor.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import com.tc.app.exchangemonitor.model.ExternalMapping;
+import com.tc.app.exchangemonitor.entitybase.IExternalMappingEntity;
 import com.tc.app.exchangemonitor.model.predicates.ExternalMappingPredicates;
 import com.tc.app.exchangemonitor.util.ReferenceDataCache;
 
@@ -19,18 +19,18 @@ import javafx.scene.control.TableView;
 
 public class ExternalMappingUOMConversionsController implements Initializable
 {
-	private ObservableList<ExternalMapping> externalMappingUOMConversionsObservableList = FXCollections.observableArrayList();
-	private FilteredList<ExternalMapping> externalMappingUOMConversionsFilteredList = new FilteredList<ExternalMapping>(externalMappingUOMConversionsObservableList, ExternalMappingPredicates.applyNymexUOMConversionsPredicate);
-	private SortedList<ExternalMapping> externalMappingUOMConversionsSortedList = new SortedList<ExternalMapping>(externalMappingUOMConversionsFilteredList);
+	private ObservableList<IExternalMappingEntity> externalMappingUOMConversionsObservableList = FXCollections.observableArrayList();
+	private FilteredList<IExternalMappingEntity> externalMappingUOMConversionsFilteredList = new FilteredList<IExternalMappingEntity>(externalMappingUOMConversionsObservableList, ExternalMappingPredicates.applyNymexUOMConversionsPredicate);
+	private SortedList<IExternalMappingEntity> externalMappingUOMConversionsSortedList = new SortedList<IExternalMappingEntity>(externalMappingUOMConversionsFilteredList);
 	
 	@FXML
-	private TableView<ExternalMapping> externalMappingUOMConversionsTableView;
+	private TableView<IExternalMappingEntity> externalMappingUOMConversionsTableView;
 	@FXML
-	private TableColumn<ExternalMapping, String> externalSourceCommodityTableColumn;
+	private TableColumn<IExternalMappingEntity, String> externalSourceCommodityTableColumn;
 	@FXML
-	private TableColumn<ExternalMapping, String> toUomCodeTableColumn;
+	private TableColumn<IExternalMappingEntity, String> toUomCodeTableColumn;
 	@FXML
-	private TableColumn<ExternalMapping, String> toUomConvRateTableColumn;
+	private TableColumn<IExternalMappingEntity, String> toUomConvRateTableColumn;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources)

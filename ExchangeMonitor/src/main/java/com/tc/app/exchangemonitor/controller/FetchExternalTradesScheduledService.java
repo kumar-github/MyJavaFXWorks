@@ -2,14 +2,14 @@ package com.tc.app.exchangemonitor.controller;
 
 import org.hibernate.Query;
 
-import com.tc.app.exchangemonitor.model.ExternalTrade;
+import com.tc.app.exchangemonitor.entitybase.IExternalTradeEntity;
 
 import javafx.collections.ObservableList;
 import javafx.concurrent.ScheduledService;
 import javafx.concurrent.Task;
 import javafx.util.Duration;
 
-public class FetchExternalTradesScheduledService extends ScheduledService<ObservableList<ExternalTrade>>
+public class FetchExternalTradesScheduledService extends ScheduledService<ObservableList<IExternalTradeEntity>>
 {
 	//private final SQLQuery sqlQuery;
 	private Query sqlQuery;
@@ -35,7 +35,7 @@ public class FetchExternalTradesScheduledService extends ScheduledService<Observ
 	}
 	
 	@Override
-	protected Task<ObservableList<ExternalTrade>> createTask()
+	protected Task<ObservableList<IExternalTradeEntity>> createTask()
 	{
 		FetchExternalTradesTask fetchExternalTradesTask = new FetchExternalTradesTask(sqlQuery);
 		return fetchExternalTradesTask;

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">-->
 <hibernate-mapping>
-	
+
 	<sql-query name="ExternalTradeSource.findAllExternalTradeSources">
 		<![CDATA[
 		select etsource.* from external_trade_source etsource join external_trade_system etsystem on etsource.external_trade_system_oid = etsystem.oid and etsource.external_trade_src_name <> 'NonDefined' order by etsource.external_trade_src_name
 		]]>
+		<!-- <return class="com.tc.app.exchangemonitor.entity.ExternalTradeSourceEntity" /> -->
 		<return class="com.tc.app.exchangemonitor.model.ExternalTradeSource" />
 	</sql-query>
 	
@@ -58,6 +59,12 @@
 		<return class="com.tc.app.exchangemonitor.model.ExternalMapping" />
 	</sql-query>
 	
-	<query name="test">select distinct em from ExternalMapping em where em.mappingType = 'K'</query>
+	<!-- <query name="test">select distinct em from ExternalMapping em where em.mappingType = 'K'</query> -->
+	
+	<sql-query name="updateFailedTrades">
+		<![CDATA[
+		UPDATE external_trade set trade_num = null, port_num = null, external_trade_status_oid = 1, external_comment_oid = null, trans_id = (:transId) where oid in (:externalTradesParam) 
+		]]>
+	</sql-query>
 	
 	</hibernate-mapping>
