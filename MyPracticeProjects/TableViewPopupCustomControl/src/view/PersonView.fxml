@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import model.Person?>
+<?import javafx.collections.FXCollections?>
+
+<!-- <TableView fx:id="commodityReferenceDataTableView" tableMenuButtonVisible="true" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tc.app.exchangemonitor.CommodityReferenceDataTableViewController"> -->
+<TableView fx:id="commodityReferenceDataTableView" tableMenuButtonVisible="true" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+<columns>
+	<TableColumn fx:id="firstNameCol" minWidth="120.0" prefWidth="120.0" text="First Name">
+	<cellValueFactory><PropertyValueFactory property="firstName" /></cellValueFactory>
+	</TableColumn>
+	<TableColumn fx:id="lastNameCol" minWidth="120.0" prefWidth="120.0" text="Last Name">
+	<cellValueFactory><PropertyValueFactory property="lastName" /></cellValueFactory>
+	</TableColumn>
+	<TableColumn fx:id="emailCol" minWidth="120.0" prefWidth="120.0" text="Email">
+	<cellValueFactory><PropertyValueFactory property="email" /></cellValueFactory>
+	</TableColumn>
+	<TableColumn fx:id="ageCol" prefWidth="75.0" text="Age">
+	<cellValueFactory><PropertyValueFactory property="age" /></cellValueFactory>
+	</TableColumn>
+</columns>
+<columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY" /></columnResizePolicy>
+
+<items>
+	<FXCollections fx:factory="observableArrayList">
+		<Person firstName="P1FirstName" lastName="P1LasttName" email="P1Email@gmail.com" age="20"/>
+		<Person firstName="P2FirstName" lastName="P2LasttName" email="P2Email@gmail.com" age="30"/>
+		<Person firstName="P3FirstName" lastName="P3LasttName" email="P3Email@gmail.com" age="40"/>
+		<Person firstName="P4FirstName" lastName="P4LasttName" email="P4Email@gmail.com" age="50"/>
+		<Person firstName="P5FirstName" lastName="P5LasttName" email="P5Email@gmail.com" age="60"/>
+	</FXCollections>
+</items>
+
+</TableView>

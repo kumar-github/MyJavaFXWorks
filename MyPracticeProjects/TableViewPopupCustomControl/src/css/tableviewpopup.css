@@ -1,0 +1,35 @@
+.tableview-popup > .table-view
+{
+    -fx-background-color: linear-gradient(to bottom, derive(-fx-color,-17%), derive(-fx-color,-30%)), -fx-control-inner-background;
+    -fx-background-insets: -1 -2 -1 -1, 0 -1 0 0;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.2) , 12, 0.0 , 0 , 8 );
+}
+
+.tableview-popup > .table-view > .virtual-flow > .clipped-container > .sheet > .table-cells
+{
+    -fx-padding: 4 0 4 5;
+    -fx-background: -fx-control-inner-background
+}
+
+.tableview-popup > .table-view > .virtual-flow > .clipped-container > .sheet > .table-cell:unknown
+{
+    -fx-background-color: -fx-background;
+    -fx-background: -fx-selection-bar-non-focused
+}
+
+.tableview-popup > .table-view > .virtual-flow > .clipped-container > .sheet > .table-cell:hover:unknown
+{
+    -fx-background-color: -fx-selection-bar;
+    -fx-background: -fx-accent
+}
+
+.tableview-popup > .table-view > .virtual-flow > .clipped-container > .sheet > .table-cell:hover:unknown
+{
+    -fx-background-color: -fx-selection-bar;
+    -fx-background: -fx-accent
+}
+
+.tableview-popup > .table-view > .placeholder > .label
+{
+    -fx-text-fill: derive(-fx-control-inner-background,-30%)
+}
