@@ -21,12 +21,12 @@ public class ExchangeMonitionApplicationPreloader extends Preloader
 	//private ProgressBar progressBar;
 	private Stage preloaderStage;
 	private Scene preloaderScene;
-	
+
 	public ExchangeMonitionApplicationPreloader()
 	{
 		LOGGER.debug("ExchangeMonitorApplicationPreloader constructor called by ", Thread.currentThread().getName());
 	}
-	
+
 	@Override
 	public void init() throws Exception
 	{
@@ -34,14 +34,14 @@ public class ExchangeMonitionApplicationPreloader extends Preloader
 		super.init();
 		/* If the preloader has complex UI it's initialization can be done in here. Ensure that you do it with Platform.runLater() */
 	}
-	
+
 	@Override
 	public void start(Stage primaryStage) throws Exception
 	{
 		LOGGER.debug("ExchangeMonitorApplicationPreloader start called by ", Thread.currentThread().getName());
 		preloaderStage = primaryStage;
 		preloaderStage.setScene(createPreloaderScene());
-		
+
 		preloaderStage.sizeToScene();
 		preloaderStage.centerOnScreen();
 		preloaderStage.setAlwaysOnTop(true);
@@ -49,12 +49,12 @@ public class ExchangeMonitionApplicationPreloader extends Preloader
 		preloaderStage.show();
 		preloaderStage.toFront();
 	}
-	
+
 	@Override
 	public void handleApplicationNotification(PreloaderNotification info)
 	{
 	}
-	
+
 	@Override
 	public void handleProgressNotification(ProgressNotification info)
 	{
@@ -65,25 +65,25 @@ public class ExchangeMonitionApplicationPreloader extends Preloader
 		}
 		//progressBar.setProgress(info.getProgress());
 	}
-	
+
 	@Override
 	public void handleStateChangeNotification(StateChangeNotification info)
 	{
 		super.handleStateChangeNotification(info);
 		StateChangeNotification.Type notificationType = info.getType();
-		
+
 		switch(notificationType)
 		{
 		case BEFORE_LOAD:
 			// Called after preloader#start is called.
 			LOGGER.debug("ExchangeMonitorApplicationPreloader ", notificationType);
 			break;
-		
+
 		case BEFORE_INIT:
 			//Called before application#init is called.
 			LOGGER.debug("ExchangeMonitorApplicationPreloader ", notificationType);
 			break;
-		
+
 		case BEFORE_START:
 			//Called after application#init and before application#start is called.
 			LOGGER.debug("ExchangeMonitorApplicationPreloader ", notificationType);
@@ -93,7 +93,7 @@ public class ExchangeMonitionApplicationPreloader extends Preloader
 				fadeTransition.setFromValue(1.0);
 				fadeTransition.setToValue(0.0);
 				final Stage tempStage = preloaderStage;
-				
+
 				EventHandler<ActionEvent> eventHandler = new EventHandler<ActionEvent>()
 				{
 					public void handle(ActionEvent event)
@@ -108,16 +108,22 @@ public class ExchangeMonitionApplicationPreloader extends Preloader
 			break;
 		}
 	}
-	
+
 	private Scene createPreloaderScene()
 	{
 		//progressBar = new ProgressBar();
 		//BorderPane borderPane = new BorderPane();
 		//borderPane.setCenter(progressBar);
 		//return new Scene(borderPane, 300, 150);
+
 		PreloaderView preloaderView = new PreloaderView();
 		preloaderScene = new Scene(preloaderView.getView());
 		preloaderScene.setFill(Color.TRANSPARENT);
 		return preloaderScene;
+
+		/*
+		LoginView loginView = new LoginView();
+		return new Scene(loginView.getView());
+		 */
 	}
 }

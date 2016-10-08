@@ -12,10 +12,14 @@
 <children>
 	<TableView fx:id="externalMappingTradersTableView" cache="true" prefWidth="600.0" VBox.vgrow="ALWAYS">
 	<columns>
-		<TableColumn fx:id="externalSourceCompanyTableColumn" minWidth="160.0" text="External Source Company"/>
-		<TableColumn fx:id="companyTypeTableColumn" minWidth="160.0" text="Company Type"/>
-		<TableColumn fx:id="companyCountryTableColumn" minWidth="120.0" text="Company Country"/>
-		<TableColumn fx:id="ictsCompanyTableColumn" minWidth="160.0" text="ICTS Company"/>
+		<TableColumn text="Companies" styleClass="tableTitle">
+		<columns>
+			<TableColumn fx:id="externalSourceCompanyTableColumn" minWidth="160.0" text="External Source Company"/>
+			<TableColumn fx:id="companyTypeTableColumn" minWidth="160.0" text="Company Type"/>
+			<TableColumn fx:id="companyCountryTableColumn" minWidth="120.0" text="Company Country"/>
+			<TableColumn fx:id="ictsCompanyTableColumn" minWidth="160.0" text="ICTS Company"/>
+		</columns>
+		</TableColumn>
 	</columns>
 	<columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY" /></columnResizePolicy>
 	</TableView>

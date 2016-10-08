@@ -12,8 +12,12 @@
 <children>
 	<TableView fx:id="externalMappingTradingPeriodsTableView" prefWidth="400.0" cache="true" VBox.vgrow="ALWAYS">
 	<columns>
-		<TableColumn fx:id="externalSourceCommodityTableColumn" minWidth="200.0" text="External Source Commodity"/>
-		<TableColumn fx:id="tradingPeriodOffsetMonthTableColumn" minWidth="200.0" text="Trading Period Offset Month"/>
+		<TableColumn text="Trading Periods" styleClass="tableTitle">
+		<columns>
+			<TableColumn fx:id="externalSourceCommodityTableColumn" minWidth="200.0" text="External Source Commodity"/>
+			<TableColumn fx:id="tradingPeriodOffsetMonthTableColumn" minWidth="200.0" text="Trading Period Offset Month"/>
+		</columns>
+		</TableColumn>
 	</columns>
 	<columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY" /></columnResizePolicy>
 	</TableView>

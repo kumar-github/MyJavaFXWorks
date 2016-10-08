@@ -12,11 +12,15 @@
 <children>
 	<TableView fx:id="externalMappingPortfoliosTableView" cache="true" prefWidth="900.0" VBox.vgrow="ALWAYS">
 	<columns>
-		<TableColumn fx:id="externalSourceCommodityTableColumn" minWidth="200.0" text="External Source Commodity"/>
-		<TableColumn fx:id="externalSourceTraderTableColumn" minWidth="200.0" text="External Source Trader"/>
-		<TableColumn fx:id="externalSourceTradingPeriodTableColumn" minWidth="200.0" text="External Source Trading Period"/>
-		<TableColumn fx:id="externalSourceAccountTableColumn" minWidth="200.0" text="External Source Account"/>
-		<TableColumn fx:id="ictsPortfolioTableColumn" minWidth="200.0" text="ICTS Portfolio"/>
+		<TableColumn text="Portfolios" styleClass="tableTitle">
+		<columns>
+			<TableColumn fx:id="externalSourceCommodityTableColumn" minWidth="200.0" text="External Source Commodity"/>
+			<TableColumn fx:id="externalSourceTraderTableColumn" minWidth="200.0" text="External Source Trader"/>
+			<TableColumn fx:id="externalSourceTradingPeriodTableColumn" minWidth="200.0" text="External Source Trading Period"/>
+			<TableColumn fx:id="externalSourceAccountTableColumn" minWidth="200.0" text="External Source Account"/>
+			<TableColumn fx:id="ictsPortfolioTableColumn" minWidth="200.0" text="ICTS Portfolio"/>
+		</columns>
+		</TableColumn>
 	</columns>
 	<columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY" /></columnResizePolicy>
 	</TableView>

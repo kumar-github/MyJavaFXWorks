@@ -36,9 +36,7 @@
 <?import com.tc.app.exchangemonitor.controller.TradeEntryDateCellValueFactory?>
 <?import com.tc.app.exchangemonitor.controller.TradeEntryDateCellFactory?>
 
-<!-- <?import com.tc.app.exchangemonitor.model.ExternalTrade?> -->
 <?import java.lang.String?>
-
 
 <Tab text="Monitor" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tc.app.exchangemonitor.controller.MainApplicationMonitorTabController">
 

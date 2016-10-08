@@ -12,11 +12,15 @@
 <children>
 	<TableView fx:id="externalMappingBrokersTableView" cache="true" prefWidth="700.0" VBox.vgrow="ALWAYS">
 	<columns>
-		<TableColumn minWidth="150.0" fx:id="externalSourceBrokerTableColumn" text="External Source Broker"/>
-		<TableColumn minWidth="150.0" fx:id="brokerTypeTableColumn" text="Broker Type"/>
-		<TableColumn minWidth="150.0" fx:id="externalSourceTraderTableColumn" text="External Source Trader"/>
-		<TableColumn minWidth="120.0" fx:id="externalSourceAccountTableColumn" text="External Source Account"/>
-		<TableColumn minWidth="130.0" fx:id="ictsBrokerTableColumn" text="ICTS Broker"/>
+		<TableColumn text="Brokers" styleClass="tableTitle">
+		<columns>
+			<TableColumn minWidth="150.0" fx:id="externalSourceBrokerTableColumn" text="External Source Broker"/>
+			<TableColumn minWidth="150.0" fx:id="brokerTypeTableColumn" text="Broker Type"/>
+			<TableColumn minWidth="150.0" fx:id="externalSourceTraderTableColumn" text="External Source Trader"/>
+			<TableColumn minWidth="120.0" fx:id="externalSourceAccountTableColumn" text="External Source Account"/>
+			<TableColumn minWidth="130.0" fx:id="ictsBrokerTableColumn" text="ICTS Broker"/>
+		</columns>
+		</TableColumn>
 	</columns>
 	<columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY" /></columnResizePolicy>
 	</TableView>

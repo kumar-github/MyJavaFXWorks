@@ -55,7 +55,9 @@
 	<TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
 	<tabs>
 		<fx:include source="MainWindowMonitorTabView.fxml" />
+		<fx:include source="MainWindowPositionsTabView.fxml" />
 		<fx:include source="MainWindowMappingsTabView.fxml" />
+		<fx:include source="MainWindowSettlePricesTabView.fxml" />
 	</tabs>
 	</TabPane>
 </center>

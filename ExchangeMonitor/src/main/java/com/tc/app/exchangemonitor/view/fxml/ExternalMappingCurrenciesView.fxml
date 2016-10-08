@@ -12,8 +12,12 @@
 <children>
 	<TableView fx:id="externalMappingCurrenciesTableView" cache="true" prefWidth="300.0" VBox.vgrow="ALWAYS">
 	<columns>
-		<TableColumn fx:id="externalSourceCurrencyTableColumn" minWidth="150.0" text="External Source Currency"/>
-		<TableColumn fx:id="ictsCurrencyTableColumn" minWidth="150.0" text="ICTS Currency"/>
+		<TableColumn text="Currencies" styleClass="tableTitle">
+		<columns>
+			<TableColumn fx:id="externalSourceCurrencyTableColumn" minWidth="150.0" text="External Source Currency"/>
+			<TableColumn fx:id="ictsCurrencyTableColumn" minWidth="150.0" text="ICTS Currency"/>
+		</columns>
+		</TableColumn>
 	</columns>
 	<columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY" /></columnResizePolicy>
 	</TableView>

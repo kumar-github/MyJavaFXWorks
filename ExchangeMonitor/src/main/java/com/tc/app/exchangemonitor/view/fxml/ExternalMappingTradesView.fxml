@@ -12,8 +12,12 @@
 <children>
 	<TableView fx:id="externalMappingTradesTableView" cache="true" prefWidth="400.0" VBox.vgrow="ALWAYS">
 	<columns>
-		<TableColumn fx:id="externalSourceCommodityTableColumn" minWidth="200.0" text="External Source Commodity"/>
-		<TableColumn fx:id="ictsTemplateTradeTableColumn" minWidth="200.0" text="ICTS Template Trade"/>
+		<TableColumn text="Template Trades" styleClass="tableTitle">
+		<columns>
+			<TableColumn fx:id="externalSourceCommodityTableColumn" minWidth="200.0" text="External Source Commodity"/>
+			<TableColumn fx:id="ictsTemplateTradeTableColumn" minWidth="200.0" text="ICTS Template Trade"/>
+		</columns>
+		</TableColumn>
 	</columns>
 	<columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY" /></columnResizePolicy>
 	</TableView>

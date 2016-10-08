@@ -12,9 +12,13 @@
 <children>
 	<TableView fx:id="externalMappingUOMConversionsTableView" cache="true" prefWidth="500.0" VBox.vgrow="ALWAYS">
 	<columns>
-		<TableColumn fx:id="externalSourceCommodityTableColumn" minWidth="200.0" text="External Source Commodity"/>
-		<TableColumn fx:id="toUomCodeTableColumn" minWidth="150.0" text="To Uom Code"/>
-		<TableColumn fx:id="toUomConvRateTableColumn" minWidth="150.0" text="To Uom Conv. Rate"/>
+		<TableColumn text="UOM Conversions" styleClass="tableTitle">
+		<columns>
+			<TableColumn fx:id="externalSourceCommodityTableColumn" minWidth="200.0" text="External Source Commodity"/>
+			<TableColumn fx:id="toUomCodeTableColumn" minWidth="150.0" text="To Uom Code"/>
+			<TableColumn fx:id="toUomConvRateTableColumn" minWidth="150.0" text="To Uom Conv. Rate"/>
+		</columns>
+		</TableColumn>
 	</columns>
 	<columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY" /></columnResizePolicy>
 	</TableView>

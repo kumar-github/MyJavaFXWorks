@@ -6,9 +6,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.tc.app.exchangemonitor.entitybase.IExternalMappingEntity;
-import com.tc.app.exchangemonitor.entitybase.IExternalTradeSourceEntity;
 import com.tc.app.exchangemonitor.entitybase.IExternalTradeStateEntity;
 import com.tc.app.exchangemonitor.entitybase.IExternalTradeStatusEntity;
+import com.tc.app.exchangemonitor.model.ExternalTradeSource;
 
 public class ReferenceDataCache
 {
@@ -25,7 +25,8 @@ public class ReferenceDataCache
 		loadExternalMappingReferenceData();
 	}
 	
-	public static ConcurrentMap<Integer, IExternalTradeSourceEntity> fetchExternalTradeSources()
+	//public static ConcurrentMap<Integer, IExternalTradeSourceEntity> fetchExternalTradeSources()
+	public static ConcurrentMap<Integer, ExternalTradeSource> fetchExternalTradeSources()
 	{
 		if(externalTradeSourceReferenceDataHashMap == null)
 		{
@@ -71,23 +72,25 @@ public class ReferenceDataCache
 	}
 	
 	/* Do we really need a map here? Think please...*/
-	private static ConcurrentMap<Integer, IExternalTradeSourceEntity> externalTradeSourceReferenceDataHashMap = null;
-	//private static ConcurrentMap<Integer, ExternalTradeSourceTestEntity> externalTradeSourceReferenceDataHashMap = null;
+	//private static ConcurrentMap<Integer, IExternalTradeSourceEntity> externalTradeSourceReferenceDataHashMap = null;
+	private static ConcurrentMap<Integer, ExternalTradeSource> externalTradeSourceReferenceDataHashMap = null;
 	@SuppressWarnings("unchecked")
 	public static void loadExternalTradeSourceReferenceData()
 	{
 		if(externalTradeSourceReferenceDataHashMap == null)
 		{
-			externalTradeSourceReferenceDataHashMap = new ConcurrentHashMap<Integer, IExternalTradeSourceEntity>();
+			//externalTradeSourceReferenceDataHashMap = new ConcurrentHashMap<Integer, IExternalTradeSourceEntity>();
+			externalTradeSourceReferenceDataHashMap = new ConcurrentHashMap<Integer, ExternalTradeSource>();
 
 			long startTime = System.currentTimeMillis();
-			List<IExternalTradeSourceEntity> externalTradeSourceEntityList = HibernateReferenceDataFetchUtil.fetchDataFromDBForSQLNamedQuery("ExternalTradeSource.findAllExternalTradeSources");
+			//List<IExternalTradeSourceEntity> externalTradeSourceEntityList = HibernateReferenceDataFetchUtil.fetchDataFromDBForSQLNamedQuery("ExternalTradeSource.findAllExternalTradeSources");
+			List<ExternalTradeSource> externalTradeSourceEntityList = HibernateReferenceDataFetchUtil.fetchDataFromDBForSQLNamedQuery("ExternalTradeSource.findAllExternalTradeSources");
 			long endTime = System.currentTimeMillis();
 			System.out.println("It took " + (endTime - startTime) + " milli seconds to fetch " + externalTradeSourceEntityList.size() + " external trade sources.");
 
 			if(externalTradeSourceEntityList != null)
 			{
-				for(IExternalTradeSourceEntity anExternalTradeSourceEntity : externalTradeSourceEntityList)
+				for(ExternalTradeSource anExternalTradeSourceEntity : externalTradeSourceEntityList)
 				{
 					externalTradeSourceReferenceDataHashMap.put(anExternalTradeSourceEntity.getOid(), anExternalTradeSourceEntity);
 				}

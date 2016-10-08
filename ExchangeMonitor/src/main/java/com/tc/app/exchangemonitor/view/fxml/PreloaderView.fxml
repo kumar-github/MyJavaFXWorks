@@ -9,7 +9,8 @@
 <children>
 	<!--<ImageView pickOnBounds="true" preserveRatio="true"><image><Image url="@/icons/294.GIF" /></image>-->
 	<!--<ImageView fitHeight="16.0" fitWidth="179.0" pickOnBounds="true" preserveRatio="true"><image><Image url="@/icons/loading6.gif" /></image>-->
-	<ImageView pickOnBounds="true" preserveRatio="true"><image><Image url="@/icons/loading3.gif" /></image>
+	<!--<ImageView pickOnBounds="true" preserveRatio="true"><image><Image url="@/icons/loading3.gif" /></image>-->
+	<ImageView pickOnBounds="true" preserveRatio="true"><image><Image url="@/icons/BigBang.gif" /></image>
 	<effect><Reflection /></effect>
 	</ImageView>
 </children>

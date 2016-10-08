@@ -43,18 +43,6 @@
 		<content>
 			<VBox spacing="5.0">
 			<children>
-			<!--
-				<Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Traders"  onAction="#handleTradersMappingButtonClick"/>
-				<Button layoutX="20.0" layoutY="20.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Brokers" onAction="#handleBrokersMappingButtonClick"/>
-				<Button layoutX="20.0" layoutY="45.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Companies" onAction="#handleCompaniesMappingButtonClick"/>
-				<Button layoutX="20.0" layoutY="70.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Currencies" onAction="#handleCurrenciesMappingButtonClick"/>
-				<Button layoutX="20.0" layoutY="95.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Portfolios" onAction="#handlePortfoliosMappingButtonClick"/>
-				<Button layoutX="20.0" layoutY="132.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Trades" onAction="#handleTradesMappingButtonClick"/>
-				<Button layoutX="20.0" layoutY="160.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Accounts" onAction="#handleAccountsMappingButtonClick"/>
-				<Button layoutX="20.0" layoutY="188.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="UOM Conversions" onAction="#handleUOMConversionsMappingButtonClick"/>
-				<Button layoutX="20.0" layoutY="188.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Trading Periods" onAction="#handleTradingPeriodsMappingButtonClick"/>
-				-->
-				
 				<Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Traders"  onAction="#handleTradersMappingButtonClick"/>
 				<Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Brokers" onAction="#handleBrokersMappingButtonClick"/>
 				<Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Companies" onAction="#handleCompaniesMappingButtonClick"/>

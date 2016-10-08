@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.StringJoiner;
 
 import com.tc.app.exchangemonitor.entitybase.IExternalTradeEntity;
-import com.tc.app.exchangemonitor.model.ExternalTrade;
 
 import javafx.beans.value.ObservableValue;
 import javafx.css.PseudoClass;
@@ -43,7 +42,7 @@ public class CustomRowFactory<T> implements Callback<TableView<T>, TableRow<T>>
 		this(null, menuItemFactory);
 	}
 
-	/* if we create the row factory through fxml and not though code then we can pass the menu items from the fxml itself */
+	/* if we create the row factory through fxml and not through code then we can pass the menu items from the fxml itself */
 	private ContextMenu tableRowContextMenu;
 	public void setTableRowContextMenu(ContextMenu tableRowContextMenu)
 	{
@@ -88,7 +87,7 @@ public class CustomRowFactory<T> implements Callback<TableView<T>, TableRow<T>>
 			theRow = new TableRow<T>();
 		else
 			theRow = rowFactory.call(theTable);
-
+		
 		theRow.itemProperty().addListener((ObservableValue<? extends T> observable, T oldValue, T newValue) -> { 
 			customizeThisRowAsNeeded(observable, oldValue, newValue, theRow);
 		});
@@ -164,6 +163,7 @@ public class CustomRowFactory<T> implements Callback<TableView<T>, TableRow<T>>
 
 	private void customizeThisRowAsNeeded(ObservableValue<? extends T> observable, T oldValue, T newValue, final TableRow<T> theRow)
 	{
+		
 		configureRowContextMenu(observable, oldValue, newValue, theRow);
 		configureRowColor(observable, oldValue, newValue, theRow);
 		configureRowToolTip(observable, oldValue, newValue, theRow);
@@ -180,7 +180,7 @@ public class CustomRowFactory<T> implements Callback<TableView<T>, TableRow<T>>
 			//theRow.contextMenuProperty().bind(Bindings.when(Bindings.isNotNull(theRow.itemProperty())).then(createContextMenu(theRow)).otherwise((ContextMenu) null));
 		}
 	}
-
+	
 	private void configureRowColor(ObservableValue<? extends T> observable, T oldValue, T newValue, final TableRow<T> theRow)
 	{
 		if(newValue == null)
