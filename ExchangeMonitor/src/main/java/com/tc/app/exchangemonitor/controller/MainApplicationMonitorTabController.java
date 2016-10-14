@@ -712,7 +712,7 @@ public class MainApplicationMonitorTabController implements IMainApplicationMoni
 		List<IExternalMappingEntity> externalTradeAccountObjectsSelectedByUserFromUI = getExternalTradeAccountsSelectedByUserFromUI();
 
 		if(startDateDatePicker.getValue() != null)
-			selectedStartDate = DateTimeFormatter.ofPattern("dd-MMM-yyyy").format(startDateDatePicker.getValue());
+			selectedStartDate = DateTimeFormatter.ofPattern("dd-MMM-yyyy HH:mm:ss").format(startDateDatePicker.getValue());
 		if(endDateDatePicker.getValue() != null)
 			selectedEndDate = DateTimeFormatter.ofPattern("dd-MMM-yyyy").format(endDateDatePicker.getValue());
 

@@ -3,6 +3,7 @@ package com.tc.app.exchangemonitor.preloader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.tc.app.exchangemonitor.controller.LoginManager;
 import com.tc.app.exchangemonitor.view.java.PreloaderView;
 
 import javafx.animation.FadeTransition;
@@ -10,6 +11,7 @@ import javafx.application.Preloader;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -38,7 +40,28 @@ public class ExchangeMonitionApplicationPreloader extends Preloader
 	@Override
 	public void start(Stage primaryStage) throws Exception
 	{
+		/*
 		LOGGER.debug("ExchangeMonitorApplicationPreloader start called by ", Thread.currentThread().getName());
+		preloaderStage = primaryStage;
+		preloaderStage.setScene(createPreloaderScene());
+
+		preloaderStage.sizeToScene();
+		preloaderStage.centerOnScreen();
+		preloaderStage.setAlwaysOnTop(true);
+		preloaderStage.initStyle(StageStyle.TRANSPARENT);
+		preloaderStage.show();
+		preloaderStage.toFront();
+		 */
+		LOGGER.debug("ExchangeMonitorApplicationPreloader start called by ", Thread.currentThread().getName());
+
+		Stage loginStage = new Stage(StageStyle.TRANSPARENT);
+		Scene loginScene = new Scene(new StackPane());
+		LoginManager loginManager = new LoginManager(loginScene);
+		loginManager.showLoginScreen();
+		loginStage.setScene(loginScene);
+		loginStage.showAndWait();
+		System.out.println("<<<<<<<<<<<<<<<<<<<<<<< Login Stage Closed >>>>>>>>>>>>>>>>>>>>>>>");
+
 		preloaderStage = primaryStage;
 		preloaderStage.setScene(createPreloaderScene());
 
@@ -53,6 +76,10 @@ public class ExchangeMonitionApplicationPreloader extends Preloader
 	@Override
 	public void handleApplicationNotification(PreloaderNotification info)
 	{
+		if(info instanceof ProgressNotification)
+		{
+			//this.preloaderViewModel.updateProgressText(this.MESSAGES[this.counter]);
+		}
 	}
 
 	@Override

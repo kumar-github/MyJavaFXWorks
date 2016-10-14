@@ -28,7 +28,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -41,305 +40,294 @@ import javafx.util.converter.IntegerStringConverter;
 
 public class LineItemTable extends Application {
 
-    @Override
-    public void start(Stage primaryStage) {
-        TableView<LineItem> table = new TableView<>();
-        table.setEditable(true);
+	@Override
+	public void start(Stage primaryStage) {
+		TableView<LineItem> table = new TableView<>();
+		//table.setEditable(true);
 
-        // columns: arguments to utility function are:
-        // title, property, editable, converter (for editing cell)
-        
-        table.getColumns().add(
-                column("Name", LineItem::nameProperty, false, null));
+		// columns: arguments to utility function are:
+		// title, property, editable, converter (for editing cell)
 
-        table.getColumns().add(
-                column("Quantity", LineItem::quantityProperty, true,
-                        new IntegerStringConverter()));
+		table.getColumns().add(column("Name", LineItem::nameProperty, false, null));
 
-        table.getColumns().add(
-                column("Unit Price", LineItem::unitPriceProperty, true,
-                        new DoubleStringConverter()));
+		table.getColumns().add(column("Quantity", LineItem::quantityProperty, true,new IntegerStringConverter()));
 
-        table.getColumns().add(
-                column("Total Price", LineItem::totalProperty, false, null));
+		table.getColumns().add(column("Unit Price", LineItem::unitPriceProperty, true,new DoubleStringConverter()));
 
-        // actual data list. Use an extractor so the "total" line can observe changes:
-        ObservableList<LineItem> items = FXCollections.observableArrayList(item -> 
-            new Observable[] { item.totalProperty() });
-        
-        // use transformation list defined below for actual tableview:
-        table.setItems(new LineItemListWithTotal(items));
-        
-        // row factory just sets a CSS pseudoclass on the total row, for styling it differently:
-        table.setRowFactory(tv -> {
-            PseudoClass lastLinePC = PseudoClass.getPseudoClass("last-line");
-            TableRow<LineItem> row = new TableRow<>();
-            row.indexProperty().addListener((obs, oldIndex, newIndex) -> {
-                row.pseudoClassStateChanged(lastLinePC, newIndex.intValue() == items.size());
-            });
-            items.addListener((Change<? extends LineItem> change) -> {
-                row.pseudoClassStateChanged(lastLinePC, row.getIndex() == items.size());                
-            });
-            return row ;
-        });
+		table.getColumns().add(column("Total Price", LineItem::totalProperty, false, null));
 
-        // create a form for adding and removing elements. Note we pass it the actual data list
-        // (not the transformed list the tableview is observing)
-        GridPane editor = createEditor(items, table.getSelectionModel()
-                .selectedIndexProperty());
+		// actual data list. Use an extractor so the "total" line can observe changes:
+		ObservableList<LineItem> items = FXCollections.observableArrayList(item -> new Observable[] { item.totalProperty() });
 
-        BorderPane root = new BorderPane(table, null, null, editor, null);
-        
-        Scene scene = new Scene(root, 800, 600);
-        scene.getStylesheets().add(getClass().getResource("line-item-table.css").toExternalForm());
-        
-        primaryStage.setScene(scene);
-        primaryStage.show();
-    }
+		// use transformation list defined below for actual tableview:
+		table.setItems(new LineItemListWithTotal(items));
 
-    // utility function for creating table columns:
-    private static <S, T> TableColumn<S, T> column(String title,
-            Function<S, ObservableValue<T>> property, boolean editable,
-            StringConverter<T> converter) {
-        
-        TableColumn<S, T> col = new TableColumn<>(title);
-        
-        col.setCellValueFactory(cellData -> property.apply(cellData.getValue()));
-        
-        col.setEditable(editable);
-        
-        if (editable) {
-            col.setCellFactory(TextFieldTableCell.forTableColumn(converter));
-        }
-        
-        return col;
-    }
+		// row factory just sets a CSS pseudoclass on the total row, for styling it differently:
+		table.setRowFactory(tv -> {
+			PseudoClass lastLinePC = PseudoClass.getPseudoClass("last-line");
+			TableRow<LineItem> row = new TableRow<>();
+			row.indexProperty().addListener((obs, oldIndex, newIndex) -> {
+				row.pseudoClassStateChanged(lastLinePC, newIndex.intValue() == items.size());
+			});
+			items.addListener((Change<? extends LineItem> change) -> {
+				row.pseudoClassStateChanged(lastLinePC, row.getIndex() == items.size());                
+			});
+			return row ;
+		});
 
-    // TransformationList implementation. This TransformationList just has
-    // one extra line at the end, displaying the total. We use a subclass of
-    // LineItem for that line:
-    
-    public static class LineItemListWithTotal extends
-            TransformationList<LineItem, LineItem> {
+		// create a form for adding and removing elements. Note we pass it the actual data list
+		// (not the transformed list the tableview is observing)
+		GridPane editor = createEditor(items, table.getSelectionModel()
+				.selectedIndexProperty());
 
-        private final TotalLine totalLine;
+		BorderPane root = new BorderPane(table, null, null, editor, null);
 
-        protected LineItemListWithTotal(
-                ObservableList<? extends LineItem> source) {
-            super(source);
-            totalLine = new TotalLine(source);
-        }
+		Scene scene = new Scene(root, 800, 600);
+		scene.getStylesheets().add(getClass().getResource("line-item-table.css").toExternalForm());
 
-        @Override
-        protected void sourceChanged(Change<? extends LineItem> c) {
+		primaryStage.setScene(scene);
+		primaryStage.show();
+	}
 
-            // no need to modify change:
-            // indexes generated by the source list will match indexes in this
-            // list
+	// utility function for creating table columns:
+	private static <S, T> TableColumn<S, T> column(String title,Function<S, ObservableValue<T>> property, boolean editable,StringConverter<T> converter)
+	{
+		TableColumn<S, T> col = new TableColumn<>(title);
+		col.setCellValueFactory(cellData -> property.apply(cellData.getValue()));
+		col.setEditable(editable);
+		
+		/*if (editable)
+		{
+			col.setCellFactory(TextFieldTableCell.forTableColumn(converter));
+		}*/
+		return col;
+	}
 
-            fireChange(c);
-        }
+	// TransformationList implementation. This TransformationList just has
+	// one extra line at the end, displaying the total. We use a subclass of
+	// LineItem for that line:
 
-        // if index is in range for source list, just return that index
-        // otherwise return -1, indicating index is not represented in source
-        @Override
-        public int getSourceIndex(int index) {
-            if (index < getSource().size()) {
-                return index;
-            }
-            return -1;
-        }
+	public static class LineItemListWithTotal extends
+	TransformationList<LineItem, LineItem> {
 
-        // if index is in range for source list, return corresponding
-        // item from source list.
-        // if index is one after the last element in the source list,
-        // return total line.
-        @Override
-        public LineItem get(int index) {
-            if (index < getSource().size()) {
-                return getSource().get(index);
-            } else if (index == getSource().size()) {
-                return totalLine;
-            } else
-                throw new ArrayIndexOutOfBoundsException(index);
-        }
+		private final TotalLine totalLine;
 
-        // size of transformation list is one bigger than size of source list:
-        @Override
-        public int size() {
-            return getSource().size() + 1;
-        }
+		protected LineItemListWithTotal(ObservableList<? extends LineItem> source)
+		{
+			super(source);
+			totalLine = new TotalLine(source);
+		}
 
-    }
+		@Override
+		protected void sourceChanged(Change<? extends LineItem> c) {
 
-    // Model class. Note this is carefully created to allow subclassing for the "total" line.
-    // To do this, we want to allow nullable values for quantity and unit price (as they make
-    // no sense in the total; hence we use ObjectProperty<Integer> instead of IntegerProperty.
-    // Note we also allow the xxxProperty() methods to be overriden, but not the getXxx and 
-    // setXxx. This still enforces the xxxProperty().get() == getXxx() rule (etc), while allowing
-    // us to replace the total property in a subclass.
-    public static class LineItem {
+			// no need to modify change:
+			// indexes generated by the source list will match indexes in this
+			// list
 
-        private final StringProperty name = new SimpleStringProperty();
-        private final ObjectProperty<Integer> quantity = new SimpleObjectProperty<>();
-        private final ObjectProperty<Double> unitPrice = new SimpleObjectProperty<>();
-        private final ReadOnlyObjectWrapper<Double> total = new ReadOnlyObjectWrapper<>();
+			fireChange(c);
+		}
 
-        public LineItem(String name, Integer quantity, Double unitPrice) {
-            setName(name);
-            setQuantity(quantity);
-            setUnitPrice(unitPrice);
+		// if index is in range for source list, just return that index
+		// otherwise return -1, indicating index is not represented in source
+		@Override
+		public int getSourceIndex(int index) {
+			if (index < getSource().size()) {
+				return index;
+			}
+			return -1;
+		}
 
-            // Obvious binding for the total of this line item: 
-            // total = quantity * unit price
-            total.bind(Bindings.createObjectBinding(() -> {
-                if (quantityProperty().get() == null
-                        || unitPriceProperty().get() == null) {
-                    return 0.0;
-                }
-                return quantityProperty().get() * unitPriceProperty().get();
-            }, quantityProperty(), unitPriceProperty()));
-        }
+		// if index is in range for source list, return corresponding
+		// item from source list.
+		// if index is one after the last element in the source list,
+		// return total line.
+		@Override
+		public LineItem get(int index) {
+			if (index < getSource().size()) {
+				return getSource().get(index);
+			} else if (index == getSource().size()) {
+				return totalLine;
+			} else
+				throw new ArrayIndexOutOfBoundsException(index);
+		}
 
-        public ObjectProperty<Integer> quantityProperty() {
-            return this.quantity;
-        }
+		// size of transformation list is one bigger than size of source list:
+		@Override
+		public int size() {
+			return getSource().size() + 1;
+		}
 
-        public final Integer getQuantity() {
-            return this.quantityProperty().get();
-        }
+	}
 
-        public final void setQuantity(final Integer quantity) {
-            this.quantityProperty().set(quantity);
-        }
+	// Model class. Note this is carefully created to allow subclassing for the "total" line.
+	// To do this, we want to allow nullable values for quantity and unit price (as they make
+	// no sense in the total; hence we use ObjectProperty<Integer> instead of IntegerProperty.
+	// Note we also allow the xxxProperty() methods to be overridden, but not the getXxx and 
+	// setXxx. This still enforces the xxxProperty().get() == getXxx() rule (etc), while allowing
+	// us to replace the total property in a subclass.
+	public static class LineItem {
 
-        public ObjectProperty<Double> unitPriceProperty() {
-            return this.unitPrice;
-        }
+		private final StringProperty name = new SimpleStringProperty();
+		private final ObjectProperty<Integer> quantity = new SimpleObjectProperty<>();
+		private final ObjectProperty<Double> unitPrice = new SimpleObjectProperty<>();
+		private final ReadOnlyObjectWrapper<Double> total = new ReadOnlyObjectWrapper<>();
 
-        public final Double getUnitPrice() {
-            return this.unitPriceProperty().get();
-        }
+		public LineItem(String name, Integer quantity, Double unitPrice) {
+			setName(name);
+			setQuantity(quantity);
+			setUnitPrice(unitPrice);
 
-        public final void setUnitPrice(final Double unitPrice) {
-            this.unitPriceProperty().set(unitPrice);
-        }
+			// Obvious binding for the total of this line item: 
+			// total = quantity * unit price
+			total.bind(Bindings.createObjectBinding(() -> {
+				if (quantityProperty().get() == null
+						|| unitPriceProperty().get() == null) {
+					return 0.0;
+				}
+				return quantityProperty().get() * unitPriceProperty().get();
+			}, quantityProperty(), unitPriceProperty()));
+		}
 
-        public ReadOnlyObjectProperty<Double> totalProperty() {
-            return this.total.getReadOnlyProperty();
-        }
+		public ObjectProperty<Integer> quantityProperty() {
+			return this.quantity;
+		}
 
-        public final java.lang.Double getTotal() {
-            return this.totalProperty().get();
-        }
+		public final Integer getQuantity() {
+			return this.quantityProperty().get();
+		}
 
-        public final StringProperty nameProperty() {
-            return this.name;
-        }
+		public final void setQuantity(final Integer quantity) {
+			this.quantityProperty().set(quantity);
+		}
 
-        public final String getName() {
-            return this.nameProperty().get();
-        }
+		public ObjectProperty<Double> unitPriceProperty() {
+			return this.unitPrice;
+		}
 
-        public final void setName(final String name) {
-            this.nameProperty().set(name);
-        }
+		public final Double getUnitPrice() {
+			return this.unitPriceProperty().get();
+		}
 
-    }
+		public final void setUnitPrice(final Double unitPrice) {
+			this.unitPriceProperty().set(unitPrice);
+		}
 
-    // Special subclass to represent the total of all the line items.
-    // Just sets quantity and unit price to null.
-    // Overrides totalProperty() to return our own property, that is bound to
-    // the data list.
-    public static class TotalLine extends LineItem {
+		public ReadOnlyObjectProperty<Double> totalProperty() {
+			return this.total.getReadOnlyProperty();
+		}
 
-        private final ReadOnlyObjectWrapper<Double> total = new ReadOnlyObjectWrapper<>();
+		public final java.lang.Double getTotal() {
+			return this.totalProperty().get();
+		}
 
-        public TotalLine(ObservableList<? extends LineItem> items) {
-            super("Total", null, null);
+		public final StringProperty nameProperty() {
+			return this.name;
+		}
 
-            // Bind total to the sum of the totals of all the other line items:
-            total.bind(Bindings.createObjectBinding(() -> items.stream()
-                    .collect(Collectors.summingDouble(LineItem::getTotal)),
-                    items));
-        }
+		public final String getName() {
+			return this.nameProperty().get();
+		}
 
-        @Override
-        public ReadOnlyObjectProperty<Double> totalProperty() {
-            return total;
-        }
-    }
+		public final void setName(final String name) {
+			this.nameProperty().set(name);
+		}
 
-    // Just defines the form. Note how we add and remove elements from the
-    // original data list without needing to know there is a transformation list
-    // attached to the table.
-    private GridPane createEditor(ObservableList<LineItem> items,
-            ReadOnlyIntegerProperty selectedIndex) {
+	}
 
-        TextField nameField = new TextField();
-        TextField quantityField = new TextField();
-        TextField unitPriceField = new TextField();
+	// Special subclass to represent the total of all the line items.
+	// Just sets quantity and unit price to null.
+	// Overrides totalProperty() to return our own property, that is bound to
+	// the data list.
+	public static class TotalLine extends LineItem {
 
-        nameField.setOnAction(e -> addItem(items, nameField, quantityField,
-                unitPriceField));
-        quantityField.setOnAction(e -> addItem(items, nameField, quantityField,
-                unitPriceField));
-        unitPriceField.setOnAction(e -> addItem(items, nameField,
-                quantityField, unitPriceField));
+		private final ReadOnlyObjectWrapper<Double> total = new ReadOnlyObjectWrapper<>();
 
-        Button addButton = new Button("Add");
-        addButton.setOnAction(e -> addItem(items, nameField, quantityField,
-                unitPriceField));
+		public TotalLine(ObservableList<? extends LineItem> items) {
+			super("Total", 0, null);
 
-        Button deleteButton = new Button("Delete");
-        deleteButton.setDisable(true);
-        selectedIndex.addListener((obs, oldIndex, newIndex) -> {
-            deleteButton.setDisable(newIndex.intValue() < 0
-                    || newIndex.intValue() >= items.size());
-        });
-        items.addListener((Change<? extends LineItem> change) -> {
-            deleteButton.setDisable(selectedIndex.get() < 0
-                    || selectedIndex.get() >= items.size());
-        });
+			// Bind total to the sum of the totals of all the other line items:
+			total.bind(Bindings.createObjectBinding(() -> items.stream()
+					.collect(Collectors.summingDouble(LineItem::getTotal)),
+					items));
+		}
 
-        deleteButton.setOnAction(e -> items.remove(selectedIndex.get()));
+		@Override
+		public ReadOnlyObjectProperty<Double> totalProperty() {
+			return total;
+		}
+	}
 
-        GridPane editor = new GridPane();
-        editor.setHgap(5);
-        editor.setVgap(5);
+	// Just defines the form. Note how we add and remove elements from the
+	// original data list without needing to know there is a transformation list
+	// attached to the table.
+	private GridPane createEditor(ObservableList<LineItem> items,
+			ReadOnlyIntegerProperty selectedIndex) {
 
-        editor.addRow(0, new Label("Name:"), nameField);
-        editor.addRow(1, new Label("Quantity:"), quantityField);
-        editor.addRow(2, new Label("Unit Price:"), unitPriceField);
+		TextField nameField = new TextField();
+		TextField quantityField = new TextField();
+		TextField unitPriceField = new TextField();
 
-        HBox buttons = new HBox(5, addButton, deleteButton);
-        buttons.setAlignment(Pos.CENTER);
-        editor.add(buttons, 0, 3, 2, 1);
+		nameField.setOnAction(e -> addItem(items, nameField, quantityField,
+				unitPriceField));
+		quantityField.setOnAction(e -> addItem(items, nameField, quantityField,
+				unitPriceField));
+		unitPriceField.setOnAction(e -> addItem(items, nameField,
+				quantityField, unitPriceField));
 
-        ColumnConstraints leftCol = new ColumnConstraints();
-        leftCol.setHalignment(HPos.RIGHT);
-        ColumnConstraints rightCol = new ColumnConstraints();
-        rightCol.setHalignment(HPos.LEFT);
-        rightCol.setHgrow(Priority.ALWAYS);
+		Button addButton = new Button("Add");
+		addButton.setOnAction(e -> addItem(items, nameField, quantityField,
+				unitPriceField));
 
-        editor.getColumnConstraints().addAll(leftCol, rightCol);
-        editor.setAlignment(Pos.CENTER);
-        editor.setPadding(new Insets(10));
-        return editor;
-    }
+		Button deleteButton = new Button("Delete");
+		deleteButton.setDisable(true);
+		selectedIndex.addListener((obs, oldIndex, newIndex) -> {
+			deleteButton.setDisable(newIndex.intValue() < 0
+					|| newIndex.intValue() >= items.size());
+		});
+		items.addListener((Change<? extends LineItem> change) -> {
+			deleteButton.setDisable(selectedIndex.get() < 0
+					|| selectedIndex.get() >= items.size());
+		});
 
-    private void addItem(ObservableList<LineItem> items, TextField nameField,
-            TextField quantityField, TextField unitPriceField) {
-        String name = nameField.getText();
-        Integer quantity = new Integer(quantityField.getText());
-        Double unitPrice = new Double(unitPriceField.getText());
-        items.add(new LineItem(name, quantity, unitPrice));
-        nameField.setText("");
-        quantityField.setText("");
-        unitPriceField.setText("");
-    }
+		deleteButton.setOnAction(e -> items.remove(selectedIndex.get()));
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+		GridPane editor = new GridPane();
+		editor.setHgap(5);
+		editor.setVgap(5);
+
+		editor.addRow(0, new Label("Name:"), nameField);
+		editor.addRow(1, new Label("Quantity:"), quantityField);
+		editor.addRow(2, new Label("Unit Price:"), unitPriceField);
+
+		HBox buttons = new HBox(5, addButton, deleteButton);
+		buttons.setAlignment(Pos.CENTER);
+		editor.add(buttons, 0, 3, 2, 1);
+
+		ColumnConstraints leftCol = new ColumnConstraints();
+		leftCol.setHalignment(HPos.RIGHT);
+		ColumnConstraints rightCol = new ColumnConstraints();
+		rightCol.setHalignment(HPos.LEFT);
+		rightCol.setHgrow(Priority.ALWAYS);
+
+		editor.getColumnConstraints().addAll(leftCol, rightCol);
+		editor.setAlignment(Pos.CENTER);
+		editor.setPadding(new Insets(10));
+		return editor;
+	}
+
+	private void addItem(ObservableList<LineItem> items, TextField nameField,
+			TextField quantityField, TextField unitPriceField) {
+		String name = nameField.getText();
+		Integer quantity = new Integer(quantityField.getText());
+		Double unitPrice = new Double(unitPriceField.getText());
+		items.add(new LineItem(name, quantity, unitPrice));
+		nameField.setText("");
+		quantityField.setText("");
+		unitPriceField.setText("");
+	}
+
+	public static void main(String[] args) {
+		launch(args);
+	}
 }

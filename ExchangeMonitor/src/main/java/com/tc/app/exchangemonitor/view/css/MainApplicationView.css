@@ -1,4 +1,18 @@
 /* styles set on the root will be applied to all components. */
+
+/*
+@font-face
+{
+	font-family : 'Lato-Regular';
+	 src: url('/fonts/Lato-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Lato-Hairline';
+     src: url('/fonts/Lato-Hairline.ttf');
+}
+*/
+
 .root
 {
 	-fx-background-color: rgb(255, 255, 255);

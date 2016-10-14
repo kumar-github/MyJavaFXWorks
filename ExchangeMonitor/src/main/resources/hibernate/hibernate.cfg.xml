@@ -16,7 +16,7 @@
    
    <!-- jtds connection string -->
    <!-- jdbc:jtds:<server_type>://<server>[:<port>][/<database>][;<property>=<value>[;...]]-->
-   <property name="connection.url">jdbc:jtds:sqlserver://HYDDB07:1460;databaseName=QA_30_trade_Aug22</property>
+   <property name="connection.url">jdbc:jtds:sqlserver://HYDDB07:1460;databaseName=QA_30_trade</property>
    <!-- <property name="connection.url">jdbc:jtds:sqlserver://HYDDB07:1460;databaseName=QA_30_trade_Aug22;domain=tc.com;useNTLMv2=true</property> -->
    
    <!--
@@ -182,6 +182,7 @@
    <mapping class="com.tc.app.exchangemonitor.model.ExceptionsAdditions" />
    -->
    <mapping class="com.tc.app.exchangemonitor.controller.DummySettlePrice" />
+   <mapping class="com.tc.app.exchangemonitor.controller.DummyPosition" />
    
    </session-factory>
 </hibernate-configuration>

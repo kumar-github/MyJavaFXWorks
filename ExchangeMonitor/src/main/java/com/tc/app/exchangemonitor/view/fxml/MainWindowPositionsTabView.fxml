@@ -27,61 +27,9 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 
-<?import javafx.collections.FXCollections?>
-
 <?import javafx.scene.control.cell.PropertyValueFactory?>
-<?import com.tc.app.exchangemonitor.controller.CustomRowFactory?>
-<?import com.tc.app.exchangemonitor.controller.TradeCreationDateCellValueFactory?>
-<?import com.tc.app.exchangemonitor.controller.TradeCreationDateCellFactory?>
-<?import com.tc.app.exchangemonitor.controller.TradeEntryDateCellValueFactory?>
-<?import com.tc.app.exchangemonitor.controller.TradeEntryDateCellFactory?>
-
-<?import java.lang.String?>
 
 <Tab text="Positions" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tc.app.exchangemonitor.controller.MainApplicationPositionsTabController">
-
-<!-- ====================================================================================================================================================== -->
-<!-- ============================================================= ALL DEFINE BLOCKS GOES HERE ============================================================= -->
-<!-- ====================================================================================================================================================== -->
-<!--
- all the define blocks goes here. since we need the define blocks to be loaded first so that we can access it elsewhere. Need to find a way to move all the define blocks to a 
- separate fxml file (defines.fxml) and access it from there.
- -->
-
-<fx:define>
-<FXCollections fx:factory="observableArrayList" fx:id="pseudoStyles">
-<String fx:value="pending"/>
-<String fx:value="completed"/>
-<String fx:value="failed"/>
-<String fx:value="skipped"/>
-</FXCollections>
-</fx:define>
-
-<fx:define>
-<ContextMenu fx:id="tableRowContextMenu">
-<items>
-	<MenuItem text="Reprocess This Trade" onAction="#handleReprocessThisTradeMenuItemClick" />
-	<SeparatorMenuItem/>
-	<MenuItem text="Reprocess All Failed Trades" onAction="#handleReprocessAllFailedTradesMenuItemClick" />
-</items>
-</ContextMenu>
-</fx:define>
-
-<!-- we may not need this since we are already sending the context menu above. this is just for future reference. -->
-<fx:define>
-<FXCollections fx:factory="observableArrayList" fx:id="tableRowContextMenuItems">
-	<MenuItem text="Reprocess This Trade"  onAction="#handleReprocessThisTradeMenuItemClick"/>
-	<SeparatorMenuItem/>
-	<MenuItem text="Reprocess All Failed Trades" onAction="#handleReprocessAllFailedTradesMenuItemClick"/>
-</FXCollections>
-</fx:define>
-
-<!-- <fx:define><fx:include source="defines.fxml" fx:id="homeContent"/></fx:define>-->
-
-<!-- ====================================================================================================================================================== -->
-<!-- ============================================================= ALL DEFINE BLOCKS ENDS HERE ============================================================= -->
-<!-- ====================================================================================================================================================== -->
-
 <content>
 	<BorderPane prefHeight="200.0" prefWidth="200.0">
 	<top>
@@ -243,9 +191,7 @@
 			</TitledPane>
 		</panes>
 		</Accordion>
-		
-		<TextField fx:id="externalTradeTableViewDataFilterTextField" styleClass="externalTradeTableViewDataFilterTextFieldStyle" promptText="Type To Filter Table Data" />
-		<Label labelFor="$externalTradeTableViewDataFilterTextField" mnemonicParsing="true" text="_F" visible="false" />
+	
 	</children>
 	</VBox>
 </left>
@@ -255,97 +201,60 @@
 	<BorderPane.margin><Insets bottom="5.0" left="0.0" right="5.0" top="5.0" /></BorderPane.margin>
 	<padding><Insets bottom="2.0" left="2.0" right="2.0" top="1.0" /></padding>
 	<children>
-		<TableView fx:id="externalTradesTableView" cache="true" tableMenuButtonVisible="true" BorderPane.alignment="CENTER" VBox.vgrow="ALWAYS">
-		<fx:script>externalTradesTableView.getSelectionModel().setSelectionMode(javafx.scene.control.SelectionMode.MULTIPLE);</fx:script>
-		<!--<rowFactory><CustomRowFactory /></rowFactory>-->
-		<rowFactory>
-		<CustomRowFactory>
-		
-		<!--
-		<tableRowContextMenu>
-		<ContextMenu>
-		<items>
-			<MenuItem text="Reprocess This Trade" onAction="#handleReprocessThisTradeMenuItemClick" />
-			<SeparatorMenuItem/> 
-			<MenuItem text="Reprocess All Failed Trades"/>
-			<MenuItem text="Testing..."/>
-		</items>
-		</ContextMenu>
-		</tableRowContextMenu>
-		-->
-		
-		<tableRowContextMenu><fx:reference source="tableRowContextMenu"/></tableRowContextMenu>
-		<tableRowContextMenuItems><fx:reference source="tableRowContextMenuItems"/></tableRowContextMenuItems>
-		
-		<!--
-		<styles>
-		<FXCollections fx:factory="observableArrayList">
-		<String fx:value="Style1"/>
-		<String fx:value="Style2"/>
-		<String fx:value="Style3"/>
-		</FXCollections>
-		</styles>
-		-->
-		<!-- <styles><fx:reference source="${homeContent}"/></styles> -->
-		<styles><fx:reference source="pseudoStyles"/></styles>
-		
-		</CustomRowFactory>
-		</rowFactory>
-		
+		<TableView fx:id="dummyPositionsTableView" cache="true" tableMenuButtonVisible="true" BorderPane.alignment="CENTER" VBox.vgrow="ALWAYS">
 		<columns>
-			<TableColumn prefWidth="220.0" text="Commodity">
-			<!-- <cellValueFactory><CommodityCellValueFactory /></cellValueFactory> -->
+			<TableColumn prefWidth="220.0" text="Commodity" fx:id="commodityCol">
 			<cellValueFactory><PropertyValueFactory property="commodity"/></cellValueFactory>
 			</TableColumn>
 			
 			<TableColumn prefWidth="110.0" text="Trading Period">
 			<!-- <cellValueFactory><TradingPeriodCellValueFactory /></cellValueFactory> -->
-			<cellValueFactory><PropertyValueFactory property="_tradingPeriod" /></cellValueFactory>
+			<cellValueFactory><PropertyValueFactory property="tradingPeriod" /></cellValueFactory>
 			</TableColumn>
 			
 			<TableColumn prefWidth="75.0" text="Call Put">
 			<!-- <cellValueFactory><CallPutCellValueFactory /></cellValueFactory> -->
-			<cellValueFactory><PropertyValueFactory property="_callPut" /></cellValueFactory>
+			<cellValueFactory><PropertyValueFactory property="callPut" /></cellValueFactory>
 			</TableColumn>
 			
 			<TableColumn prefWidth="80.0" text="Strike Price">
 			<!-- <cellValueFactory><StrikePriceCellValueFactory /></cellValueFactory> -->
-			<cellValueFactory><PropertyValueFactory property="_strikePrice" /></cellValueFactory>
+			<cellValueFactory><PropertyValueFactory property="strikePrice" /></cellValueFactory>
 			</TableColumn>
 			
 			<TableColumn prefWidth="80.0" text="Bought">
 			<!-- <cellValueFactory><StrikePriceCellValueFactory /></cellValueFactory> -->
-			<cellValueFactory><PropertyValueFactory property="_strikePrice" /></cellValueFactory>
+			<cellValueFactory><PropertyValueFactory property="buyPosition" /></cellValueFactory>
 			</TableColumn>
 			
 			<TableColumn prefWidth="130.0" text="Average Buy Price">
 			<!-- <cellValueFactory><StrikePriceCellValueFactory /></cellValueFactory> -->
-			<cellValueFactory><PropertyValueFactory property="_strikePrice" /></cellValueFactory>
+			<cellValueFactory><PropertyValueFactory property="averageBuyPrice" /></cellValueFactory>
 			</TableColumn>
 			
 			<TableColumn prefWidth="80.0" text="Sold">
 			<!-- <cellValueFactory><StrikePriceCellValueFactory /></cellValueFactory> -->
-			<cellValueFactory><PropertyValueFactory property="_strikePrice" /></cellValueFactory>
+			<cellValueFactory><PropertyValueFactory property="sellPosition" /></cellValueFactory>
 			</TableColumn>
 			
 			<TableColumn prefWidth="130.0" text="Average Sale Price">
 			<!-- <cellValueFactory><StrikePriceCellValueFactory /></cellValueFactory> -->
-			<cellValueFactory><PropertyValueFactory property="_strikePrice" /></cellValueFactory>
+			<cellValueFactory><PropertyValueFactory property="averageSellPrice" /></cellValueFactory>
 			</TableColumn>
 			
 			<TableColumn prefWidth="80.0" text="Net">
 			<!-- <cellValueFactory><StrikePriceCellValueFactory /></cellValueFactory> -->
-			<cellValueFactory><PropertyValueFactory property="_strikePrice" /></cellValueFactory>
+			<cellValueFactory><PropertyValueFactory property="netQuantity" /></cellValueFactory>
 			</TableColumn>
 			
 			<TableColumn prefWidth="80.0" text="Last">
 			<!-- <cellValueFactory><StrikePriceCellValueFactory /></cellValueFactory> -->
-			<cellValueFactory><PropertyValueFactory property="_strikePrice" /></cellValueFactory>
+			<cellValueFactory><PropertyValueFactory property="lastPrice" /></cellValueFactory>
 			</TableColumn>
 			
 			<TableColumn prefWidth="80.0" text="Profit/Loss">
 			<!-- <cellValueFactory><StrikePriceCellValueFactory /></cellValueFactory> -->
-			<cellValueFactory><PropertyValueFactory property="_strikePrice" /></cellValueFactory>
+			<cellValueFactory><PropertyValueFactory property="total" /></cellValueFactory>
 			</TableColumn>
 			
 		</columns>
@@ -356,39 +265,6 @@
 	</VBox>
 </center>
 
-<fx:define>
-<ContextMenu fx:id="cmdef1">
-<items>
-<MenuItem text="Testing..."/>
-</items>
-</ContextMenu>
-</fx:define>
-
-<fx:define>
- <FXCollections fx:factory="observableArrayList" fx:id="cmdef2">
- <MenuItem text="Reprocess This Trade" />
- <MenuItem text="Reprocess All Failed Trades" />
- </FXCollections>
- </fx:define>
- 
-
-<!--
-<right>
-	<VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: orange;" BorderPane.alignment="CENTER">  This line already commented
-	<VBox BorderPane.alignment="CENTER">
-	<BorderPane.margin><Insets bottom="5.0" left="5.0" right="5.0" top="5.0" /></BorderPane.margin>
-	</VBox>
-</right>
--->
-
-<!--
-<bottom>
-	<HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: green;" BorderPane.alignment="CENTER">  This line is already commented
-	<HBox BorderPane.alignment="CENTER">
-	<BorderPane.margin><Insets bottom="5.0" left="5.0" right="5.0" top="5.0" /></BorderPane.margin>
-	</HBox>
-</bottom>
--->
-	</BorderPane>
+</BorderPane>
 </content>
 </Tab>

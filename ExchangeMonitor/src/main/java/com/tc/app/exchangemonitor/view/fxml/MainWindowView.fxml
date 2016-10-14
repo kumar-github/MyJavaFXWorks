@@ -58,6 +58,7 @@
 		<fx:include source="MainWindowPositionsTabView.fxml" />
 		<fx:include source="MainWindowMappingsTabView.fxml" />
 		<fx:include source="MainWindowSettlePricesTabView.fxml" />
+		<fx:include source="MainWindowLoadingScheduleTabView.fxml" />
 	</tabs>
 	</TabPane>
 </center>
