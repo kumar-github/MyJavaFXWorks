@@ -17,7 +17,7 @@ import com.tc.app.exchangemonitor.model.ExchToolsTrade;
  * @author Saravana Kumar M
  */
 //@Entity
-//@Table(name = "external_comment", catalog = "QA_30_trade_Aug22", schema = "dbo")
+//@Table(name = "external_comment", catalog = "QA_30_trade_sep12", schema = "dbo")
 @MappedSuperclass
 
 public class ExternalCommentEntity implements IExternalCommentEntity

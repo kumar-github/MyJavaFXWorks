@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "account_agreement", catalog = "QA_30_trade_Aug22", schema = "dbo")
+@Table(name = "account_agreement", catalog = "QA_30_trade_sep12", schema = "dbo")
 public class AccountAgreement implements Serializable
 {
     private static final long serialVersionUID = 1L;

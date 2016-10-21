@@ -25,7 +25,7 @@ import com.tc.app.exchangemonitor.model.ExternalTradeStatus;
  * @author Saravana Kumar M
  */
 //@Entity
-//@Table(name = "external_trade_status", catalog = "QA_30_trade_Aug22", schema = "dbo")
+//@Table(name = "external_trade_status", catalog = "QA_30_trade_sep12", schema = "dbo")
 @MappedSuperclass
 @XmlRootElement
 

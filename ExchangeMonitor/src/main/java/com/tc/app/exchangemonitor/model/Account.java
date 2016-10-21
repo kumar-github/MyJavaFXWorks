@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Saravana Kumar M
  */
 @Entity
-@Table(name = "account", catalog = "QA_30_trade_Aug22", schema = "dbo", uniqueConstraints = {
+@Table(name = "account", catalog = "QA_30_trade_sep12", schema = "dbo", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"acct_short_name", "acct_type_code"})})
 @XmlRootElement
 @NamedQueries({

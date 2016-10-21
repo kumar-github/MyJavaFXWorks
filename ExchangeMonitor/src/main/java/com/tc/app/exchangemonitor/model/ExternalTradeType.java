@@ -11,7 +11,7 @@ import com.tc.app.exchangemonitor.entitybusiness.ExternalTradeTypeBusiness;
  */
 
 @Entity
-@Table(name = "external_trade_type", catalog = "QA_30_trade_Aug22", schema = "dbo")
+@Table(name = "external_trade_type", catalog = "QA_30_trade_sep12", schema = "dbo")
 public class ExternalTradeType extends ExternalTradeTypeBusiness
 {
 }

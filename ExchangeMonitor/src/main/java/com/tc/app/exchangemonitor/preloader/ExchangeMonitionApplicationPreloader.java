@@ -1,12 +1,18 @@
 package com.tc.app.exchangemonitor.preloader;
 
+import java.sql.SQLException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.tc.app.exchangemonitor.controller.DatabaseUtil;
+import com.tc.app.exchangemonitor.controller.LoginController;
 import com.tc.app.exchangemonitor.controller.LoginManager;
+import com.tc.app.exchangemonitor.controller.PreferencesUtil;
 import com.tc.app.exchangemonitor.view.java.PreloaderView;
 
 import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.application.Preloader;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -15,14 +21,22 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 public class ExchangeMonitionApplicationPreloader extends Preloader
 {
 	private static final Logger LOGGER = LogManager.getLogger(ExchangeMonitionApplicationPreloader.class);
+	private static final boolean shouldShowLoginScreen;
+	private static final boolean DEFAULT_BOOLEAN_VALUE = false;
 	//private ProgressBar progressBar;
 	private Stage preloaderStage;
 	private Scene preloaderScene;
+
+	static
+	{
+		shouldShowLoginScreen = !PreferencesUtil.getUserPreferences().getBoolean("isAuthenticatedUser", DEFAULT_BOOLEAN_VALUE);
+	}
 
 	public ExchangeMonitionApplicationPreloader()
 	{
@@ -40,37 +54,26 @@ public class ExchangeMonitionApplicationPreloader extends Preloader
 	@Override
 	public void start(Stage primaryStage) throws Exception
 	{
-		/*
-		LOGGER.debug("ExchangeMonitorApplicationPreloader start called by ", Thread.currentThread().getName());
-		preloaderStage = primaryStage;
-		preloaderStage.setScene(createPreloaderScene());
-
-		preloaderStage.sizeToScene();
-		preloaderStage.centerOnScreen();
-		preloaderStage.setAlwaysOnTop(true);
-		preloaderStage.initStyle(StageStyle.TRANSPARENT);
-		preloaderStage.show();
-		preloaderStage.toFront();
-		 */
 		LOGGER.debug("ExchangeMonitorApplicationPreloader start called by ", Thread.currentThread().getName());
 
-		Stage loginStage = new Stage(StageStyle.TRANSPARENT);
-		Scene loginScene = new Scene(new StackPane());
-		LoginManager loginManager = new LoginManager(loginScene);
-		loginManager.showLoginScreen();
-		loginStage.setScene(loginScene);
-		loginStage.showAndWait();
-		System.out.println("<<<<<<<<<<<<<<<<<<<<<<< Login Stage Closed >>>>>>>>>>>>>>>>>>>>>>>");
-
-		preloaderStage = primaryStage;
-		preloaderStage.setScene(createPreloaderScene());
-
-		preloaderStage.sizeToScene();
-		preloaderStage.centerOnScreen();
-		preloaderStage.setAlwaysOnTop(true);
-		preloaderStage.initStyle(StageStyle.TRANSPARENT);
-		preloaderStage.show();
-		preloaderStage.toFront();
+		if(shouldShowLoginScreen)
+		{
+			showLoginScreen();
+		}
+		else
+		{
+			boolean status = authenticateInBackground();
+			if(!status)
+			{
+				LOGGER.info("Automatic Login Failed.");
+				PreferencesUtil.forgetLoginCredentials();
+				PreferencesUtil.getUserPreferences().clear();
+				showLoginScreen();
+			}
+			//HibernateUtil.HIBERNATE_CONNECTION_URL_VALUE = PreferencesUtil.getUserPreferences().get("connectionURL", "");
+			LoginController.CONNECTION_URL = PreferencesUtil.getUserPreferences().get("connectionURL", "");
+		}
+		showPreloaderScreen(primaryStage);
 	}
 
 	@Override
@@ -152,5 +155,50 @@ public class ExchangeMonitionApplicationPreloader extends Preloader
 		LoginView loginView = new LoginView();
 		return new Scene(loginView.getView());
 		 */
+	}
+
+	private Scene createLoginScene()
+	{
+		Scene loginScene = new Scene(new StackPane());
+		LoginManager loginManager = new LoginManager(loginScene);
+		loginManager.constructLoginScreen();
+		return loginScene;
+	}
+
+	private void showLoginScreen()
+	{
+		Stage loginStage = new Stage(StageStyle.TRANSPARENT);
+		loginStage.setOnCloseRequest((WindowEvent windowEvent) -> Platform.runLater(() -> { Platform.exit(); System.exit(0); } ));
+		loginStage.setScene(createLoginScene());
+		loginStage.showAndWait();
+	}
+
+	private void showPreloaderScreen(final Stage primaryStage)
+	{
+		preloaderStage = primaryStage;
+		preloaderStage.setScene(createPreloaderScene());
+
+		preloaderStage.sizeToScene();
+		preloaderStage.centerOnScreen();
+		preloaderStage.setAlwaysOnTop(true);
+		preloaderStage.initStyle(StageStyle.TRANSPARENT);
+		preloaderStage.show();
+		preloaderStage.toFront();
+	}
+
+	private boolean authenticateInBackground()
+	{
+		boolean isAuthorized = DEFAULT_BOOLEAN_VALUE;
+
+		try
+		{
+			isAuthorized = DatabaseUtil.makeTestConnection(PreferencesUtil.getUserPreferences().get("connectionURL", ""), null, null);
+		}
+		catch (SQLException exception)
+		{
+			exception.printStackTrace();
+		}
+
+		return isAuthorized;
 	}
 }

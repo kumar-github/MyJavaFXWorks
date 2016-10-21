@@ -36,10 +36,10 @@ public class LoginManager
 	 */ 
 	public void logout()
 	{
-		showLoginScreen();
+		constructLoginScreen();
 	}
 
-	public void showLoginScreen()
+	public void constructLoginScreen()
 	{
 		try
 		{

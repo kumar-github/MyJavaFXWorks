@@ -6,7 +6,7 @@ import javax.persistence.Table;
 import com.tc.app.exchangemonitor.entitybusiness.ExternalTradeSystemBusiness;
 
 @Entity
-@Table(name = "external_trade_system", catalog = "QA_30_trade_Aug22", schema = "dbo")
+@Table(name = "external_trade_system", catalog = "QA_30_trade_sep12", schema = "dbo")
 public class ExternalTradeSystem extends ExternalTradeSystemBusiness
 {
 }

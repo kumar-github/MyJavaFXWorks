@@ -9,6 +9,7 @@ public class ExchangeMonitorApplicationMain
 {
 	public static void main(String[] args)
 	{
+		//System.out.println(java.lang.System.getProperty("java.library.path"));
 		LauncherImpl.launchApplication(ExchangeMonitorApplication.class, ExchangeMonitionApplicationPreloader.class, args);
 	}
 }

@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.tc.app.exchangemonitor.util.HibernateUtil;
+import com.tc.app.exchangemonitor.util.ReferenceDataCache;
 import com.tc.framework.injection.Injector;
 
 import javafx.application.Application;
@@ -38,7 +39,7 @@ public class TestClass extends Application
 	{
 		LOGGER.debug("ExchangeMonitorApplication init called by ", Thread.currentThread().getName());
 		HibernateUtil.getSessionFactory();
-		//ReferenceDataCache.loadAllReferenceData();
+		ReferenceDataCache.loadAllReferenceData();
 	}
 
 	@Override

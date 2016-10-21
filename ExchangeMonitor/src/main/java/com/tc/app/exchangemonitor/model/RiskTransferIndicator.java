@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author smurugabushanam
  */
 @Entity
-@Table(name = "risk_transfer_indicator", catalog = "QA_30_trade_Aug22", schema = "dbo")
+@Table(name = "risk_transfer_indicator", catalog = "QA_30_trade_sep12", schema = "dbo")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "RiskTransferIndicator.findAll", query = "SELECT r FROM RiskTransferIndicator r"),

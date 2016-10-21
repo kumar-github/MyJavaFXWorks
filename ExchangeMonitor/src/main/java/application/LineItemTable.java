@@ -244,7 +244,7 @@ public class LineItemTable extends Application {
 		private final ReadOnlyObjectWrapper<Double> total = new ReadOnlyObjectWrapper<>();
 
 		public TotalLine(ObservableList<? extends LineItem> items) {
-			super("Total", 0, null);
+			super("Total", null, null);
 
 			// Bind total to the sum of the totals of all the other line items:
 			total.bind(Bindings.createObjectBinding(() -> items.stream()

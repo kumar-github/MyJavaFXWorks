@@ -6,7 +6,7 @@ import javax.persistence.Table;
 import com.tc.app.exchangemonitor.entitybusiness.ExternalMappingBusiness;
 
 @Entity
-@Table(name = "external_mapping", catalog = "QA_30_trade_Aug22", schema = "dbo")
+@Table(name = "external_mapping", catalog = "QA_30_trade_sep12", schema = "dbo")
 public class ExternalMapping extends ExternalMappingBusiness 
 {
 	public ExternalMapping()

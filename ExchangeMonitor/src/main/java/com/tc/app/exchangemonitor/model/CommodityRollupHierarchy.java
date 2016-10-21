@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Saravana Kumar M
  */
 @Entity
-@Table(name = "commodity_rollup_hierarchy", catalog = "QA_30_trade_Aug22", schema = "dbo")
+@Table(name = "commodity_rollup_hierarchy", catalog = "QA_30_trade_sep12", schema = "dbo")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "CommodityRollupHierarchy.findAll", query = "SELECT c FROM CommodityRollupHierarchy c"),

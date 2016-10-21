@@ -2,6 +2,7 @@ package com.tc.app.exchangemonitor.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.prefs.BackingStoreException;
 
 import javax.inject.Inject;
 
@@ -19,16 +20,20 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.BoundingBox;
+import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -211,16 +216,48 @@ public class MainWindowController implements Initializable
 	 * ============================================================================================================================================================================
 	 */
 
+	CheckBox ch1 = new CheckBox("Reset Credentials");
+	CheckBox ch2 = new CheckBox("Display Accounts with permission");
 	private void showOptionsPopOver()
 	{
 		PopOver popOver = new PopOver();
-		popOver.setDetachable(false);
+		popOver.setTitle("Options");
+		//popOver.setDetachable(false);
+		popOver.setDetachable(true);
+		popOver.setDetached(true);
 		popOver.setArrowLocation(ArrowLocation.TOP_LEFT);
 		popOver.setAutoFix(true);
 		popOver.setAutoHide(true);
 		popOver.setHideOnEscape(true);
-		popOver.setCornerRadius(0);
+		//popOver.setCornerRadius(0);
+		popOver.setCornerRadius(4);
 		popOver.show(homeImageView);
+		
+		VBox vbox = new VBox(15.0);
+		vbox.setPadding(new Insets(10.0));
+		vbox.getChildren().add(ch1);
+		vbox.getChildren().add(ch2);	
+		//ch2.setStyle("-fx-border-color: lightblue; -fx-border-insets: -5; -fx-border-radius: 5; -fx-border-style: dotted; -fx-border-width: 2;");
+		ch1.setOnAction(event -> handle(event));
+		ch2.setOnAction(event -> handle(event));
+		popOver.setContentNode(vbox);
+	}
+	
+	private void handle(ActionEvent event)
+	{
+		CheckBox ch = ((CheckBox)event.getSource());
+		if(ch.isSelected() && ch.getText().equals("Reset Credentials"))
+		{
+			try
+			{
+				PreferencesUtil.getUserPreferences().clear();
+				LOGGER.info("Credentials reset successfully.");
+			}
+			catch (BackingStoreException exception)
+			{
+				exception.printStackTrace();
+			}
+		}
 	}
 
 	public void minimizeStage()

@@ -7,7 +7,7 @@
    <!-- <property name="connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>-->
    
    <!-- jtds Driver class -->
-   <property name="connection.driver_class">net.sourceforge.jtds.jdbc.Driver</property>
+   <!--<property name="connection.driver_class">net.sourceforge.jtds.jdbc.Driver</property>-->
    
    <!--jdbc:sqlserver://[serverName[\instanceName][:portNumber]][;property=value[;property=value]]-->
    <!--<property name="connection.url">jdbc:sqlserver://HYDDB05:1460;databaseName=DEV_CS25_trade</property>-->
@@ -16,7 +16,7 @@
    
    <!-- jtds connection string -->
    <!-- jdbc:jtds:<server_type>://<server>[:<port>][/<database>][;<property>=<value>[;...]]-->
-   <property name="connection.url">jdbc:jtds:sqlserver://HYDDB07:1460;databaseName=QA_30_trade</property>
+   <!--<property name="connection.url">jdbc:jtds:sqlserver://HYDDB07:1460;databaseName=QA_30_trade</property>-->
    <!-- <property name="connection.url">jdbc:jtds:sqlserver://HYDDB07:1460;databaseName=QA_30_trade_Aug22;domain=tc.com;useNTLMv2=true</property> -->
    
    <!--
@@ -24,12 +24,14 @@
    <property name="connection.password">ictspass</property>
    -->
    
-   <property name="dialect">org.hibernate.dialect.SQLServerDialect</property>
    <!--<property name ="hibernate.implicit_naming_strategy">legacy-hbm</property>-->
+   <!--
+   <property name="dialect">org.hibernate.dialect.SQLServerDialect</property>
    <property name="hbm2ddl.auto">validate</property>
    <property name="show_sql">true</property>
    <property name="format_sql">true</property>
    <property name="hibernate.current_session_context_class">thread</property>
+   -->
    
    <!--
    <mapping class="com.tc.app.exchangemonitor.model.Account" />
@@ -122,7 +124,8 @@
    <mapping class="com.tc.app.exchangemonitor.model.ExternalComment" />
    <mapping class="com.tc.app.exchangemonitor.model.ExternalMapping" />
    <mapping resource="/hibernate/NamedQueries.xml"/>
-   
+   <!--<mapping resource="NamedQueries.xml"/>-->
+   <!--<mapping resource="/NamedQueries.xml"/>-->
    
    <!-- added this on 15-09-2016 -->
    <mapping class="com.tc.app.exchangemonitor.model.Commodity" />

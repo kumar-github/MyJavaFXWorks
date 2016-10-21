@@ -20,7 +20,7 @@ import com.tc.app.exchangemonitor.model.ExternalTradeSource;
  * @author Saravana Kumar M
  */
 //@Entity
-//@Table(name = "external_mapping", catalog = "QA_30_trade_Aug22", schema = "dbo")
+//@Table(name = "external_mapping", catalog = "QA_30_trade_sep12", schema = "dbo")
 @MappedSuperclass
 
 public class ExternalMappingEntity implements IExternalMappingEntity

@@ -205,7 +205,7 @@ public class DummyPosition
 	}
 
 	/* Bought */
-	private Double buyPosition;
+	/*private Double buyPosition;
 	public Double getBuyPosition()
 	{
 		return buyPosition != null ? buyPosition : 0.0;
@@ -214,7 +214,7 @@ public class DummyPosition
 	public void setBuyPosition(Double buyPosition)
 	{
 		this.buyPosition = buyPosition;
-	}
+	}*/
 
 	private Double buyPositionPrice;
 	public Double getBuyPositionPrice()
@@ -239,6 +239,7 @@ public class DummyPosition
 	}
 
 	/* Sold */
+	/*
 	private Double sellPosition;
 	public Double getSellPosition()
 	{
@@ -248,7 +249,7 @@ public class DummyPosition
 	public void setSellPosition(Double sellPosition)
 	{
 		this.sellPosition = sellPosition;
-	}
+	}*/
 
 	private Double sellPositionPrice;
 	public Double getSellPositionPrice()
@@ -307,6 +308,7 @@ public class DummyPosition
 			this.lastPrice = lastPrice;
 	}
 
+	/*
 	private Double netQuantity;
 	public Double getNetQuantity()
 	{
@@ -317,6 +319,7 @@ public class DummyPosition
 	{
 		this.netQuantity = netQuantity;
 	}
+	*/
 
 	/*
 	private Double pl;
@@ -344,7 +347,6 @@ public class DummyPosition
 	}
 	 */
 
-	/*
 	private final ReadOnlyObjectWrapper<Double> buyPosition = new ReadOnlyObjectWrapper<>(0.0);
 	public ReadOnlyObjectProperty<Double> buyPositionProperty()
 	{
@@ -360,7 +362,38 @@ public class DummyPosition
 	{
 		this.buyPosition.set(buyPosition);
 	}
-	 */
+	
+	private final ReadOnlyObjectWrapper<Double> sellPosition = new ReadOnlyObjectWrapper<>(0.0);
+	public ReadOnlyObjectProperty<Double> sellPositionProperty()
+	{
+		return this.sellPosition.getReadOnlyProperty();
+	}
+
+	public final double getSellPosition()
+	{
+		return this.sellPositionProperty().get();
+	}
+
+	public void setSellPosition(Double sellPosition)
+	{
+		this.sellPosition.set(sellPosition);
+	}
+	
+	private final ReadOnlyObjectWrapper<Double> netQuantity = new ReadOnlyObjectWrapper<>(0.0);
+	public ReadOnlyObjectProperty<Double> netQuantityProperty()
+	{
+		return this.netQuantity.getReadOnlyProperty();
+	}
+
+	public final double getNetQuantity()
+	{
+		return this.netQuantityProperty().get();
+	}
+
+	public void setNetQuantity(Double netQuantity)
+	{
+		this.netQuantity.set(netQuantity);
+	}
 
 	private final ReadOnlyObjectWrapper<Double> total = new ReadOnlyObjectWrapper<>();
 	public ReadOnlyObjectProperty<Double> totalProperty()
