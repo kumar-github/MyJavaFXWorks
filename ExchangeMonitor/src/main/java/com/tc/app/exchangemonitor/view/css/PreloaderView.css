@@ -16,7 +16,8 @@
 {
 	-fx-background-color: #2C3E50;
 	/*-fx-font-family: "Lato-Regular";*/
-	-fx-font-family: "Segoe UI";
+	/*-fx-font-family: "Segoe UI";*/
+	-fx-font-family: "Segoe UI Semibold";
 }
 
 .label
@@ -24,5 +25,5 @@
 	-fx-text-fill: #FFFFFF;
 	/*-fx-font-family: 'Lato-Regular';*/
 	-fx-font-size: 16pt;
-	-fx-font-family: "Segoe UI";
+	-fx-font-family: "Segoe UI Light";
 }
