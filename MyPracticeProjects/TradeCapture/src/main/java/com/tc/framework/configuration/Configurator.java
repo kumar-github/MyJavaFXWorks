@@ -6,7 +6,7 @@ import java.util.Properties;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import com.tc.app.exchangemonitor.util.FilePathUtil;
+import com.tc.app.tradecapture.util.FilePathUtil;
 
 public class Configurator
 {

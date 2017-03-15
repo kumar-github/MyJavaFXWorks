@@ -1,13 +1,13 @@
-package com.tc.app.exchangemonitor.controller;
+package com.tc.app.tradecapture.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import javax.inject.Inject;
 
-import com.tc.app.exchangemonitor.view.java.MainWindowMenuBarView;
-import com.tc.app.exchangemonitor.view.java.MainWindowStatusBarView;
-import com.tc.app.exchangemonitor.view.java.MainWindowTabPaneView;
+import com.tc.app.tradecapture.view.java.MainWindowMenuBarView;
+import com.tc.app.tradecapture.view.java.MainWindowStatusBarView;
+import com.tc.app.tradecapture.view.java.MainWindowTabPaneView;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

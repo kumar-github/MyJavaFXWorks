@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tc.app.exchangemonitor.controller;
+package com.tc.app.tradecapture.controller;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Saravana Kumar M
  */
 @Entity
-@Table(name = "commkt_clrd_swap_attr", catalog = "DEV_CS25_trade", schema = "dbo")
+@Table(name = "commkt_clrd_swap_attr", catalog = "DEV_31_trade", schema = "dbo")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "CommktClrdSwapAttr.findAll", query = "SELECT c FROM CommktClrdSwapAttr c"),

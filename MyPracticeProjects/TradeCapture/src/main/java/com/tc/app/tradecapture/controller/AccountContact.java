@@ -1,4 +1,4 @@
-package com.tc.app.exchangemonitor.controller;
+package com.tc.app.tradecapture.controller;
 
 import java.io.Serializable;
 
@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "account_contact", catalog = "DEV_CS25_trade", schema = "dbo")
+@Table(name = "account_contact", catalog = "DEV_31_trade", schema = "dbo")
 public class AccountContact implements Serializable
 {
 	private static final long serialVersionUID = 1L;

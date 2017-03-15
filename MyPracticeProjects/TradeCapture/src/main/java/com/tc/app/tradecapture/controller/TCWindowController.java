@@ -1,4 +1,4 @@
-package com.tc.app.exchangemonitor.controller;
+package com.tc.app.tradecapture.controller;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import org.hibernate.Session;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.StringType;
 
-import com.tc.app.exchangemonitor.util.HibernateUtil;
+import com.tc.app.tradecapture.util.HibernateUtil;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -175,7 +175,7 @@ public class TCWindowController implements Initializable
 		SQLQuery sqlQueryToFetchData = session.createSQLQuery("SELECT TOP 100 ti.trade_num as tradeNum, ti.order_num as orderNum, ti.item_num as itemNum, ti.item_type as itemType, ti.p_s_ind as psInd, ti.booking_comp_num  as bookingCompNum, ti.cmdty_code as cmdtyCode, ti.avg_price as avgPrice, ti.price_curr_code as priceCurrCode, ti.price_uom_code as priceUomCode, ti.contr_qty_uom_code as contrQtyUomCode, ti.risk_mkt_code as riskMktCode, ti.title_mkt_code as titleMktCode,  ti.trading_prd as tradingPrd from trade_item ti ORDER BY trade_num desc");
 		//SQLQuery sqlQueryToFetchData = session.createSQLQuery("SELECT TOP 100 ti.trade_num as tradeNum, ti.order_num as orderNum, ti.item_num as itemNum, ti.item_type as itemType, ti.p_s_ind as psInd from trade_item ti ORDER BY trade_num desc");
 		//return sqlQueryToFetchData.list();
-		sqlQueryToFetchData.setResultTransformer(Transformers.aliasToBean(com.tc.app.exchangemonitor.controller.DummyTradeItem.class));
+		sqlQueryToFetchData.setResultTransformer(Transformers.aliasToBean(com.tc.app.tradecapture.controller.DummyTradeItem.class));
 		//return sqlQueryToFetchData.list();
 		List<DummyTradeItem> tradeItems = new ArrayList<DummyTradeItem>();
 		tradeItems = sqlQueryToFetchData.list();

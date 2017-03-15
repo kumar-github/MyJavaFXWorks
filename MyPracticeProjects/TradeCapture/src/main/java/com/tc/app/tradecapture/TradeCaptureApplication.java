@@ -1,7 +1,7 @@
 package com.tc.app.tradecapture;
 
 import com.tc.app.tradecapture.util.HibernateUtil;
-import com.tc.app.tradecapture.view.java.FuturesView;
+import com.tc.app.tradecapture.view.java.MainWindowView;
 import com.tc.framework.injection.Injector;
 
 import javafx.application.Application;
@@ -10,21 +10,21 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-public class TradeCaptureApplication extends Application 
+public class TradeCaptureApplication extends Application
 {
-	public static void main(String[] args)
+	public static void main(final String[] args)
 	{
 		launch(args);
 	}
-	
+
 	@Override
 	public void init()
 	{
 		HibernateUtil.getSessionFactory();
 	}
-	
+
 	@Override
-	public void start(Stage primaryStage)
+	public void start(final Stage primaryStage)
 	{
 		/*
 		Parent root = FXMLLoader.load(this.getClass().getResource("MainWindowView.fxml"));
@@ -33,9 +33,9 @@ public class TradeCaptureApplication extends Application
 		*/
 		try
 		{
-			createAndShowGUI(primaryStage);
+			this.createAndShowGUI(primaryStage);
 		}
-		catch(Exception ex)
+		catch(final Exception ex)
 		{
 			System.out.println(ex);
 			Injector.forgetAll();
@@ -47,8 +47,8 @@ public class TradeCaptureApplication extends Application
 			//Platform.exit();
 		}
 	}
-	
-	private void createAndShowGUI(Stage primaryStage)
+
+	private void createAndShowGUI(final Stage primaryStage)
 	{
 		//primaryStage.setTitle("Exchange Monitor");
 		primaryStage.setTitle("Trade Capture");
@@ -60,23 +60,23 @@ public class TradeCaptureApplication extends Application
 		//primaryStage.setMaxHeight();
 		//primaryStage.setMaxWidth();
 		//primaryStage.setOpacity(0.9);
-		
-//		MainWindowView appView = new MainWindowView();
-//		Scene scene = new Scene(appView.getView());
-//		primaryStage.setScene(scene);
-		
-//		TCWindowView appView = new TCWindowView();
-//		Scene scene = new Scene(appView.getView());
-//		primaryStage.setScene(scene);
-		
-		FuturesView appView = new FuturesView();
-		Scene scene = new Scene(appView.getView());
+
+		final MainWindowView appView = new MainWindowView();
+		final Scene scene = new Scene(appView.getView());
 		primaryStage.setScene(scene);
-		
+
+		/*final TCWindowView appView = new TCWindowView();
+		final Scene scene = new Scene(appView.getView());
+		primaryStage.setScene(scene);*/
+
+		/*FuturesView appView = new FuturesView();
+		Scene scene = new Scene(appView.getView());
+		primaryStage.setScene(scene);*/
+
 		primaryStage.show();
 		primaryStage.toFront();
 	}
-	
+
 	@Override
 	public void stop() throws Exception
 	{

@@ -1,4 +1,4 @@
-package com.tc.app.exchangemonitor.util;
+package com.tc.app.tradecapture.util;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -17,7 +17,7 @@ public class HibernateUtil
 			/*
 			Configuration configuration = new Configuration();
 			configuration.configure("/hibernate/hibernate.cfg.xml");
-			//configuration.addAnnotatedClass(com.tc.app.exchangemonitor.controller.ExternalTradeStatus.class);
+			//configuration.addAnnotatedClass(com.tc.app.tradecapture.controller.ExternalTradeStatus.class);
 			sessionFactory = configuration.buildSessionFactory();
 			*/
 			

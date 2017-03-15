@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tc.app.exchangemonitor.controller;
+package com.tc.app.tradecapture.controller;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Saravana Kumar M
  */
 @Entity
-@Table(name = "commodity_market_source", catalog = "DEV_CS25_trade", schema = "dbo")
+@Table(name = "commodity_market_source", catalog = "DEV_31_trade", schema = "dbo")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "CommodityMarketSource.findAll", query = "SELECT c FROM CommodityMarketSource c"),

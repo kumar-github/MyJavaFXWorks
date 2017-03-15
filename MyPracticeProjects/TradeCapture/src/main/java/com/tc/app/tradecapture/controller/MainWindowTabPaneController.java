@@ -1,4 +1,4 @@
-package com.tc.app.exchangemonitor.controller;
+package com.tc.app.tradecapture.controller;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -19,8 +19,8 @@ import org.hibernate.Session;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.StringType;
 
-import com.tc.app.exchangemonitor.util.DatePickerConverter;
-import com.tc.app.exchangemonitor.util.HibernateUtil;
+import com.tc.app.tradecapture.util.DatePickerConverter;
+import com.tc.app.tradecapture.util.HibernateUtil;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
@@ -461,7 +461,7 @@ public class MainWindowTabPaneController implements Initializable
 		sqlQueryToFetchData.setParameter("startDate", startDate);
 		sqlQueryToFetchData.setParameter("endDate", endDate);
 		
-		sqlQueryToFetchData.setResultTransformer(Transformers.aliasToBean(com.tc.app.exchangemonitor.controller.DummyExternalTrade.class));
+		sqlQueryToFetchData.setResultTransformer(Transformers.aliasToBean(com.tc.app.tradecapture.controller.DummyExternalTrade.class));
 		dummyExternalTrades = sqlQueryToFetchData.list();
 
 		return dummyExternalTrades;

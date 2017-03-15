@@ -5,7 +5,7 @@
  * and open the template in the editor.
  */
 
-package com.tc.app.exchangemonitor.controller;
+package com.tc.app.tradecapture.controller;
 
 
 import java.io.Serializable;
@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author smurugabushanam
  */
 @Entity
-@Table(name = "external_trade", catalog = "DEV_CS25_trade", schema = "dbo")
+@Table(name = "external_trade", catalog = "DEV_31_trade", schema = "dbo")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ExternalTrade.findAll", query = "SELECT e FROM ExternalTrade e"),

@@ -1,4 +1,4 @@
-package com.tc.app.exchangemonitor.util;
+package com.tc.app.tradecapture.util;
 
 import java.text.Normalizer;
 import java.util.regex.Pattern;

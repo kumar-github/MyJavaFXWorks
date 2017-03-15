@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tc.app.exchangemonitor.controller;
+package com.tc.app.tradecapture.controller;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Saravana Kumar M
  */
 @Entity
-@Table(name = "contract_status", catalog = "DEV_CS25_trade", schema = "dbo")
+@Table(name = "contract_status", catalog = "DEV_31_trade", schema = "dbo")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ContractStatus.findAll", query = "SELECT c FROM ContractStatus c"),
